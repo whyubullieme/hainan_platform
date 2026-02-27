@@ -1,0 +1,55 @@
+<!--pages/auth/login/login.wxml-->
+<view class="login-container">
+  <view class="login-header">
+    <text class="login-title">欢迎使用</text>
+    <text class="login-subtitle">海南英语学习平台</text>
+  </view>
+
+  <view class="login-form" wx:if="{{!showAdminForm}}">
+    <button 
+      class="login-btn" 
+      bindtap="handleEnter"
+      loading="{{loading}}"
+      disabled="{{loading}}"
+    >
+      {{loading ? '进入中...' : '进入'}}
+    </button>
+    <view class="admin-entry">
+      <text class="admin-link" bindtap="showAdminForm">管理员入口</text>
+    </view>
+  </view>
+
+  <view class="login-form" wx:else>
+    <view class="input-group">
+      <text class="input-label">管理员密码</text>
+      <input 
+        class="input-field" 
+        type="password"
+        placeholder="请输入密码"
+        value="{{adminPassword}}"
+        bindinput="onAdminPasswordInput"
+      />
+    </view>
+    <view class="input-group">
+      <text class="input-label">姓名（首次使用必填）</text>
+      <input 
+        class="input-field" 
+        type="text"
+        placeholder="请输入姓名"
+        value="{{adminName}}"
+        bindinput="onAdminNameInput"
+      />
+    </view>
+    <button 
+      class="login-btn" 
+      bindtap="handleAdminLogin"
+      loading="{{loading}}"
+      disabled="{{loading}}"
+    >
+      {{loading ? '登录中...' : '管理员登录'}}
+    </button>
+    <view class="admin-entry">
+      <text class="admin-link" bindtap="hideAdminForm">返回</text>
+    </view>
+  </view>
+</view>

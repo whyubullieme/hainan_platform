@@ -1,0 +1,8 @@
+<!--pages/teacher/review/review.wxml-->
+<view class="container">
+  <view class="logout-wrap">
+    <text class="logout-link" bindtap="handleLogout">退出登录</text>
+  </view>
+  <text>批改</text>
+</view>
+

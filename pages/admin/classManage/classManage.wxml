@@ -1,0 +1,50 @@
+<!--pages/admin/classManage/classManage.wxml-->
+<view class="container">
+  <view class="logout-wrap">
+    <text class="logout-link" bindtap="handleLogout">退出登录</text>
+  </view>
+
+  <view class="section">
+    <view class="section-title">创建班级</view>
+    <view class="form-row">
+      <text class="label">班级名称</text>
+      <input class="input" placeholder="请输入班级名称" value="{{className}}" bindinput="onClassNameInput" />
+    </view>
+    <view class="form-row">
+      <text class="label">开始日期</text>
+      <picker mode="date" value="{{startDate}}" start="{{minDate}}" bindchange="onStartDateChange">
+        <view class="picker-value">{{startDate || '点击选择日期'}}</view>
+      </picker>
+    </view>
+    <button class="btn-primary" bindtap="handleCreate" loading="{{loading}}" disabled="{{loading}}">
+      创建班级并初始化任务
+    </button>
+  </view>
+
+  <view class="result-box" wx:if="{{classId}}" id="resultBox">
+    <view class="result-title">✓ 创建成功</view>
+
+    <view class="result-item">
+      <text class="result-label">学生邀请码（发给学生）</text>
+      <view class="code-box">
+        <text class="code-text">{{studentInviteCode || '—'}}</text>
+        <button class="copy-btn" size="mini" data-code="{{studentInviteCode}}" bindtap="copyCode">复制</button>
+      </view>
+    </view>
+
+    <view class="result-item">
+      <text class="result-label">教师邀请码（发给教师）</text>
+      <view class="code-box">
+        <text class="code-text">{{teacherInviteCode || '—'}}</text>
+        <button class="copy-btn" size="mini" data-code="{{teacherInviteCode}}" bindtap="copyCode">复制</button>
+      </view>
+    </view>
+
+    <view class="result-item">
+      <text class="result-label">班级ID</text>
+      <text class="result-value small">{{classId}}</text>
+    </view>
+
+    <text class="tip">学生用学生码加入 → 学生端；教师用教师码加入 → 教师端</text>
+  </view>
+</view>

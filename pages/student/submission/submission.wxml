@@ -1,0 +1,29 @@
+<!--pages/student/submission/submission.wxml-->
+<view class="container">
+  <view class="logout-wrap">
+    <text class="logout-link" bindtap="handleLogout">退出登录</text>
+  </view>
+
+  <view class="section-title">今日任务 · 提交记录</view>
+
+  <view class="task-list" wx:if="{{taskItems.length > 0}}">
+    <view class="task-row" wx:for="{{taskItems}}" wx:key="taskItemId">
+      <view class="task-info">
+        <text class="task-title">{{item.title}}</text>
+        <text class="task-status" wx:if="{{item.submitted}}">✓ 已提交</text>
+        <text class="task-status pending" wx:else>待提交</text>
+      </view>
+      <button 
+        class="submit-btn" 
+        size="mini"
+        wx:if="{{!item.submitted && !isDemo}}"
+        data-task-id="{{item.taskItemId}}"
+        bindtap="handleSubmit"
+      >我已提交到微信群</button>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:else>
+    <text>暂无任务，或请先加入班级</text>
+  </view>
+</view>

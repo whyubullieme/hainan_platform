@@ -1,0 +1,8 @@
+<!--pages/student/feedback/feedback.wxml-->
+<view class="container">
+  <view class="logout-wrap">
+    <text class="logout-link" bindtap="handleLogout">退出登录</text>
+  </view>
+  <text>反馈</text>
+</view>
+

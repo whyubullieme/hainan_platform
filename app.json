@@ -1,0 +1,27 @@
+{
+    "pages": [
+        "pages/auth/login/login",
+        "pages/auth/joinClass/joinClass",
+        "pages/student/home/home",
+        "pages/student/taskDetail/taskDetail",
+        "pages/student/submission/submission",
+        "pages/student/progress/progress",
+        "pages/student/feedback/feedback",
+        "pages/teacher/dashboard/dashboard",
+        "pages/teacher/students/students",
+        "pages/teacher/review/review",
+        "pages/teacher/topErrors/topErrors",
+        "pages/admin/classManage/classManage"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "海南英语学习平台",
+        "navigationBarTextStyle": "black",
+        "enablePullDownRefresh": false
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json",
+    "lazyCodeLoading": "requiredComponents",
+    "cloud": true
+}

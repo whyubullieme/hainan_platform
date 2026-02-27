@@ -1,0 +1,46 @@
+<!--pages/auth/joinClass/joinClass.wxml-->
+<view class="join-class-container">
+  <view class="logout-wrap">
+    <text class="logout-link" bindtap="handleLogout">退出登录</text>
+  </view>
+  <view class="join-class-header">
+    <text class="join-class-title">加入班级</text>
+    <text class="join-class-subtitle">请输入邀请码（学生码或教师码）</text>
+  </view>
+
+  <view class="join-class-form">
+    <!-- 首次使用需设置姓名 -->
+    <view class="input-group" wx:if="{{needName}}">
+      <text class="input-label">姓名（首次使用必填）</text>
+      <input 
+        class="input-field" 
+        type="text" 
+        placeholder="请输入您的姓名"
+        value="{{name}}"
+        bindinput="onNameInput"
+        maxlength="20"
+      />
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">邀请码（学生码→学生端，教师码→教师端）</text>
+      <input 
+        class="input-field" 
+        type="text" 
+        placeholder="请输入班级邀请码"
+        value="{{inviteCode}}"
+        bindinput="onInviteCodeInput"
+        maxlength="20"
+      />
+    </view>
+
+    <button 
+      class="btn-primary join-btn" 
+      bindtap="handleJoinClass"
+      loading="{{loading}}"
+      disabled="{{loading}}"
+    >
+      {{loading ? '加入中...' : '加入班级'}}
+    </button>
+  </view>
+</view>

@@ -1,0 +1,54 @@
+/* pages/student/submission/submission.wxss */
+.section-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  padding: 32rpx;
+}
+
+.task-list {
+  padding: 0 32rpx;
+}
+
+.task-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 24rpx 32rpx;
+  margin-bottom: 24rpx;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
+}
+
+.task-info {
+  flex: 1;
+}
+
+.task-title {
+  font-size: 30rpx;
+  color: #333;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.task-status {
+  font-size: 24rpx;
+  color: #07c160;
+}
+
+.task-status.pending {
+  color: #ff9800;
+}
+
+.submit-btn {
+  background-color: #07c160;
+  color: #fff;
+  border: none;
+  font-size: 24rpx;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80rpx;
+  color: #999;
+}

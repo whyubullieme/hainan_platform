@@ -1,0 +1,10 @@
+{
+  "name": "hainan_platform",
+  "version": "0.1.0",
+  "description": "Hainan LMS mini program",
+  "scripts": {
+    "agent:loop": "node scripts/agent_loop.js",
+    "lint:configs": "node scripts/lint-configs.js",
+    "test:agent-loop": "node scripts/test_agent_loop_bootstrap.js"
+  }
+}

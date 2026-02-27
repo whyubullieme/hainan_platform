@@ -78,12 +78,23 @@ exports.main = async (event, context) => {
       };
     }
 
+    const classMemberRes = await db.collection('class_members')
+      .where({ userId: user._id, status: 'active' })
+      .limit(1)
+      .get();
+    const hasClass = classMemberRes.data && classMemberRes.data.length > 0;
+    const currentClassId = hasClass ? classMemberRes.data[0].classId : null;
+
     // 移除敏感信息
     delete user.openid;
 
     return {
       errCode: 0,
       errMsg: 'success',
+      userId: user._id,
+      role: user.role || 'student',
+      hasClass,
+      currentClassId,
       user: user
     };
   } catch (error) {

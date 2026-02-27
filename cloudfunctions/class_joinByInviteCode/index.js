@@ -3,6 +3,7 @@ const cloud = require('wx-server-sdk');
 
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
+const _ = db.command;
 
 /**
  * 通过邀请码加入班级
@@ -23,31 +24,25 @@ exports.main = async (event, context) => {
   }
 
   try {
-    const classResult = await db.collection('classes').get();
-    const allClasses = classResult.data || [];
-    let cls = null;
-    let roleInClass = null;
+    const classResult = await db.collection('classes')
+      .where(
+        _.or([
+          { studentInviteCode: inviteCode },
+          { teacherInviteCode: inviteCode },
+          { inviteCode }
+        ])
+      )
+      .limit(1)
+      .get();
 
-    for (const c of allClasses) {
-      if (c.studentInviteCode === inviteCode) {
-        cls = c;
-        roleInClass = 'student';
-        break;
-      }
-      if (c.teacherInviteCode === inviteCode) {
-        cls = c;
-        roleInClass = 'teacher';
-        break;
-      }
-      if (c.inviteCode === inviteCode) {
-        cls = c;
-        roleInClass = 'student';
-        break;
-      }
+    const cls = (classResult.data && classResult.data[0]) || null;
+    if (!cls) {
+      return { errCode: -1, errMsg: '邀请码无效或班级不存在' };
     }
 
-    if (!cls || !roleInClass) {
-      return { errCode: -1, errMsg: '邀请码无效或班级不存在' };
+    let roleInClass = 'student';
+    if (cls.teacherInviteCode === inviteCode) {
+      roleInClass = 'teacher';
     }
 
     const classId = cls._id;

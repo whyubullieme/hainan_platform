@@ -1,8 +1,40 @@
-<!--pages/teacher/dashboard/dashboard.wxml-->
 <view class="container">
   <view class="logout-wrap">
     <text class="logout-link" bindtap="handleLogout">退出登录</text>
   </view>
-  <text>教师仪表盘</text>
-</view>
 
+  <view class="controls">
+    <view class="input-group">
+      <text class="label">查看第</text>
+      <input class="day-input" type="number" value="{{dayNumber}}" bindinput="handleDayNumberInput" />
+      <text class="label">天</text>
+    </view>
+    <button size="mini" bindtap="handleRefresh" loading="{{loading}}">刷新概览</button>
+  </view>
+
+  <view class="error" wx:if="{{error}}">{{error}}</view>
+
+  <view class="overview" wx:if="{{overview}}">
+    <view class="stat-card">
+      <text class="stat-label">班级总人数</text>
+      <text class="stat-value">{{overview.totalStudents || 0}}</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-label">已签到</text>
+      <text class="stat-value">{{overview.checkedInCount || 0}}</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-label">已提交</text>
+      <text class="stat-value">{{overview.submittedCount || 0}}</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-label">已点评</text>
+      <text class="stat-value">{{overview.reviewedCount || 0}}</text>
+    </view>
+  </view>
+
+  <view class="actions">
+    <button type="primary" bindtap="handleViewMissing">查看未完成</button>
+    <button bindtap="handleViewDone">查看已完成</button>
+  </view>
+</view>

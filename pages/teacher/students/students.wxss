@@ -1,2 +1,80 @@
-/* pages/teacher/students/students.wxss */
+.container {
+  padding: 24rpx;
+}
 
+.logout-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24rpx;
+}
+
+.tab-bar {
+  display: flex;
+  background: #f5f5f5;
+  border-radius: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 0;
+  color: #666;
+}
+
+.tab-item.active {
+  background: #fff;
+  color: #111;
+  font-weight: 600;
+  border-radius: 16rpx;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.error {
+  color: #ff4d4f;
+  margin-bottom: 16rpx;
+}
+
+.empty {
+  text-align: center;
+  color: #888;
+  margin-top: 40rpx;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.student-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.04);
+}
+
+.student-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-bottom: 8rpx;
+}
+
+.meta {
+  color: #888;
+  font-size: 24rpx;
+}

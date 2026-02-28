@@ -1,2 +1,73 @@
-/* pages/teacher/dashboard/dashboard.wxss */
+.container {
+  padding: 24rpx;
+}
 
+.logout-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24rpx;
+}
+
+.logout-link {
+  color: #ff4d4f;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.day-input {
+  width: 120rpx;
+  border: 1px solid #ddd;
+  border-radius: 8rpx;
+  padding: 8rpx;
+}
+
+.label {
+  color: #666;
+}
+
+.error {
+  color: #ff4d4f;
+  margin-bottom: 20rpx;
+}
+
+.overview {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.stat-card {
+  background: #f7f8fa;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.stat-label {
+  color: #666;
+}
+
+.stat-value {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #111;
+  margin-top: 8rpx;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}

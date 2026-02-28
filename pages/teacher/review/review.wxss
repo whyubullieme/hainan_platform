@@ -1,2 +1,28 @@
-/* pages/teacher/review/review.wxss */
+.container {
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
 
+.logout-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.comment {
+  min-height: 240rpx;
+  border: 1px solid #ddd;
+  border-radius: 16rpx;
+  padding: 16rpx;
+}
+
+.error {
+  color: #ff4d4f;
+}

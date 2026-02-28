@@ -1,8 +1,38 @@
-<!--pages/teacher/students/students.wxml-->
 <view class="container">
   <view class="logout-wrap">
     <text class="logout-link" bindtap="handleLogout">退出登录</text>
   </view>
-  <text>学生列表</text>
-</view>
 
+  <view class="tab-bar">
+    <block wx:for="{{tabs}}" wx:key="key">
+      <view
+        class="tab-item {{item.key === status ? 'active' : ''}}"
+        data-status="{{item.key}}"
+        bindtap="handleTabChange"
+      >
+        {{item.label}}
+      </view>
+    </block>
+  </view>
+
+  <view class="info-row">
+    <text>第 {{dayNumber}} 天</text>
+    <button size="mini" bindtap="handleRefresh" loading="{{loading}}">刷新</button>
+  </view>
+
+  <view class="error" wx:if="{{error}}">{{error}}</view>
+
+  <view wx:if="{{students.length === 0 && !loading}}" class="empty">暂无数据</view>
+
+  <view class="list" wx:if="{{students.length > 0}}">
+    <block wx:for="{{students}}" wx:key="userId">
+      <view class="student-item">
+        <view class="student-info">
+          <text class="name">{{item.name}}</text>
+          <text class="meta">签到：{{item.hasCheckin ? '✅' : '❌'}} 提交：{{item.hasSubmission ? '✅' : '❌'}}</text>
+        </view>
+        <button size="mini" data-student-id="{{item.userId}}" data-name="{{item.name}}" bindtap="handleGoReview">批改</button>
+      </view>
+    </block>
+  </view>
+</view>

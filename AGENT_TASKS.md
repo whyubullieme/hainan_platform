@@ -6,9 +6,9 @@
 - 为次日早晨的飞书日报准备所需统计接口，后续自动推送。
 
 ## 待办列表
-- [ ] P1：实现 CF5 `teacher_getOverview`（云函数 + 最小测试）。
-- [ ] P2：实现 CF6 `teacher_listStudentsByStatus`。
-- [ ] P3：实现 CF7 `teacher_saveReview`（含 reviews 集合）。
+- [x] P1：实现 CF5 `teacher_getOverview`（云函数 + 最小测试）。
+- [x] P2：实现 CF6 `teacher_listStudentsByStatus`。
+- [x] P3：实现 CF7 `teacher_saveReview`（含 reviews 集合）。
 
 ## 验收命令
 详见 `docs/acceptance.md`，当前要求：

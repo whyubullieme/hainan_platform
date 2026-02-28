@@ -1,15 +1,18 @@
 #!/usr/bin/env node
 /*
- * Minimal smoke test for cloudfunctions/teacher_getOverview.
- * Mocks wx-server-sdk to run the handler locally without CloudBase.
+ * Minimal smoke test for cloudfunctions/teacher_listStudentsByStatus.
  */
 
 const path = require('path');
 const Module = require('module');
 
 const fakeData = {
-  users: [{ _id: 'u-teacher', openid: 'mock-openid', role: 'teacher' }],
-  classes: [{ _id: 'class-1', name: '测试班级', startDate: '2024-02-20' }],
+  users: [
+    { _id: 'u-teacher', openid: 'mock-openid', role: 'teacher', name: '教练A' },
+    { _id: 'stu-1', name: '学生一' },
+    { _id: 'stu-2', name: '学生二' }
+  ],
+  classes: [{ _id: 'class-1', name: '测试班级' }],
   class_members: [
     { _id: 'cm-t', classId: 'class-1', userId: 'u-teacher', roleInClass: 'teacher', status: 'active' },
     { _id: 'cm-s1', classId: 'class-1', userId: 'stu-1', roleInClass: 'student', status: 'active' },
@@ -19,19 +22,31 @@ const fakeData = {
     { _id: 'ck-1', classId: 'class-1', dayNumber: 1, userId: 'stu-1' }
   ],
   submissions: [
-    { _id: 'sb-1', classId: 'class-1', dayNumber: 1, userId: 'stu-1' },
-    { _id: 'sb-2', classId: 'class-1', dayNumber: 1, userId: 'stu-2' }
-  ],
-  reviews: [
-    { _id: 'rv-1', classId: 'class-1', dayNumber: 1, studentId: 'stu-1' }
+    { _id: 'sb-1', classId: 'class-1', dayNumber: 1, userId: 'stu-1' }
   ]
 };
 
 function matchesFilter(doc, filter = {}) {
   return Object.keys(filter).every((key) => {
-    if (filter[key] === undefined) return true;
-    return doc[key] === filter[key];
+    const value = filter[key];
+    if (value && value._internal === 'in') {
+      return value.values.includes(doc[key]);
+    }
+    return doc[key] === value;
   });
+}
+
+function createProjection(doc, projection) {
+  if (!projection) {
+    return { ...doc };
+  }
+  const projected = {};
+  Object.keys(projection).forEach((field) => {
+    if (projection[field]) {
+      projected[field] = doc[field];
+    }
+  });
+  return projected;
 }
 
 function createWhereResult(collectionName, filter) {
@@ -60,15 +75,7 @@ function createWhereResult(collectionName, filter) {
         data = data.slice(0, this._limit);
       }
       if (this._projection) {
-        data = data.map((doc) => {
-          const nextDoc = {};
-          Object.keys(this._projection).forEach((key) => {
-            if (this._projection[key]) {
-              nextDoc[key] = doc[key];
-            }
-          });
-          return nextDoc;
-        });
+        data = data.map((doc) => createProjection(doc, this._projection));
       }
       return { data };
     },
@@ -78,32 +85,16 @@ function createWhereResult(collectionName, filter) {
   };
 }
 
-function createAggregate(collectionName) {
-  const dataset = [...(fakeData[collectionName] || [])];
-  let filtered = dataset;
-  let groupField = null;
+function createDbCommand() {
   return {
-    match(filter) {
-      filtered = filtered.filter((doc) => matchesFilter(doc, filter));
-      return this;
-    },
-    group({ _id }) {
-      groupField = (_id || '').replace('$', '');
-      return this;
-    },
-    count(fieldName) {
-      const uniq = new Set(filtered.map((doc) => doc[groupField]).filter(Boolean));
-      const result = { list: uniq.size ? [{ [fieldName]: uniq.size }] : [] };
-      return {
-        async end() {
-          return result;
-        }
-      };
+    in(values) {
+      return { _internal: 'in', values: Array.from(new Set(values)) };
     }
   };
 }
 
 function createDb() {
+  const command = createDbCommand();
   return {
     collection(name) {
       return {
@@ -118,12 +109,10 @@ function createDb() {
               return { data: target || null };
             }
           };
-        },
-        aggregate() {
-          return createAggregate(name);
         }
       };
-    }
+    },
+    command
   };
 }
 
@@ -146,29 +135,23 @@ Module.prototype.require = function patched(request) {
 };
 
 async function run() {
-  const handlerPath = path.join(__dirname, '..', '..', 'cloudfunctions', 'teacher_getOverview', 'index.js');
+  const handlerPath = path.join(__dirname, '..', '..', 'cloudfunctions', 'teacher_listStudentsByStatus', 'index.js');
   // eslint-disable-next-line import/no-dynamic-require, global-require
   const handler = require(handlerPath);
-  const result = await handler.main({ classId: 'class-1', dayNumber: 1 }, {});
-  if (result.errCode !== 0) {
-    console.error('CF5 smoke test failed:', result);
+  const doneRes = await handler.main({ classId: 'class-1', dayNumber: 1, status: 'done' }, {});
+  if (doneRes.errCode !== 0 || doneRes.students.length !== 1 || doneRes.students[0].userId !== 'stu-1' || !doneRes.students[0].hasCheckin || !doneRes.students[0].hasSubmission) {
+    console.error('CF6 done smoke test failed:', doneRes);
     process.exit(1);
   }
-  if (result.totalStudents !== 2 || result.checkedInCount !== 1 || result.submittedCount !== 2 || result.reviewedCount !== 1) {
-    console.error('CF5 smoke test count mismatch:', result);
+  const missingRes = await handler.main({ classId: 'class-1', dayNumber: 1, status: 'missing' }, {});
+  if (missingRes.errCode !== 0 || missingRes.students.length !== 1 || missingRes.students[0].userId !== 'stu-2' || missingRes.students[0].hasCheckin || missingRes.students[0].hasSubmission) {
+    console.error('CF6 missing smoke test failed:', missingRes);
     process.exit(1);
   }
-
-  const dayFromDate = await handler.main({ classId: 'class-1', date: '2024-02-20' }, {});
-  if (dayFromDate.errCode !== 0 || dayFromDate.dayNumber !== 1) {
-    console.error('CF5 smoke test date resolver failed:', dayFromDate);
-    process.exit(1);
-  }
-
-  console.log('CF5 teacher_getOverview smoke test passed.', result);
+  console.log('CF6 teacher_listStudentsByStatus smoke test passed.');
 }
 
 run().catch((err) => {
-  console.error('CF5 smoke test threw error:', err);
+  console.error('CF6 smoke test threw error:', err);
   process.exit(1);
 });

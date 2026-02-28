@@ -1,8 +1,22 @@
-<!--pages/teacher/review/review.wxml-->
 <view class="container">
   <view class="logout-wrap">
     <text class="logout-link" bindtap="handleLogout">退出登录</text>
   </view>
-  <text>批改</text>
-</view>
 
+  <view class="info">
+    <text class="student">学生：{{studentName || studentId}}</text>
+    <text class="day">第 {{dayNumber}} 天</text>
+  </view>
+
+  <textarea
+    class="comment"
+    placeholder="输入点评内容（最多 500 字）"
+    maxlength="500"
+    value="{{comment}}"
+    bindinput="handleCommentInput"
+  />
+
+  <view class="error" wx:if="{{error}}">{{error}}</view>
+
+  <button type="primary" bindtap="handleSave" loading="{{saving}}" disabled="{{saving}}">保存点评</button>
+</view>

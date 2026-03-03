@@ -1,2 +1,111 @@
 /* pages/student/taskDetail/taskDetail.wxss */
+.container {
+  min-height: 100vh;
+  padding: 32rpx;
+  background: #f8f9fa;
+}
 
+.logout-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24rpx;
+}
+
+.logout-link {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.task-detail {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+}
+
+.task-type-badge {
+  display: inline-block;
+  font-size: 24rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 8rpx;
+  margin-bottom: 24rpx;
+}
+
+.task-type-badge.read-along {
+  background: #e8f4fd;
+  color: #1890ff;
+}
+
+.task-type-badge.read-aloud {
+  background: #f0f9eb;
+  color: #52c41a;
+}
+
+.task-header {
+  margin-bottom: 24rpx;
+}
+
+.task-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  display: block;
+}
+
+.task-day {
+  font-size: 26rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+.task-content {
+  padding: 24rpx 0;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.content-text {
+  font-size: 30rpx;
+  color: #333;
+  line-height: 1.6;
+}
+
+.task-tip {
+  padding: 24rpx 0;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.task-tip text {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.task-actions {
+  margin-top: 48rpx;
+}
+
+.btn-submit {
+  width: 100%;
+  background: #07c160;
+  color: #fff;
+  border: none;
+  border-radius: 12rpx;
+  padding: 28rpx;
+  font-size: 32rpx;
+}
+
+.task-submitted {
+  margin-top: 32rpx;
+}
+
+.submitted-badge {
+  font-size: 28rpx;
+  color: #07c160;
+}
+
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 80rpx;
+  color: #999;
+  font-size: 28rpx;
+}

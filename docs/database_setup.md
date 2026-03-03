@@ -58,7 +58,7 @@ MVP 只需以下 7 个集合：
 
 ### classes
 
-- `_id`, `name`, `startDate`, `endDate`, `studentInviteCode`, `teacherInviteCode`, `createdAt`, `updatedAt`
+- `_id`, `name`, `startDate`, `endDate`, `totalDays` (课程总天数，默认 14), `studentInviteCode`, `teacherInviteCode`, `createdAt`, `updatedAt`
 
 ### class_members
 
@@ -66,7 +66,7 @@ MVP 只需以下 7 个集合：
 
 ### task_items
 
-- `_id`, `classId`, `dayNumber`, `order`, `title`, `content?`, `createdAt`, `updatedAt`
+- `_id`, `classId`, `dayNumber`, `order`, `title`, `content?`, `taskType` (read_along | read_aloud), `createdAt`, `updatedAt`
 
 ### checkins
 

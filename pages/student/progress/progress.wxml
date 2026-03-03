@@ -3,6 +3,27 @@
   <view class="logout-wrap">
     <text class="logout-link" bindtap="handleLogout">退出登录</text>
   </view>
-  <text>学习进度</text>
-</view>
 
+  <view class="section">
+    <view class="section-title">学习进度</view>
+    <view class="section-desc">各天签到与任务完成情况</view>
+
+    <view class="progress-list" wx:if="{{days.length > 0}}">
+      <view class="day-row {{item.completed ? 'completed' : ''}}" wx:for="{{days}}" wx:key="dayNumber">
+        <view class="day-info">
+          <text class="day-num">第 {{item.dayNumber}} 天</text>
+          <text class="day-date">{{item.dateStr}}</text>
+        </view>
+        <view class="day-status">
+          <text class="status-item {{item.checkedIn ? 'done' : ''}}">签到 {{item.checkedIn ? '✓' : '—'}}</text>
+          <text class="status-item {{item.allSubmitted ? 'done' : ''}}">任务 {{item.submittedCount}}/{{item.taskCount}}</text>
+        </view>
+        <view class="complete-badge" wx:if="{{item.completed}}">已完成</view>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:elif="{{!loading}}">
+      <text>暂无进度数据</text>
+    </view>
+  </view>
+</view>

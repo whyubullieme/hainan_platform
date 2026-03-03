@@ -1,54 +1,87 @@
 /* pages/student/submission/submission.wxss */
-.section-title {
-  font-size: 36rpx;
-  font-weight: bold;
+.section {
   padding: 32rpx;
 }
 
-.task-list {
-  padding: 0 32rpx;
+.section-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 24rpx;
 }
 
-.task-row {
+.date-picker-row {
+  margin-bottom: 32rpx;
+}
+
+.date-label {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+}
+
+.picker-value {
+  padding: 24rpx;
+  background: #f5f5f5;
+  border-radius: 8rpx;
+  font-size: 30rpx;
+  color: #333;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 24rpx;
+  margin-top: 16rpx;
+}
+
+.tab {
+  font-size: 28rpx;
+  color: #999;
+  padding: 12rpx 24rpx;
+}
+
+.tab.active {
+  color: #07c160;
+  font-weight: bold;
+}
+
+.records-list {
+  margin-top: 16rpx;
+}
+
+.record-group {
+  margin-bottom: 32rpx;
+}
+
+.group-date {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+  padding-bottom: 8rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.record-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
-  padding: 24rpx 32rpx;
-  margin-bottom: 24rpx;
-  border-radius: 12rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
 }
 
-.task-info {
-  flex: 1;
-}
-
-.task-title {
+.record-item .task-title {
   font-size: 30rpx;
   color: #333;
-  display: block;
-  margin-bottom: 8rpx;
 }
 
-.task-status {
+.submitted-at {
   font-size: 24rpx;
   color: #07c160;
-}
-
-.task-status.pending {
-  color: #ff9800;
-}
-
-.submit-btn {
-  background-color: #07c160;
-  color: #fff;
-  border: none;
-  font-size: 24rpx;
 }
 
 .empty-state {
   text-align: center;
   padding: 80rpx;
   color: #999;
+  font-size: 28rpx;
 }

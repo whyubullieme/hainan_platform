@@ -18,5 +18,5 @@
 
   <view class="error" wx:if="{{error}}">{{error}}</view>
 
-  <button type="primary" bindtap="handleSave" loading="{{saving}}" disabled="{{saving}}">保存点评</button>
+  <button class="btn-save" bindtap="handleSave" loading="{{saving}}" disabled="{{saving}}">保存点评</button>
 </view>

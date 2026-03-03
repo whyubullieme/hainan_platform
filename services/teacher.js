@@ -10,6 +10,9 @@ const teacherService = {
   },
   saveReview(params) {
     return api.callCloudFunction('teacher_saveReview', params);
+  },
+  addDayTasks(params) {
+    return api.callCloudFunction('teacher_addDayTasks', params);
   }
 };
 

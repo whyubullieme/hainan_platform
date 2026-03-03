@@ -6,12 +6,14 @@
         "pages/student/taskDetail/taskDetail",
         "pages/student/submission/submission",
         "pages/student/progress/progress",
+        "pages/student/myTasks/myTasks",
         "pages/student/feedback/feedback",
         "pages/teacher/dashboard/dashboard",
         "pages/teacher/students/students",
         "pages/teacher/review/review",
         "pages/teacher/topErrors/topErrors",
-        "pages/admin/classManage/classManage"
+        "pages/admin/classManage/classManage",
+        "pages/admin/classDetail/classDetail"
     ],
     "window": {
         "backgroundTextStyle": "light",

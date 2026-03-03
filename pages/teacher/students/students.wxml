@@ -31,7 +31,7 @@
           <text class="name">{{item.name}}</text>
           <text class="meta">签到：{{item.hasCheckin ? '✅' : '❌'}} 提交：{{item.hasSubmission ? '✅' : '❌'}}</text>
         </view>
-        <button size="mini" data-student-id="{{item.userId}}" data-name="{{item.name}}" bindtap="handleGoReview">批改</button>
+        <button class="btn-review" size="mini" data-student-id="{{item.userId}}" data-name="{{item.name}}" bindtap="handleGoReview">批改</button>
       </view>
     </block>
   </view>

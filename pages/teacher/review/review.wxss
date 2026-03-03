@@ -26,3 +26,11 @@
 .error {
   color: #ff4d4f;
 }
+
+.btn-save {
+  background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12rpx;
+  padding: 24rpx;
+}

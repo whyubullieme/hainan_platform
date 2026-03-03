@@ -9,7 +9,8 @@
 }
 
 .logout-link {
-  color: #ff4d4f;
+  color: #999;
+  font-size: 26rpx;
 }
 
 .controls {
@@ -30,6 +31,7 @@
   border: 1px solid #ddd;
   border-radius: 8rpx;
   padding: 8rpx;
+  color: #333;
 }
 
 .label {
@@ -70,4 +72,41 @@
   display: flex;
   flex-direction: column;
   gap: 16rpx;
+}
+
+.btn-missing {
+  background: #ff6b6b;
+  color: #fff;
+  border: none;
+  border-radius: 12rpx;
+  padding: 24rpx;
+}
+
+.btn-done {
+  background: #52c41a;
+  color: #fff;
+  border: none;
+  border-radius: 12rpx;
+  padding: 24rpx;
+}
+
+.add-task-section {
+  margin-top: 48rpx;
+  padding-top: 32rpx;
+  border-top: 1rpx solid #eee;
+}
+
+.add-task-btn {
+  background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12rpx;
+  padding: 24rpx;
+}
+
+.add-task-tip {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 12rpx;
 }

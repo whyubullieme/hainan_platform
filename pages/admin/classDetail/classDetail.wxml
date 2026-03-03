@@ -1,0 +1,82 @@
+<!--pages/admin/classDetail/classDetail.wxml-->
+<view class="container">
+  <view class="logout-wrap">
+    <text class="logout-link" bindtap="handleLogout">退出登录</text>
+  </view>
+  <view class="section" wx:if="{{cls}}">
+    <view class="section-title">班级信息</view>
+    <view class="info-row">
+      <text class="info-label">班级名称</text>
+      <input class="input" value="{{editName}}" placeholder="班级名称" bindinput="onNameInput" wx:if="{{editing}}" />
+      <text class="info-value" wx:else>{{cls.name}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">开始日期</text>
+      <picker mode="date" value="{{editStartDate}}" bindchange="onStartDateChange" wx:if="{{editing}}">
+        <view class="picker-value">{{editStartDate}}</view>
+      </picker>
+      <text class="info-value" wx:else>{{cls.startDate}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">课程天数</text>
+      <input type="number" class="input input-num" value="{{editTotalDays}}" placeholder="14" bindinput="onTotalDaysChange" wx:if="{{editing}}" />
+      <text class="info-value" wx:else>{{cls.totalDays || 14}} 天</text>
+    </view>
+    <view class="info-row" wx:if="{{!editing}}">
+      <text class="info-label">学生码</text>
+      <view class="code-row">
+        <text class="code-text">{{cls.studentInviteCode}}</text>
+        <button size="mini" class="copy-btn" data-code="{{cls.studentInviteCode}}" bindtap="copyCode">复制</button>
+      </view>
+    </view>
+    <view class="info-row" wx:if="{{!editing}}">
+      <text class="info-label">教师码</text>
+      <view class="code-row">
+        <text class="code-text">{{cls.teacherInviteCode}}</text>
+        <button size="mini" class="copy-btn" data-code="{{cls.teacherInviteCode}}" bindtap="copyCode">复制</button>
+      </view>
+    </view>
+    <view class="btn-row">
+      <button class="btn-secondary" bindtap="toggleEdit" wx:if="{{!editing}}">编辑</button>
+      <block wx:if="{{editing}}">
+        <button class="btn-secondary" bindtap="cancelEdit">取消</button>
+        <button class="btn-primary" bindtap="saveClass">保存</button>
+      </block>
+      <button class="btn-danger" bindtap="confirmDelete" wx:if="{{!editing}}">删除班级</button>
+    </view>
+  </view>
+
+  <view class="section members-section">
+    <view class="section-title">成员列表</view>
+    <view class="add-member-row">
+      <input class="search-input" placeholder="搜索姓名添加成员" value="{{userKeyword}}" bindinput="onUserKeywordInput" bindconfirm="searchUsers" />
+      <button class="btn-sm" bindtap="searchUsers">搜索</button>
+    </view>
+    <view class="user-picker" wx:if="{{userSearchResult.length > 0}}">
+      <view class="picker-title">选择用户添加（学生/教师）</view>
+      <view class="user-item" wx:for="{{userSearchResult}}" wx:key="_id">
+        <text>{{item.name}}</text>
+        <view>
+          <button size="mini" data-user-id="{{item._id}}" data-role="student" bindtap="addMemberAs">学生</button>
+          <button size="mini" data-user-id="{{item._id}}" data-role="teacher" bindtap="addMemberAs">教师</button>
+        </view>
+      </view>
+    </view>
+
+    <view class="member-list">
+      <view class="member-item" wx:for="{{members}}" wx:key="_id">
+        <view class="member-info">
+          <text class="member-name">{{item.name}}</text>
+          <text class="member-role {{item.roleInClass}}">{{item.roleInClass === 'teacher' ? '教师' : '学生'}}</text>
+        </view>
+        <view class="member-actions">
+          <button size="mini" class="btn-role" data-member-id="{{item._id}}" data-role="{{item.roleInClass === 'teacher' ? 'student' : 'teacher'}}" bindtap="changeRole">
+            {{item.roleInClass === 'teacher' ? '改为学生' : '改为教师'}}
+          </button>
+          <button size="mini" class="btn-remove" data-member-id="{{item._id}}" data-member-name="{{item.name}}" bindtap="removeMember">移出</button>
+        </view>
+      </view>
+      <view class="empty-tip" wx:if="{{members.length === 0 && !loading}}">暂无成员</view>
+    </view>
+  </view>
+</view>

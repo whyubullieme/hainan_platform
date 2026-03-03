@@ -5,9 +5,13 @@
 
   <view class="controls">
     <view class="input-group">
-      <text class="label">查看第</text>
-      <input class="day-input" type="number" value="{{dayNumber}}" bindinput="handleDayNumberInput" />
-      <text class="label">天</text>
+      <text class="label">查看日期</text>
+      <picker mode="date" value="{{date}}" bindchange="handleDateChange">
+        <view class="day-input">
+          {{date || '请选择日期'}}
+        </view>
+      </picker>
+      <text class="label">（第 {{dayNumber}} 天）</text>
     </view>
     <button size="mini" bindtap="handleRefresh" loading="{{loading}}">刷新概览</button>
   </view>
@@ -34,7 +38,14 @@
   </view>
 
   <view class="actions">
-    <button type="primary" bindtap="handleViewMissing">查看未完成</button>
-    <button bindtap="handleViewDone">查看已完成</button>
+    <button class="btn-missing" bindtap="handleViewMissing">未完成 {{missingCount}} 人</button>
+    <button class="btn-done" bindtap="handleViewDone">已完成 {{overview.submittedCount || 0}} 人</button>
+  </view>
+
+  <view class="add-task-section">
+    <button class="add-task-btn" bindtap="handleAddDayTasks" loading="{{addingTasks}}">
+      + 为班级添加一天任务
+    </button>
+    <text class="add-task-tip">从任务库添加明日任务，由老师决定何时放出</text>
   </view>
 </view>

@@ -9,9 +9,8 @@
   </view>
 
   <view class="join-class-form">
-    <!-- 首次使用需设置姓名 -->
     <view class="input-group" wx:if="{{needName}}">
-      <text class="input-label">姓名（首次使用必填）</text>
+      <text class="input-label">姓名</text>
       <input 
         class="input-field" 
         type="text" 

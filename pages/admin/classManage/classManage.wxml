@@ -5,6 +5,31 @@
   </view>
 
   <view class="section">
+    <view class="section-title">班级列表</view>
+    <view class="class-list" wx:if="{{classes.length > 0}}">
+      <view
+        class="card class-item"
+        wx:for="{{classes}}"
+        wx:key="_id"
+        data-id="{{item._id}}"
+        bindtap="goToDetail"
+      >
+        <view class="class-name">{{item.name}}</view>
+        <view class="class-meta">
+          <text>学生 {{item.studentCount}} 人</text>
+          <text>教师 {{item.teacherCount}} 人</text>
+          <text>{{item.startDate}}</text>
+        </view>
+        <view class="class-codes">
+          <text class="code-label">学生码 {{item.studentInviteCode}}</text>
+          <text class="code-label">教师码 {{item.teacherInviteCode}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="empty-tip" wx:else>暂无班级</view>
+  </view>
+
+  <view class="section">
     <view class="section-title">创建班级</view>
     <view class="form-row">
       <text class="label">班级名称</text>
@@ -16,6 +41,10 @@
         <view class="picker-value">{{startDate || '点击选择日期'}}</view>
       </picker>
     </view>
+    <view class="form-row">
+      <text class="label">课程天数</text>
+      <input type="number" class="input" placeholder="14" value="{{totalDays}}" bindinput="onTotalDaysChange" />
+    </view>
     <button class="btn-primary" bindtap="handleCreate" loading="{{loading}}" disabled="{{loading}}">
       创建班级并初始化任务
     </button>
@@ -23,7 +52,6 @@
 
   <view class="result-box" wx:if="{{classId}}" id="resultBox">
     <view class="result-title">✓ 创建成功</view>
-
     <view class="result-item">
       <text class="result-label">学生邀请码（发给学生）</text>
       <view class="code-box">
@@ -31,7 +59,6 @@
         <button class="copy-btn" size="mini" data-code="{{studentInviteCode}}" bindtap="copyCode">复制</button>
       </view>
     </view>
-
     <view class="result-item">
       <text class="result-label">教师邀请码（发给教师）</text>
       <view class="code-box">
@@ -39,12 +66,7 @@
         <button class="copy-btn" size="mini" data-code="{{teacherInviteCode}}" bindtap="copyCode">复制</button>
       </view>
     </view>
-
-    <view class="result-item">
-      <text class="result-label">班级ID</text>
-      <text class="result-value small">{{classId}}</text>
-    </view>
-
     <text class="tip">学生用学生码加入 → 学生端；教师用教师码加入 → 教师端</text>
+    <button class="btn-secondary" bindtap="goToNewClass">查看班级详情</button>
   </view>
 </view>

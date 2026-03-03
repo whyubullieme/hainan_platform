@@ -18,6 +18,9 @@ Page({
     this.setData({
       isDemo: currentClassId === 'demo-class-id'
     });
+  },
+
+  onShow() {
     this.loadTodayPlan();
   },
 
@@ -92,36 +95,24 @@ Page({
     }
   },
 
-  async handleSubmit(e) {
-    const taskId = e.currentTarget.dataset.taskId;
-    const classId = storage.getCurrentClassId();
-    if (!classId || !taskId || this.data.isDemo) return;
-    try {
-      const result = await studentService.markSubmit({
-        classId,
-        dayNumber: this.data.dayNumber,
-        taskItemId: taskId
-      });
-      if (result && result.errCode === 0) {
-        wx.showToast({ title: '已记录', icon: 'success' });
-        const ids = [...(this.data.status.submittedTaskIds || []), taskId];
-        const taskItems = this.data.taskItems.map(t =>
-          t.taskItemId === taskId ? { ...t, submitted: true } : t
-        );
-        this.setData({ 'status.submittedTaskIds': ids, taskItems });
-      } else throw new Error(result?.errMsg);
-    } catch (error) {
-      wx.showToast({ title: error.message || '操作失败', icon: 'none' });
-    }
+  goToMyTasks() {
+    wx.navigateTo({ url: '/pages/student/myTasks/myTasks' });
   },
 
-  /**
-   * 去提交记录页
-   */
+  goToProgress() {
+    wx.navigateTo({ url: '/pages/student/progress/progress' });
+  },
+
   goToSubmission() {
-    wx.navigateTo({
-      url: '/pages/student/submission/submission'
-    });
+    wx.navigateTo({ url: '/pages/student/submission/submission' });
+  },
+
+  goToFeedback() {
+    wx.navigateTo({ url: '/pages/student/feedback/feedback' });
+  },
+
+  handleRefresh() {
+    this.loadTodayPlan();
   },
 
   handleLogout() {

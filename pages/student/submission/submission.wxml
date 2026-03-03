@@ -4,26 +4,45 @@
     <text class="logout-link" bindtap="handleLogout">退出登录</text>
   </view>
 
-  <view class="section-title">今日任务 · 提交记录</view>
-
-  <view class="task-list" wx:if="{{taskItems.length > 0}}">
-    <view class="task-row" wx:for="{{taskItems}}" wx:key="taskItemId">
-      <view class="task-info">
-        <text class="task-title">{{item.title}}</text>
-        <text class="task-status" wx:if="{{item.submitted}}">✓ 已提交</text>
-        <text class="task-status pending" wx:else>待提交</text>
+  <view class="section">
+    <view class="section-title">我的提交记录</view>
+    <view class="date-picker-row">
+      <text class="date-label">选择日期</text>
+      <picker 
+        mode="date" 
+        value="{{selectedDate}}" 
+        start="{{startDate}}" 
+        end="{{endDate}}"
+        bindchange="onDateChange"
+      >
+        <view class="picker-value">{{filterMode === 'all' ? '全部记录' : selectedDate}}</view>
+      </picker>
+      <view class="filter-tabs">
+        <text 
+          class="tab {{filterMode === 'all' ? 'active' : ''}}" 
+          bindtap="setFilterMode" 
+          data-mode="all"
+        >全部</text>
+        <text 
+          class="tab {{filterMode === 'date' ? 'active' : ''}}" 
+          bindtap="setFilterMode" 
+          data-mode="date"
+        >按日期</text>
       </view>
-      <button 
-        class="submit-btn" 
-        size="mini"
-        wx:if="{{!item.submitted && !isDemo}}"
-        data-task-id="{{item.taskItemId}}"
-        bindtap="handleSubmit"
-      >我已提交到微信群</button>
     </view>
-  </view>
 
-  <view class="empty-state" wx:else>
-    <text>暂无任务，或请先加入班级</text>
+    <view class="records-list" wx:if="{{records.length > 0}}">
+      <view class="record-group" wx:for="{{groupedRecords}}" wx:key="dateStr">
+        <view class="group-date">{{item.dateStr}} 第{{item.dayNumber}}天</view>
+        <view class="record-item" wx:for="{{item.items}}" wx:for-item="rec" wx:key="taskItemId">
+          <text class="task-title">{{rec.taskTitle}}</text>
+          <text class="submitted-at">已提交</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:else>
+      <text>{{filterMode === 'date' && selectedDate ? '该日期暂无提交记录' : '暂无提交记录'}}</text>
+    </view>
   </view>
 </view>

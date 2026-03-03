@@ -5,8 +5,10 @@ const format = require('../../../utils/format');
 
 Page({
   data: {
+    classes: [],
     className: '',
     startDate: format.formatDate(new Date(), 'YYYY-MM-DD'),
+    totalDays: 14,
     minDate: '2020-01-01',
     loading: false,
     classId: '',
@@ -14,7 +16,38 @@ Page({
     teacherInviteCode: ''
   },
 
-  onLoad() {},
+  onLoad() {
+    this.loadClasses();
+  },
+
+  onShow() {
+    this.loadClasses();
+  },
+
+  async loadClasses() {
+    try {
+      const res = await adminService.listClasses();
+      if (res && res.errCode === 0) {
+        this.setData({ classes: res.classes || [] });
+      }
+    } catch (e) {
+      console.error('loadClasses:', e);
+    }
+  },
+
+  goToDetail(e) {
+    const id = e.currentTarget.dataset.id;
+    if (id) {
+      wx.navigateTo({ url: `/pages/admin/classDetail/classDetail?id=${id}` });
+    }
+  },
+
+  goToNewClass() {
+    const { classId } = this.data;
+    if (classId) {
+      wx.navigateTo({ url: `/pages/admin/classDetail/classDetail?id=${classId}` });
+    }
+  },
 
   onClassNameInput(e) {
     this.setData({ className: e.detail.value });
@@ -24,8 +57,16 @@ Page({
     this.setData({ startDate: e.detail.value });
   },
 
+  onTotalDaysChange(e) {
+    const v = e.detail.value;
+    const n = parseInt(v, 10);
+    this.setData({
+      totalDays: (v === '' || isNaN(n)) ? 14 : Math.min(90, Math.max(1, n))
+    });
+  },
+
   async handleCreate() {
-    const { className, startDate } = this.data;
+    const { className, startDate, totalDays } = this.data;
     if (!className || !className.trim()) {
       wx.showToast({ title: '请输入班级名称', icon: 'none' });
       return;
@@ -35,27 +76,9 @@ Page({
       const result = await adminService.createClassAndInitTasks({
         className: className.trim(),
         startDate: startDate || format.formatDate(new Date(), 'YYYY-MM-DD'),
+        totalDays: Math.max(1, Math.min(90, totalDays || 14)),
         teacherUserIds: [],
-        tasks: [
-          { dayNumber: 1, items: [
-            { title: '入住场景对话练习', content: '练习酒店入住英语对话', order: 1 },
-            { title: '电话预订练习', content: '练习电话预订客房', order: 2 },
-            { title: '退房场景对话', content: '练习退房流程对话', order: 3 }
-          ]},
-          { dayNumber: 2, items: [
-            { title: '投诉处理对话', content: '处理客户投诉场景', order: 1 },
-            { title: '海南旅游咨询', content: '介绍海南景点', order: 2 }
-          ]},
-          { dayNumber: 3, items: [
-            { title: '政策说明', content: '入住政策说明', order: 1 }
-          ]},
-          { dayNumber: 4, items: [
-            { title: '综合练习1', content: '', order: 1 }
-          ]},
-          { dayNumber: 5, items: [
-            { title: '综合练习2', content: '', order: 1 }
-          ]}
-        ]
+        tasks: []
       });
       if (result && result.errCode === 0) {
         this.setData({
@@ -64,6 +87,7 @@ Page({
           teacherInviteCode: result.teacherInviteCode || ''
         });
         wx.showToast({ title: '创建成功', icon: 'success' });
+        this.loadClasses();
       } else {
         throw new Error(result?.errMsg || '创建失败');
       }

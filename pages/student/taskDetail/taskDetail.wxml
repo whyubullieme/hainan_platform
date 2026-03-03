@@ -3,6 +3,36 @@
   <view class="logout-wrap">
     <text class="logout-link" bindtap="handleLogout">退出登录</text>
   </view>
-  <text>任务详情</text>
-</view>
 
+  <view class="task-detail" wx:if="{{task}}">
+    <view class="task-type-badge {{task.taskType === 'read_along' ? 'read-along' : 'read-aloud'}}">
+      {{task.taskType === 'read_along' ? '跟读' : '朗读'}}
+    </view>
+    <view class="task-header">
+      <text class="task-title">{{task.title}}</text>
+      <text class="task-day">第 {{task.dayNumber}} 天</text>
+    </view>
+    <view class="task-content" wx:if="{{task.content}}">
+      <text class="content-text">{{task.content}}</text>
+    </view>
+    <view class="task-tip" wx:if="{{!task.content}}">
+      <text>按课程要求完成练习，完成后可在下方标记提交</text>
+    </view>
+
+    <view class="task-actions" wx:if="{{!submitted && !isDemo}}">
+      <button class="btn-submit" bindtap="handleMarkSubmit" loading="{{submitting}}">
+        我已提交
+      </button>
+    </view>
+    <view class="task-submitted" wx:elif="{{submitted}}">
+      <text class="submitted-badge">✓ 已提交</text>
+    </view>
+  </view>
+
+  <view class="loading-state" wx:elif="{{loading}}">
+    <text>加载中...</text>
+  </view>
+  <view class="empty-state" wx:else>
+    <text>任务不存在或加载失败</text>
+  </view>
+</view>

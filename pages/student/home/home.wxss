@@ -5,6 +5,23 @@
   padding-bottom: 40rpx;
 }
 
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 32rpx;
+}
+
+.refresh-link {
+  font-size: 28rpx;
+  color: #07c160;
+}
+
+.logout-link {
+  font-size: 26rpx;
+  color: #999;
+}
+
 .demo-banner {
   background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
   padding: 24rpx;
@@ -55,6 +72,10 @@
   border: 1rpx solid rgba(255,255,255,0.6);
 }
 
+.checkin-header-btn.checkin-disabled {
+  opacity: 0.6;
+}
+
 .checked-badge {
   display: block;
   margin-top: 16rpx;
@@ -67,20 +88,8 @@
   color: #999;
 }
 
-.submit-btn {
-  background-color: #07c160;
-  color: #fff;
-}
-
 .task-section {
   margin: 40rpx 30rpx;
-}
-
-.section-title {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 30rpx;
 }
 
 .task-list {
@@ -125,30 +134,31 @@
 }
 
 .task-status.pending {
-  color: #ff9800;
-  background-color: #fff3e0;
+  color: #999;
+  background-color: #f5f5f5;
+}
+
+.task-status.done {
+  color: #07c160;
+  background-color: #e8f5e9;
+}
+
+.task-link {
+  font-size: 26rpx;
+  color: #07c160;
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+}
+
+.task-link .arrow {
+  font-size: 32rpx;
+  font-weight: 300;
 }
 
 .task-scenario {
   font-size: 26rpx;
   color: #999;
-}
-
-.task-actions {
-  margin-left: 24rpx;
-}
-
-.action-btn {
-  background-color: #667eea;
-  color: #fff;
-  border: none;
-  border-radius: 8rpx;
-  padding: 12rpx 24rpx;
-  font-size: 24rpx;
-}
-
-.action-btn:active {
-  background-color: #5568d3;
 }
 
 .empty-state {
@@ -163,27 +173,36 @@
 
 .quick-actions {
   margin: 40rpx 30rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24rpx;
 }
 
 .action-button {
-  width: 100%;
-  background-color: #07c160;
-  color: #fff;
+  flex: 1;
+  min-width: 45%;
   border: none;
   border-radius: 12rpx;
   padding: 28rpx;
-  font-size: 32rpx;
+  font-size: 30rpx;
   font-weight: 500;
 }
 
-.action-button:active {
-  background-color: #06ad56;
-}
-
 .action-button.primary {
-  background-color: #667eea;
+  background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
+  color: #fff;
 }
 
 .action-button.primary:active {
-  background-color: #5568d3;
+  opacity: 0.9;
+}
+
+.action-button.secondary {
+  background: #fff;
+  color: #07c160;
+  border: 2rpx solid #07c160;
+}
+
+.action-button.secondary:active {
+  background: #f0f9eb;
 }

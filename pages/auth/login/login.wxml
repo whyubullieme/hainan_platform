@@ -31,7 +31,7 @@
       />
     </view>
     <view class="input-group">
-      <text class="input-label">姓名（首次使用必填）</text>
+      <text class="input-label">姓名</text>
       <input 
         class="input-field" 
         type="text"

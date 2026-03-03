@@ -3,6 +3,21 @@
   <view class="logout-wrap">
     <text class="logout-link" bindtap="handleLogout">退出登录</text>
   </view>
-  <text>反馈</text>
-</view>
 
+  <view class="section">
+    <view class="section-title">老师点评</view>
+    <view class="reviews-list" wx:if="{{reviews.length > 0}}">
+      <view class="review-item" wx:for="{{reviews}}" wx:key="_id">
+        <view class="review-header">
+          <text class="day-badge">第{{item.dayNumber}}天</text>
+          <text class="teacher-name">{{item.teacherName}}</text>
+        </view>
+        <text class="review-comment">{{item.comment}}</text>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:else>
+      <text>暂无老师点评</text>
+    </view>
+  </view>
+</view>

@@ -78,3 +78,9 @@
   color: #888;
   font-size: 24rpx;
 }
+
+.btn-review {
+  background: #07c160;
+  color: #fff;
+  border: none;
+}

@@ -1,6 +1,7 @@
 <!--pages/student/home/home.wxml-->
 <view class="home-container">
-  <view class="logout-wrap">
+  <view class="header-bar">
+    <text class="refresh-link" bindtap="handleRefresh">⟳ 刷新</text>
     <text class="logout-link" bindtap="handleLogout">退出登录</text>
   </view>
   <!-- 体验模式提示 -->
@@ -16,12 +17,13 @@
       <text class="day-label">天</text>
     </view>
     <text class="date-text">{{currentDate}}</text>
+    <!-- 签到功能暂未开放，后续将接入位置/扫码校验 -->
     <button 
-      class="checkin-header-btn" 
+      class="checkin-header-btn checkin-disabled" 
       wx:if="{{!status.checkedIn && !isDemo}}"
-      bindtap="handleCheckin"
       size="mini"
-    >今日签到</button>
+      disabled
+    >签到（即将开放）</button>
     <text class="checked-badge" wx:elif="{{status.checkedIn && !isDemo}}">✓ 已签到</text>
   </view>
 
@@ -33,7 +35,7 @@
 
     <view class="task-list" wx:if="{{taskItems.length > 0}}">
       <view 
-        class="task-item" 
+        class="card task-item" 
         wx:for="{{taskItems}}" 
         wx:key="taskItemId"
         data-task-id="{{item.taskItemId}}"
@@ -42,18 +44,14 @@
         <view class="task-content">
           <view class="task-header">
             <text class="task-title">{{item.title}}</text>
-            <text class="task-status" wx:if="{{item.submitted}}">✓ 已提交</text>
-            <text class="task-status pending" wx:else>待提交</text>
+            <text class="task-status done" wx:if="{{item.submitted}}">已提交</text>
+            <text class="task-status pending" wx:else>未提交</text>
           </view>
           <text class="task-desc" wx:if="{{item.content}}">{{item.content}}</text>
         </view>
-        <view 
-          class="task-actions" 
-          catchtap="handleSubmit" 
-          data-task-id="{{item.taskItemId}}"
-          wx:if="{{!item.submitted && !isDemo}}"
-        >
-          <button class="action-btn submit-btn" size="mini">我已提交</button>
+        <view class="task-link" wx:if="{{!item.submitted && !isDemo}}">
+          <text>去提交</text>
+          <text class="arrow">›</text>
         </view>
       </view>
     </view>
@@ -65,8 +63,9 @@
 
   <!-- 快捷操作 -->
   <view class="quick-actions">
-    <button class="action-button primary" bindtap="goToSubmission">
-      提交记录
-    </button>
+    <button class="action-button primary" bindtap="goToMyTasks">我的任务</button>
+    <button class="action-button secondary" bindtap="goToProgress">学习进度</button>
+    <button class="action-button secondary" bindtap="goToSubmission">提交记录</button>
+    <button class="action-button secondary" bindtap="goToFeedback">老师点评</button>
   </view>
 </view>

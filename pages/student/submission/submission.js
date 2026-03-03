@@ -5,68 +5,82 @@ const studentService = require('../../../services/student');
 
 Page({
   data: {
-    taskItems: [],
-    status: { checkedIn: false, submittedTaskIds: [] },
-    dayNumber: 1,
+    records: [],
+    groupedRecords: [],
+    selectedDate: '',
+    filterMode: 'all', // 'all' | 'date'
+    startDate: '2020-01-01',
+    endDate: '',
     isDemo: false
   },
 
   onLoad() {
-    this.setData({ isDemo: storage.getCurrentClassId() === 'demo-class-id' });
+    const classId = storage.getCurrentClassId();
+    this.setData({ isDemo: classId === 'demo-class-id' });
+    const today = format.formatDate(new Date(), 'YYYY-MM-DD');
+    this.setData({
+      selectedDate: today,
+      startDate: '2020-01-01',
+      endDate: today
+    });
     this.loadData();
   },
 
+  onShow() {
+    this.loadData();
+  },
+
+  onDateChange(e) {
+    const date = e.detail.value;
+    this.setData({ selectedDate: date, filterMode: 'date' }, () => this.loadData());
+  },
+
+  setFilterMode(e) {
+    const mode = e.currentTarget.dataset.mode;
+    this.setData({ filterMode: mode }, () => this.loadData());
+  },
+
   async loadData() {
-    if (this.data.isDemo) {
-      this.setData({
-        taskItems: [
-          { taskItemId: 'demo1', title: '入住场景对话练习', submitted: false },
-          { taskItemId: 'demo2', title: '电话预订练习', submitted: false },
-          { taskItemId: 'demo3', title: '退房场景对话', submitted: false }
-        ]
-      });
+    const classId = storage.getCurrentClassId();
+    if (!classId || this.data.isDemo) {
+      this.setData({ records: [], groupedRecords: [] });
       return;
     }
-    const classId = storage.getCurrentClassId();
-    if (!classId) return;
+
     try {
-      const result = await studentService.getTodayPlan({ classId });
-      if (result && result.errCode === 0) {
-        const taskItems = (result.taskItems || []).map(t => ({
-          ...t,
-          submitted: (result.status?.submittedTaskIds || []).includes(t.taskItemId)
-        }));
-        this.setData({
-          taskItems,
-          dayNumber: result.dayNumber,
-          status: result.status || {}
-        });
+      const params = { classId };
+      if (this.data.filterMode === 'date' && this.data.selectedDate) {
+        params.date = this.data.selectedDate;
+      }
+      const res = await studentService.getMySubmissions(params);
+      if (res && res.errCode === 0) {
+        const records = res.records || [];
+        const today = format.formatDate(new Date(), 'YYYY-MM-DD');
+        if (res.startDate) {
+          this.setData({
+            startDate: res.startDate,
+            endDate: today
+          });
+        }
+        const grouped = this.groupByDate(records);
+        this.setData({ records, groupedRecords: grouped });
+      } else {
+        throw new Error(res?.errMsg || '加载失败');
       }
     } catch (e) {
       wx.showToast({ title: e.message || '加载失败', icon: 'none' });
+      this.setData({ records: [], groupedRecords: [] });
     }
   },
 
-  async handleSubmit(e) {
-    const taskId = e.currentTarget.dataset.taskId;
-    const classId = storage.getCurrentClassId();
-    if (!classId || !taskId) return;
-    try {
-      const result = await studentService.markSubmit({
-        classId,
-        dayNumber: this.data.dayNumber,
-        taskItemId: taskId
-      });
-      if (result && result.errCode === 0) {
-        wx.showToast({ title: '已记录', icon: 'success' });
-        const taskItems = this.data.taskItems.map(t =>
-          t.taskItemId === taskId ? { ...t, submitted: true } : t
-        );
-        this.setData({ taskItems });
-      } else throw new Error(result?.errMsg);
-    } catch (error) {
-      wx.showToast({ title: error.message || '操作失败', icon: 'none' });
-    }
+  groupByDate(records) {
+    const map = {};
+    records.forEach(r => {
+      const key = r.dateStr;
+      if (!map[key]) map[key] = { dateStr: r.dateStr, dayNumber: r.dayNumber, items: [] };
+      map[key].items.push(r);
+    });
+    return Object.values(map).sort((a, b) => b.dateStr.localeCompare(a.dateStr));
   },
 
   handleLogout() {

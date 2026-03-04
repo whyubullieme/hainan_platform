@@ -10,6 +10,19 @@
   width: 100%;
 }
 
+.greeting-bar {
+  margin: 0 32rpx 8rpx;
+  padding: 14rpx 18rpx;
+  background: #fff;
+  border: 1rpx solid #e6edf7;
+  border-radius: 12rpx;
+}
+
+.greeting-text {
+  font-size: 26rpx;
+  color: #334155;
+}
+
 .section-title {
   font-size: 36rpx;
   font-weight: bold;
@@ -29,11 +42,13 @@
 
 .input {
   width: 100%;
-  padding: 24rpx;
+  height: 80rpx;
+  padding: 0 24rpx;
   background: #fff;
   border: 1rpx solid #ddd;
   border-radius: 8rpx;
   font-size: 30rpx;
+  line-height: 80rpx;
   box-sizing: border-box;
   color: #333;
 }
@@ -132,6 +147,27 @@
   margin-bottom: 32rpx;
 }
 
+.pagination {
+  margin-top: 8rpx;
+}
+
+.pager-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 64rpx !important;
+  line-height: 64rpx !important;
+  padding: 0 24rpx !important;
+}
+
+.page-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64rpx;
+  line-height: 64rpx;
+}
+
 .class-item {
   padding: 24rpx;
   margin-bottom: 16rpx;
@@ -168,6 +204,34 @@
   color: #999;
   padding: 48rpx;
   font-size: 28rpx;
+}
+
+.task-manage-card {
+  background: #fff;
+  border: 1rpx solid #e6edf7;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-shadow: 0 8rpx 16rpx rgba(15, 23, 42, 0.04);
+}
+
+.task-manage-title {
+  font-size: 30rpx;
+  color: #111827;
+  font-weight: 600;
+  margin-bottom: 10rpx;
+}
+
+.task-manage-desc {
+  font-size: 25rpx;
+  color: #6b7280;
+  line-height: 1.7;
+}
+
+.task-manage-link {
+  margin-top: 14rpx;
+  font-size: 26rpx;
+  color: #07c160;
+  font-weight: 600;
 }
 
 .btn-secondary {

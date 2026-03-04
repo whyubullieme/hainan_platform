@@ -1,4 +1,3 @@
-// cloudfunctions/teacher_addDayTasks/index.js
 const cloud = require('wx-server-sdk');
 
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
@@ -29,17 +28,17 @@ function resolveDayNumber(startDateStr, inputDayNumber, inputDate) {
 }
 
 /**
- * 教师：为班级添加一天任务
- * 入参: { classId, dayNumber?, date?, tasks? }  tasks 为选中的任务列表 [{ title, content?, taskType?, order? }]
- * 出参: { dayNumber, ok: true }
+ * 教师：撤销某一天的全部任务（删除该班级当日的 task_items）
+ * 入参: { classId, dayNumber?, date? }
+ * 出参: { errCode, errMsg }
  */
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
-  const { classId, dayNumber, date, tasks: inputTasks } = event;
+  const { classId, dayNumber, date } = event;
 
-  if (!openid || !classId) {
-    return { errCode: -1, errMsg: '参数缺少 classId' };
+  if (!openid || !classId || (!dayNumber && !date)) {
+    return { errCode: -1, errMsg: '参数缺少 classId 和操作日期/天数' };
   }
 
   try {
@@ -70,39 +69,26 @@ exports.main = async (event, context) => {
       return { errCode: -1, errMsg: 'date 格式无效，应为 YYYY-MM-DD' };
     }
 
-    const taskRes = await db.collection('task_items').where({ classId }).get();
-    const items = taskRes.data || [];
-    const maxDay = items.length === 0 ? 0 : Math.max(...items.map((t) => t.dayNumber || 0));
-    const resolvedDay = resolveDayNumber(classRes.data.startDate, dayNumber, date) || (maxDay + 1);
-
-    const dayItems = items.filter((t) => Number(t.dayNumber) === Number(resolvedDay));
-    const nextOrder = dayItems.length === 0
-      ? 1
-      : (Math.max(...dayItems.map((t) => Number(t.order) || 0)) + 1);
-
-    const tasks = Array.isArray(inputTasks) && inputTasks.length > 0
-      ? inputTasks
-      : [{ title: `综合练习${Math.max(resolvedDay - 4, 1)}`, content: '', taskType: 'read_aloud', order: 1 }];
-
-    for (let i = 0; i < tasks.length; i++) {
-      const t = tasks[i];
-      await db.collection('task_items').add({
-        data: {
-          classId,
-          dayNumber: resolvedDay,
-          order: t.order !== undefined ? t.order : (nextOrder + i),
-          title: t.title || '任务',
-          content: t.content || '',
-          taskType: t.taskType || 'read_aloud',
-          createdAt: db.serverDate(),
-          updatedAt: db.serverDate(),
-        },
-      });
+    const resolvedDay = resolveDayNumber(classRes.data.startDate, dayNumber, date);
+    if (!resolvedDay) {
+      return { errCode: -1, errMsg: '无法根据该日期解析到有效课程序号' };
     }
 
-    return { errCode: 0, errMsg: 'success', dayNumber: resolvedDay, ok: true };
+    const toDeleteRes = await db.collection('task_items')
+      .where({ classId, dayNumber: resolvedDay })
+      .get();
+    const items = toDeleteRes.data || [];
+
+    if (items.length === 0) {
+      return { errCode: 0, errMsg: '当日暂无任务可撤销', deleted: 0, dayNumber: resolvedDay };
+    }
+
+    // CloudBase 一次 remove 至少能覆盖这些小数量的任务
+    await db.collection('task_items').where({ classId, dayNumber: resolvedDay }).remove();
+
+    return { errCode: 0, errMsg: 'success', deleted: items.length, dayNumber: resolvedDay };
   } catch (error) {
-    console.error('teacher_addDayTasks:', error);
-    return { errCode: -1, errMsg: error.message || '添加失败' };
+    console.error('teacher_revokeDayTasks:', error);
+    return { errCode: -1, errMsg: error.message || '撤销失败' };
   }
 };

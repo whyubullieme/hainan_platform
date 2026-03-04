@@ -9,15 +9,17 @@
         "pages/student/myTasks/myTasks",
         "pages/student/feedback/feedback",
         "pages/teacher/dashboard/dashboard",
+        "pages/teacher/addTask/addTask",
         "pages/teacher/students/students",
         "pages/teacher/review/review",
         "pages/teacher/topErrors/topErrors",
         "pages/admin/classManage/classManage",
+        "pages/admin/taskManage/taskManage",
         "pages/admin/classDetail/classDetail"
     ],
     "window": {
-        "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#fff",
+        "backgroundTextStyle": "dark",
+        "navigationBarBackgroundColor": "#f7fbff",
         "navigationBarTitleText": "海南英语学习平台",
         "navigationBarTextStyle": "black",
         "enablePullDownRefresh": false

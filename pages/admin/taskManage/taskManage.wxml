@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="section">
+    <view class="title">任务管理（v1.1 规划）</view>
+    <view class="desc">
+      本页面将用于统一管理教材与任务内容，支持文字、图片、音频（含跟读素材）等资源编辑。
+    </view>
+    <view class="desc">
+      当前版本先预留入口与信息说明，v1.1 开始补充素材上传、版本管理、任务模板配置等能力。
+    </view>
+  </view>
+</view>

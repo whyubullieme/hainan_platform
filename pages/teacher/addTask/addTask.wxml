@@ -1,0 +1,78 @@
+<!--pages/teacher/addTask/addTask.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">从任务库中选择要添加的任务</text>
+    <text class="subtitle">勾选后将作为新的一天任务发给学生</text>
+  </view>
+
+  <view class="assign-date-box">
+    <text class="assign-date-label">添加日期</text>
+    <picker mode="date" value="{{assignDate}}" bindchange="onAssignDateChange">
+      <view class="assign-date-value">{{assignDate || '请选择日期'}}</view>
+    </picker>
+  </view>
+
+  <!-- 类型切换 Tabs，可扩展为 quiz 等 -->
+  <view class="tabs" wx:if="{{!loading && !error}}">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="tab-item {{activeTab === item.key ? 'active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="onTabChange"
+    >
+      <text>{{item.label}}</text>
+    </view>
+  </view>
+
+  <view class="error" wx:if="{{error}}">{{error}}</view>
+  <view class="loading" wx:if="{{loading}}">加载任务库中…</view>
+
+  <scroll-view wx:else class="task-list" scroll-y>
+    <view wx:if="{{visibleTasks.length === 0}}">
+      <text class="empty-text">当前类型暂无任务</text>
+    </view>
+    <view
+      class="task-item {{selectedIds[item.id] ? 'selected' : ''}}"
+      wx:for="{{visibleTasks}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onTaskTap"
+    >
+      <view class="task-check">{{selectedIds[item.id] ? '✓' : ''}}</view>
+      <view class="task-body">
+        <text class="task-title">{{item.title}}</text>
+        <text class="task-desc" wx:if="{{item.content}}">{{item.content}}</text>
+        <text class="task-type">{{item.taskType === 'read_along' ? '跟读' : '朗读'}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 分页，每页 8 条 -->
+  <view class="pagination" wx:if="{{totalPages > 1 && !loading && !error}}">
+    <button
+      class="btn-page"
+      size="mini"
+      bindtap="goPrevPage"
+      disabled="{{currentPage <= 1}}"
+    >
+      上一页
+    </button>
+    <text class="page-info">第 {{currentPage}} / {{totalPages}} 页</text>
+    <button
+      class="btn-page"
+      size="mini"
+      bindtap="goNextPage"
+      disabled="{{currentPage >= totalPages}}"
+    >
+      下一页
+    </button>
+  </view>
+
+  <view class="footer">
+    <button class="btn-confirm" bindtap="handleConfirm" loading="{{submitting}}" disabled="{{submitting}}">
+      确认添加（已选 {{selectedCount}} 项）
+    </button>
+    <button class="btn-back" bindtap="handleBack">返回</button>
+  </view>
+</view>

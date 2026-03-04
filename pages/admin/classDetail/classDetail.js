@@ -1,5 +1,6 @@
 // pages/admin/classDetail/classDetail.js
 const adminService = require('../../../services/admin');
+const { buildPagination } = require('../../../utils/pagination');
 
 Page({
   data: {
@@ -11,8 +12,18 @@ Page({
     editName: '',
     editStartDate: '',
     editTotalDays: 14,
+    daysOptions: [],
+    daysIndex: 13, // 默认 14 天
     userKeyword: '',
-    userSearchResult: []
+    userSearchResult: [],
+    // 成员管理 Tab + 分页
+    activeMemberTab: 'student',
+    memberPageSize: 8,
+    memberCurrentPage: 1,
+    memberTotalPages: 1,
+    visibleMembers: [],
+    studentCount: 0,
+    teacherCount: 0
   },
 
   handleLogout() {
@@ -28,6 +39,7 @@ Page({
       return;
     }
     this.setData({ classId });
+    this.initDaysOptions();
     this.loadDetail();
   },
 
@@ -47,6 +59,9 @@ Page({
           editName: res.class.name,
           editStartDate: res.class.startDate || '',
           editTotalDays: res.class.totalDays || 14
+        }, () => {
+          this.syncDaysIndex();
+          this.applyMemberFilters();
         });
       } else {
         throw new Error(res?.errMsg || '加载失败');
@@ -66,11 +81,37 @@ Page({
     this.setData({ editStartDate: e.detail.value });
   },
 
-  onTotalDaysChange(e) {
-    const v = e.detail.value;
-    const n = parseInt(v, 10);
+  initDaysOptions() {
+    const min = 1;
+    const max = 90;
+    const options = [];
+    for (let i = min; i <= max; i += 1) {
+      options.push(i);
+    }
+    this.setData({ daysOptions: options }, () => this.syncDaysIndex());
+  },
+
+  syncDaysIndex() {
+    const { daysOptions, editTotalDays } = this.data;
+    if (!daysOptions || daysOptions.length === 0) return;
+    const min = 1;
+    const max = daysOptions[daysOptions.length - 1] || 90;
+    const v = editTotalDays || 14;
+    const safe = Math.min(Math.max(v, min), max);
     this.setData({
-      editTotalDays: (v === '' || isNaN(n)) ? 14 : Math.min(90, Math.max(1, n))
+      daysIndex: safe - 1,
+      editTotalDays: safe
+    });
+  },
+
+  onTotalDaysPickerChange(e) {
+    const index = parseInt(e.detail.value, 10) || 0;
+    const { daysOptions } = this.data;
+    const safeIndex = Math.min(Math.max(index, 0), daysOptions.length - 1);
+    const value = daysOptions[safeIndex] || 14;
+    this.setData({
+      daysIndex: safeIndex,
+      editTotalDays: value
     });
   },
 
@@ -81,7 +122,7 @@ Page({
       editName: cls.name || '',
       editStartDate: cls.startDate || '',
       editTotalDays: cls.totalDays || 14
-    });
+    }, () => this.syncDaysIndex());
   },
 
   cancelEdit() {
@@ -171,6 +212,52 @@ Page({
     } finally {
       this.setData({ loading: false });
     }
+  },
+
+  onMemberTabChange(e) {
+    const key = e.currentTarget.dataset.key;
+    if (!key || key === this.data.activeMemberTab) return;
+    this.setData(
+      {
+        activeMemberTab: key,
+        memberCurrentPage: 1
+      },
+      () => this.applyMemberFilters()
+    );
+  },
+
+  applyMemberFilters() {
+    const { members, activeMemberTab, memberPageSize, memberCurrentPage } = this.data;
+    const all = members || [];
+    const studentCount = all.filter((m) => m.roleInClass === 'student').length;
+    const teacherCount = all.filter((m) => m.roleInClass === 'teacher').length;
+    const list = all.filter((m) => m.roleInClass === activeMemberTab);
+    const pagination = buildPagination(list, memberCurrentPage, memberPageSize);
+    this.setData({
+      visibleMembers: pagination.pageItems,
+      memberTotalPages: pagination.totalPages,
+      memberCurrentPage: pagination.currentPage,
+      studentCount,
+      teacherCount
+    });
+  },
+
+  goPrevMemberPage() {
+    const { memberCurrentPage } = this.data;
+    if (memberCurrentPage <= 1) return;
+    this.setData(
+      { memberCurrentPage: memberCurrentPage - 1 },
+      () => this.applyMemberFilters()
+    );
+  },
+
+  goNextMemberPage() {
+    const { memberCurrentPage, memberTotalPages } = this.data;
+    if (memberCurrentPage >= memberTotalPages) return;
+    this.setData(
+      { memberCurrentPage: memberCurrentPage + 1 },
+      () => this.applyMemberFilters()
+    );
   },
 
   async addMemberAs(e) {

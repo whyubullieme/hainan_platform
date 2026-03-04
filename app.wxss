@@ -7,9 +7,9 @@
 
 /* 全局样式（基础设计令牌） */
 page {
-  background-color: #f5f5f5;
+  background: linear-gradient(180deg, #f7f9fc 0%, #f3f6fb 100%);
   font-size: 32rpx;
-  color: #333;
+  color: #1f2937;
 }
 
 /* 颜色令牌 */
@@ -103,10 +103,11 @@ page {
 /* 卡片样式 */
 .card {
   background-color: #fff;
-  border-radius: 16rpx;
+  border-radius: 20rpx;
   padding: 32rpx;
   margin: 24rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  border: 1rpx solid #e9eef7;
+  box-shadow: 0 10rpx 24rpx rgba(31, 41, 55, 0.06);
 }
 
 /* 空状态 */
@@ -138,3 +139,74 @@ page {
   color: #666;
 }
 
+/* 通用栏位与分段控件 */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+  padding: 18rpx 22rpx;
+  background: #fff;
+  border: 1rpx solid #e6edf7;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 14rpx rgba(30, 41, 59, 0.05);
+}
+
+.tabs,
+.tab-bar,
+.filter-tabs {
+  display: flex;
+  gap: 10rpx;
+  padding: 8rpx;
+  background: #edf2f9;
+  border: 1rpx solid #dbe5f3;
+  border-radius: 18rpx;
+}
+
+.tab-item,
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 18rpx;
+  border-radius: 14rpx;
+  color: #5b6472;
+  font-size: 27rpx;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tab-item.active,
+.tab.active {
+  background: #fff;
+  color: #14532d;
+  font-weight: 700;
+  box-shadow: 0 6rpx 14rpx rgba(15, 23, 42, 0.08);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18rpx;
+  margin-top: 20rpx;
+}
+
+.page-btn {
+  min-width: 116rpx;
+  text-align: center;
+  padding: 12rpx 20rpx;
+  border-radius: 999rpx;
+  background: #ffffff;
+  border: 1rpx solid #d7e0ec;
+  color: #374151;
+  font-size: 24rpx;
+}
+
+.page-btn.disabled {
+  opacity: 0.45;
+}
+
+.page-info {
+  font-size: 24rpx;
+  color: #6b7280;
+}

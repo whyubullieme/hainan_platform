@@ -2,6 +2,9 @@
   <view class="logout-wrap">
     <text class="logout-link" bindtap="handleLogout">退出登录</text>
   </view>
+  <view class="greeting-bar">
+    <text class="greeting-text">{{greetingText}}</text>
+  </view>
 
   <view class="controls">
     <view class="input-group">
@@ -38,14 +41,28 @@
   </view>
 
   <view class="actions">
-    <button class="btn-missing" bindtap="handleViewMissing">未完成 {{missingCount}} 人</button>
-    <button class="btn-done" bindtap="handleViewDone">已完成 {{overview.submittedCount || 0}} 人</button>
+    <button class="btn-missing" bindtap="handleViewMissing">未提交 {{missingCount}} 人</button>
+    <button class="btn-done" bindtap="handleViewDone">待点评 {{pendingReviewCount}} 人</button>
+    <button class="btn-reviewed" bindtap="handleViewReviewed">已点评 {{overview.reviewedCount || 0}} 人</button>
   </view>
 
   <view class="add-task-section">
-    <button class="add-task-btn" bindtap="handleAddDayTasks" loading="{{addingTasks}}">
-      + 为班级添加一天任务
-    </button>
-    <text class="add-task-tip">从任务库添加明日任务，由老师决定何时放出</text>
+    <view class="task-date-row">
+      <text class="task-date-label">任务操作日期</text>
+      <picker mode="date" value="{{taskActionDate}}" bindchange="handleTaskActionDateChange">
+        <view class="task-date-picker">{{taskActionDate || '请选择日期'}}</view>
+      </picker>
+    </view>
+    <view class="add-task-row">
+      <button class="add-task-btn" bindtap="handleAddDayTasks">
+        + 为该日期添加任务
+      </button>
+      <button class="revoke-task-btn" bindtap="handleRevokeDayTasks">
+        撤销该日期任务
+      </button>
+    </view>
+    <text class="add-task-tip">
+      添加或撤销任务都以“任务操作日期”为准。
+    </text>
   </view>
 </view>

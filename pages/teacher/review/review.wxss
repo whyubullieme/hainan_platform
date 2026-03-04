@@ -16,6 +16,97 @@
   gap: 8rpx;
 }
 
+.submission-panel {
+  background: #fff;
+  border: 1rpx solid #e6edf7;
+  border-radius: 14rpx;
+  padding: 18rpx;
+}
+
+.submission-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 10rpx;
+}
+
+.submission-loading,
+.submission-empty {
+  font-size: 24rpx;
+  color: #6b7280;
+}
+
+.task-progress {
+  font-size: 24rpx;
+  color: #4b5563;
+  margin-bottom: 12rpx;
+}
+
+.task-progress-ok {
+  color: #059669;
+}
+
+.task-progress-warn {
+  color: #d97706;
+}
+
+.submission-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.submission-item {
+  border: 1rpx solid #edf2f7;
+  border-radius: 10rpx;
+  padding: 12rpx;
+}
+
+.sub-task {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #111827;
+}
+
+.sub-note {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.sub-audio {
+  margin-top: 8rpx;
+}
+
+.sub-audio-name {
+  display: block;
+  font-size: 24rpx;
+  color: #2563eb;
+  margin-bottom: 8rpx;
+}
+
+.sub-audio-actions {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-bottom: 8rpx;
+}
+
+.btn-audio-play {
+  background: #eef6ff;
+  color: #1677ff;
+  border: 1rpx solid #bfdbfe;
+}
+
+.btn-audio-stop {
+  background: #fff1f0;
+  color: #cf1322;
+  border: 1rpx solid #ffccc7;
+}
+
 .comment {
   min-height: 240rpx;
   border: 1px solid #ddd;

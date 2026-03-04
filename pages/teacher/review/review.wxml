@@ -8,6 +8,51 @@
     <text class="day">第 {{dayNumber}} 天</text>
   </view>
 
+  <view class="submission-panel">
+    <view class="submission-title">学生提交内容</view>
+    <view class="task-progress">
+      任务完成：{{submittedTaskCount}} / {{dayTaskCount}}
+      <text class="task-progress-ok" wx:if="{{allTaskDone}}">（可提交点评）</text>
+      <text class="task-progress-warn" wx:else>（未全部完成，暂不可提交点评）</text>
+    </view>
+    <view class="submission-loading" wx:if="{{loadingSubmissions}}">加载中...</view>
+    <view class="submission-empty" wx:elif="{{submissions.length === 0}}">
+      暂无提交内容（请确认学生已提交文字或音频）
+    </view>
+    <view class="submission-list" wx:else>
+      <view class="submission-item" wx:for="{{submissions}}" wx:key="_id">
+        <text class="sub-task">{{item.taskTitle}}</text>
+        <text class="sub-note" wx:if="{{item.note}}">文字：{{item.note}}</text>
+        <view class="sub-audio" wx:if="{{item.audioTempUrl}}">
+          <text class="sub-audio-name">{{item.audioFileName || '朗读音频'}}</text>
+          <view class="sub-audio-actions">
+            <button
+              size="mini"
+              class="btn-audio-play"
+              data-url="{{item.audioTempUrl}}"
+              data-sid="{{item._id}}"
+              bindtap="playSubmissionAudio"
+            >
+              {{playingSubmissionId === item._id ? '重新播放' : '播放音频'}}
+            </button>
+            <button
+              wx:if="{{playingSubmissionId === item._id}}"
+              size="mini"
+              class="btn-audio-stop"
+              bindtap="stopSubmissionAudio"
+            >
+              停止
+            </button>
+          </view>
+          <audio
+            controls
+            src="{{item.audioTempUrl}}"
+          ></audio>
+        </view>
+      </view>
+    </view>
+  </view>
+
   <textarea
     class="comment"
     placeholder="输入点评内容（最多 500 字）"
@@ -18,5 +63,7 @@
 
   <view class="error" wx:if="{{error}}">{{error}}</view>
 
-  <button class="btn-save" bindtap="handleSave" loading="{{saving}}" disabled="{{saving}}">保存点评</button>
+  <button class="btn-save" bindtap="handleSave" loading="{{saving}}" disabled="{{saving || !allTaskDone}}">
+    {{allTaskDone ? '保存点评' : '待学生完成全部任务后可点评'}}
+  </button>
 </view>

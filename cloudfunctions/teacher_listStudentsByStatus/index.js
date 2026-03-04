@@ -45,7 +45,7 @@ function parseDayNumber(value) {
 }
 
 function normalizeStatus(status) {
-  if (status === 'missing' || status === 'done') {
+  if (status === 'missing' || status === 'done' || status === 'reviewed') {
     return status;
   }
   return null;
@@ -120,7 +120,7 @@ exports.main = async (event = {}) => {
   }
   const normalizedStatus = normalizeStatus(status);
   if (!normalizedStatus) {
-    return { errCode: -1, errMsg: 'status 仅支持 missing/done' };
+    return { errCode: -1, errMsg: 'status 仅支持 missing/done/reviewed' };
   }
   const parsedDayNumber = parseDayNumber(dayNumber);
   if (!parsedDayNumber) {
@@ -150,13 +150,15 @@ exports.main = async (event = {}) => {
       return { errCode: 0, errMsg: 'success', students: [] };
     }
 
-    const [checkins, submissions] = await Promise.all([
+    const [checkins, submissions, reviews] = await Promise.all([
       fetchAllDocs('checkins', { classId, dayNumber: parsedDayNumber }, { userId: true }),
       fetchAllDocs('submissions', { classId, dayNumber: parsedDayNumber }, { userId: true }),
+      fetchAllDocs('reviews', { classId, dayNumber: parsedDayNumber }, { studentId: true }),
     ]);
 
     const checkedSet = new Set((checkins || []).map((doc) => doc.userId));
     const submittedSet = new Set((submissions || []).map((doc) => doc.userId));
+    const reviewedSet = new Set((reviews || []).map((doc) => doc.studentId));
 
     const nameMap = await fetchUserNameMap(studentIds);
 
@@ -168,8 +170,13 @@ exports.main = async (event = {}) => {
       }
       const hasCheckin = checkedSet.has(userId);
       const hasSubmission = submittedSet.has(userId);
-      const isDone = hasCheckin && hasSubmission;
-      const currentStatus = isDone ? 'done' : 'missing';
+      const hasReview = reviewedSet.has(userId);
+      let currentStatus = 'missing';
+      if (hasReview) {
+        currentStatus = 'reviewed';
+      } else if (hasSubmission) {
+        currentStatus = 'done';
+      }
       if (currentStatus === normalizedStatus) {
         const displayName = nameMap.get(userId) || member.displayName || member.name || '';
         students.push({
@@ -178,6 +185,7 @@ exports.main = async (event = {}) => {
           status: currentStatus,
           hasCheckin,
           hasSubmission,
+          hasReview,
         });
       }
     });

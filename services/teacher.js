@@ -8,11 +8,20 @@ const teacherService = {
   listStudentsByStatus(params) {
     return api.callCloudFunction('teacher_listStudentsByStatus', params);
   },
+  getStudentSubmissions(params) {
+    return api.callCloudFunction('teacher_getStudentSubmissions', params);
+  },
   saveReview(params) {
     return api.callCloudFunction('teacher_saveReview', params);
   },
+  getTaskBank() {
+    return api.callCloudFunction('teacher_getTaskBank', {});
+  },
   addDayTasks(params) {
     return api.callCloudFunction('teacher_addDayTasks', params);
+  },
+  revokeDayTasks(params) {
+    return api.callCloudFunction('teacher_revokeDayTasks', params);
   }
 };
 

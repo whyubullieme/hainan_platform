@@ -22,6 +22,19 @@
   color: #999;
 }
 
+.greeting-bar {
+  margin: 0 32rpx 20rpx;
+  padding: 14rpx 18rpx;
+  background: #fff;
+  border: 1rpx solid #e6edf7;
+  border-radius: 12rpx;
+}
+
+.greeting-text {
+  font-size: 26rpx;
+  color: #334155;
+}
+
 .demo-banner {
   background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
   padding: 24rpx;

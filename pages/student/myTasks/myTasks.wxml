@@ -11,7 +11,7 @@
       <text class="total-days">共 {{totalDays}} 天</text>
       <view class="pagination" wx:if="{{totalPages > 1}}">
         <text class="page-btn {{currentPage <= 1 ? 'disabled' : ''}}" bindtap="prevPage">上一页</text>
-        <text class="page-info">{{currentPage}} / {{totalPages}}</text>
+        <text class="page-info">第 {{currentPage}} / {{totalPages}} 页</text>
         <text class="page-btn {{currentPage >= totalPages ? 'disabled' : ''}}" bindtap="nextPage">下一页</text>
       </view>
     </view>

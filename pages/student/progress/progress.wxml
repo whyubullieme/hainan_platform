@@ -7,9 +7,17 @@
   <view class="section">
     <view class="section-title">学习进度</view>
     <view class="section-desc">各天签到与任务完成情况</view>
+    <view class="progress-meta" wx:if="{{totalDays > 0}}">
+      <text class="total-days">共 {{totalDays}} 天</text>
+      <view class="pagination" wx:if="{{totalPages > 1}}">
+        <text class="page-btn {{currentPage <= 1 ? 'disabled' : ''}}" bindtap="prevPage">上一页</text>
+        <text class="page-info">第 {{currentPage}} / {{totalPages}} 页</text>
+        <text class="page-btn {{currentPage >= totalPages ? 'disabled' : ''}}" bindtap="nextPage">下一页</text>
+      </view>
+    </view>
 
-    <view class="progress-list" wx:if="{{days.length > 0}}">
-      <view class="day-row {{item.completed ? 'completed' : ''}}" wx:for="{{days}}" wx:key="dayNumber">
+    <view class="progress-list" wx:if="{{visibleDays.length > 0}}">
+      <view class="day-row {{item.completed ? 'completed' : ''}}" wx:for="{{visibleDays}}" wx:key="dayNumber">
         <view class="day-info">
           <text class="day-num">第 {{item.dayNumber}} 天</text>
           <text class="day-date">{{item.dateStr}}</text>

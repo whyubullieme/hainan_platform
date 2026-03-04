@@ -4,6 +4,9 @@
     <text class="refresh-link" bindtap="handleRefresh">⟳ 刷新</text>
     <text class="logout-link" bindtap="handleLogout">退出登录</text>
   </view>
+  <view class="greeting-bar">
+    <text class="greeting-text">{{greetingText}}</text>
+  </view>
   <!-- 体验模式提示 -->
   <view class="demo-banner" wx:if="{{isDemo}}">
     <text class="demo-text">🎯 体验模式：当前为演示数据</text>

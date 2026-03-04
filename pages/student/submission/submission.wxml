@@ -35,7 +35,11 @@
       <view class="record-group" wx:for="{{groupedRecords}}" wx:key="dateStr">
         <view class="group-date">{{item.dateStr}} 第{{item.dayNumber}}天</view>
         <view class="record-item" wx:for="{{item.items}}" wx:for-item="rec" wx:key="taskItemId">
-          <text class="task-title">{{rec.taskTitle}}</text>
+          <view class="record-main">
+            <text class="task-title">{{rec.taskTitle}}</text>
+            <text class="record-meta" wx:if="{{rec.note}}">文字已提交</text>
+            <text class="record-meta" wx:if="{{rec.audioFileId}}">音频已提交</text>
+          </view>
           <text class="submitted-at">已提交</text>
         </view>
       </view>

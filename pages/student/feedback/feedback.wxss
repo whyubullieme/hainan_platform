@@ -43,6 +43,11 @@
   color: #666;
 }
 
+.review-date {
+  font-size: 24rpx;
+  color: #6b7280;
+}
+
 .review-comment {
   font-size: 30rpx;
   color: #333;

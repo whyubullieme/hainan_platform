@@ -13,6 +13,19 @@
   font-size: 26rpx;
 }
 
+.greeting-bar {
+  margin-bottom: 16rpx;
+  padding: 14rpx 18rpx;
+  background: #fff;
+  border: 1rpx solid #e6edf7;
+  border-radius: 12rpx;
+}
+
+.greeting-text {
+  font-size: 26rpx;
+  color: #334155;
+}
+
 .controls {
   display: flex;
   align-items: center;
@@ -90,16 +103,58 @@
   padding: 24rpx;
 }
 
+.btn-reviewed {
+  background: #1677ff;
+  color: #fff;
+  border: none;
+  border-radius: 12rpx;
+  padding: 24rpx;
+}
+
 .add-task-section {
   margin-top: 48rpx;
   padding-top: 32rpx;
   border-top: 1rpx solid #eee;
 }
 
+.task-date-row {
+  margin-bottom: 16rpx;
+}
+
+.task-date-label {
+  display: block;
+  font-size: 24rpx;
+  color: #6b7280;
+  margin-bottom: 8rpx;
+}
+
+.task-date-picker {
+  background: #fff;
+  border: 1rpx solid #d7e0ec;
+  border-radius: 12rpx;
+  padding: 14rpx 18rpx;
+  color: #1f2937;
+}
+
+.add-task-row {
+  display: flex;
+  gap: 14rpx;
+}
+
 .add-task-btn {
+  flex: 1;
   background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
   color: #fff;
   border: none;
+  border-radius: 12rpx;
+  padding: 24rpx;
+}
+
+.revoke-task-btn {
+  flex: 1;
+  background: #fff1f0;
+  border: 1rpx solid #ffccc7;
+  color: #cf1322;
   border-radius: 12rpx;
   padding: 24rpx;
 }

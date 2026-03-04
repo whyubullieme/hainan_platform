@@ -1,0 +1,26 @@
+.container {
+  min-height: 100vh;
+  padding: 28rpx;
+}
+
+.section {
+  background: #fff;
+  border: 1rpx solid #e6edf7;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  box-shadow: 0 8rpx 16rpx rgba(15, 23, 42, 0.04);
+}
+
+.title {
+  font-size: 34rpx;
+  color: #111827;
+  font-weight: 700;
+  margin-bottom: 18rpx;
+}
+
+.desc {
+  font-size: 27rpx;
+  color: #4b5563;
+  line-height: 1.8;
+  margin-bottom: 14rpx;
+}

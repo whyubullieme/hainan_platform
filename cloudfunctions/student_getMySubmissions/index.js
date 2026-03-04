@@ -52,7 +52,7 @@ async function fetchAllSubmissions({ classId, userId }) {
 /**
  * 学生：获取我的提交记录
  * 入参: { classId, date? }  date 可选，YYYY-MM-DD，不传则返回全部
- * 出参: { startDate, records: [{ dayNumber, dateStr, taskItemId, taskTitle, submittedAt }] }
+ * 出参: { startDate, records: [{ dayNumber, dateStr, taskItemId, taskTitle, note, audioFileId, audioFileName, submittedAt }] }
  */
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
@@ -121,6 +121,9 @@ exports.main = async (event, context) => {
         dateStr: dateStrOut,
         taskItemId: s.taskItemId,
         taskTitle: (taskMap[s.taskItemId] && taskMap[s.taskItemId].title) || '任务',
+        note: s.note || '',
+        audioFileId: s.audioFileId || '',
+        audioFileName: s.audioFileName || '',
         submittedAt: s.createdAt
       };
     });

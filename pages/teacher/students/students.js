@@ -11,12 +11,14 @@ Page({
     loading: false,
     error: '',
     tabs: [
-      { key: 'missing', label: '未完成' },
-      { key: 'done', label: '已完成' },
+      { key: 'missing', label: '未提交' },
+      { key: 'done', label: '待点评' },
+      { key: 'reviewed', label: '已点评' },
     ],
   },
   onLoad(options = {}) {
-    const status = options.status === 'done' ? 'done' : 'missing';
+    const allowedStatus = ['missing', 'done', 'reviewed'];
+    const status = allowedStatus.includes(options.status) ? options.status : 'missing';
     const dayNumber = Number(options.dayNumber) || 1;
     this.setData({ status, dayNumber });
   },

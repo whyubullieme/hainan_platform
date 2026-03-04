@@ -105,6 +105,14 @@ exports.main = async (event = {}) => {
     await ensureTeacherAccess({ classId, userId: teacher._id, userRole: teacher.role });
     await ensureStudentInClass({ classId, studentId });
 
+    const submissionRes = await db.collection('submissions')
+      .where({ classId, userId: studentId, dayNumber: parsedDayNumber })
+      .limit(1)
+      .get();
+    if (!submissionRes.data || submissionRes.data.length === 0) {
+      return { errCode: -1, errMsg: '学生尚未提交作业，无法点评' };
+    }
+
     const now = new Date();
     const baseFilter = {
       classId,

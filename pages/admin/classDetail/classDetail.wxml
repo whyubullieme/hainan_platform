@@ -19,7 +19,15 @@
     </view>
     <view class="info-row">
       <text class="info-label">课程天数</text>
-      <input type="number" class="input input-num" value="{{editTotalDays}}" placeholder="14" bindinput="onTotalDaysChange" wx:if="{{editing}}" />
+      <picker
+        mode="selector"
+        range="{{daysOptions}}"
+        value="{{daysIndex}}"
+        bindchange="onTotalDaysPickerChange"
+        wx:if="{{editing}}"
+      >
+        <view class="picker-value">{{editTotalDays}} 天</view>
+      </picker>
       <text class="info-value" wx:else>{{cls.totalDays || 14}} 天</text>
     </view>
     <view class="info-row" wx:if="{{!editing}}">
@@ -47,9 +55,37 @@
   </view>
 
   <view class="section members-section">
-    <view class="section-title">成员列表</view>
+    <view class="section-title">成员管理</view>
+
+    <!-- 学生 / 老师管理 Tab，显示人数统计 -->
+    <view class="tabs">
+      <view
+        class="tab-item {{activeMemberTab === 'student' ? 'active' : ''}}"
+        data-key="student"
+        bindtap="onMemberTabChange"
+      >
+        学生 ({{studentCount}})
+      </view>
+      <view
+        class="tab-item {{activeMemberTab === 'teacher' ? 'active' : ''}}"
+        data-key="teacher"
+        bindtap="onMemberTabChange"
+      >
+        老师 ({{teacherCount}})
+      </view>
+    </view>
+    <view class="tab-desc">
+      当前视图：{{activeMemberTab === 'teacher' ? '老师管理' : '学生管理'}}（每页最多 8 人）
+    </view>
+
     <view class="add-member-row">
-      <input class="search-input" placeholder="搜索姓名添加成员" value="{{userKeyword}}" bindinput="onUserKeywordInput" bindconfirm="searchUsers" />
+      <input
+        class="search-input"
+        placeholder="搜索姓名添加成员"
+        value="{{userKeyword}}"
+        bindinput="onUserKeywordInput"
+        bindconfirm="searchUsers"
+      />
       <button class="btn-sm" bindtap="searchUsers">搜索</button>
     </view>
     <view class="user-picker" wx:if="{{userSearchResult.length > 0}}">
@@ -64,19 +100,44 @@
     </view>
 
     <view class="member-list">
-      <view class="member-item" wx:for="{{members}}" wx:key="_id">
+      <view class="member-item" wx:for="{{visibleMembers}}" wx:key="_id">
         <view class="member-info">
           <text class="member-name">{{item.name}}</text>
           <text class="member-role {{item.roleInClass}}">{{item.roleInClass === 'teacher' ? '教师' : '学生'}}</text>
         </view>
         <view class="member-actions">
-          <button size="mini" class="btn-role" data-member-id="{{item._id}}" data-role="{{item.roleInClass === 'teacher' ? 'student' : 'teacher'}}" bindtap="changeRole">
+          <button
+            size="mini"
+            class="btn-role"
+            data-member-id="{{item._id}}"
+            data-role="{{item.roleInClass === 'teacher' ? 'student' : 'teacher'}}"
+            bindtap="changeRole"
+          >
             {{item.roleInClass === 'teacher' ? '改为学生' : '改为教师'}}
           </button>
           <button size="mini" class="btn-remove" data-member-id="{{item._id}}" data-member-name="{{item.name}}" bindtap="removeMember">移出</button>
         </view>
       </view>
-      <view class="empty-tip" wx:if="{{members.length === 0 && !loading}}">暂无成员</view>
+      <view class="empty-tip" wx:if="{{visibleMembers.length === 0 && !loading}}">
+        {{activeMemberTab === 'teacher' ? '暂无教师' : '暂无学生'}}
+      </view>
+    </view>
+
+    <!-- 成员分页 -->
+    <view class="pagination" wx:if="{{memberTotalPages > 1}}">
+      <text
+        class="page-btn {{memberCurrentPage <= 1 ? 'disabled' : ''}}"
+        bindtap="goPrevMemberPage"
+      >
+        上一页
+      </text>
+      <text class="page-info">第 {{memberCurrentPage}} / {{memberTotalPages}} 页</text>
+      <text
+        class="page-btn {{memberCurrentPage >= memberTotalPages ? 'disabled' : ''}}"
+        bindtap="goNextMemberPage"
+      >
+        下一页
+      </text>
     </view>
   </view>
 </view>

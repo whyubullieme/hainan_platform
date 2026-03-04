@@ -1,6 +1,7 @@
 // pages/student/myTasks/myTasks.js
 const storage = require('../../../utils/storage');
 const studentService = require('../../../services/student');
+const { buildPagination } = require('../../../utils/pagination');
 
 const PAGE_SIZE = 7;
 
@@ -37,15 +38,13 @@ Page({
       if (res && res.errCode === 0) {
         const days = res.days || [];
         const totalDays = res.totalDays || days.length || 14;
-        const totalPages = Math.max(1, Math.ceil(totalDays / PAGE_SIZE));
-        const currentPage = 1;
-        const displayedDays = days.slice(0, PAGE_SIZE);
+        const pagination = buildPagination(days, 1, PAGE_SIZE);
         this.setData({
           days,
           totalDays,
-          displayedDays,
-          currentPage,
-          totalPages
+          displayedDays: pagination.pageItems,
+          currentPage: pagination.currentPage,
+          totalPages: pagination.totalPages
         });
       } else {
         throw new Error(res?.errMsg || '加载失败');
@@ -71,11 +70,13 @@ Page({
   },
 
   _goToPage(page) {
-    const { days, totalDays } = this.data;
-    const start = (page - 1) * PAGE_SIZE;
-    const displayedDays = days.slice(start, start + PAGE_SIZE);
-    const totalPages = Math.max(1, Math.ceil(totalDays / PAGE_SIZE));
-    this.setData({ currentPage: page, displayedDays, totalPages });
+    const { days } = this.data;
+    const pagination = buildPagination(days, page, PAGE_SIZE);
+    this.setData({
+      currentPage: pagination.currentPage,
+      displayedDays: pagination.pageItems,
+      totalPages: pagination.totalPages
+    });
   },
 
   viewTaskDetail(e) {

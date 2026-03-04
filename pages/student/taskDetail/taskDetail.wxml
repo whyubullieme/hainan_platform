@@ -20,9 +20,44 @@
     </view>
 
     <view class="task-actions" wx:if="{{!submitted && !isDemo}}">
-      <button class="btn-submit" bindtap="handleMarkSubmit" loading="{{submitting}}">
-        我已提交
-      </button>
+      <view class="submit-box">
+        <text class="submit-label">
+          {{task.taskType === 'read_along' ? '跟读文字（必填）' : '文字说明（朗读任务不需要）'}}
+        </text>
+        <textarea
+          wx:if="{{task.taskType === 'read_along'}}"
+          class="submit-note"
+          placeholder="请输入跟读文字内容"
+          maxlength="500"
+          value="{{submitNote}}"
+          bindinput="onSubmitNoteInput"
+        />
+
+        <text class="submit-label">朗读音频（必填）</text>
+        <text class="devtools-tip" wx:if="{{isDevtools}}">
+          开发者工具录音格式与真机不同，建议使用“从文件选择音频”进行调试。
+        </text>
+        <view class="audio-row">
+          <button
+            wx:if="{{!isRecording}}"
+            class="btn-audio"
+            size="mini"
+            bindtap="startRecord"
+            loading="{{uploadingAudio}}"
+          >
+            {{audioFileId ? '重新录音' : '开始录音'}}
+          </button>
+          <button wx:else class="btn-audio" size="mini" bindtap="stopRecord">停止录音并上传</button>
+          <button wx:if="{{recordTempPath}}" class="btn-audio-preview" size="mini" bindtap="playRecord">试听</button>
+          <button wx:if="{{isDevtools}}" class="btn-audio-file" size="mini" bindtap="chooseAndUploadAudioFile">从文件选择音频</button>
+          <button wx:if="{{audioFileId}}" class="btn-clear-audio" size="mini" bindtap="clearAudio">移除</button>
+        </view>
+        <text class="audio-name" wx:if="{{audioFileName}}">{{audioFileName}}</text>
+
+        <button class="btn-submit" bindtap="handleMarkSubmit" loading="{{submitting}}">
+          提交给老师点评
+        </button>
+      </view>
     </view>
     <view class="task-submitted" wx:elif="{{submitted}}">
       <text class="submitted-badge">✓ 已提交</text>

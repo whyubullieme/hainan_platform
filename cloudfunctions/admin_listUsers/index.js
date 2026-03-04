@@ -26,13 +26,14 @@ exports.main = async (event, context) => {
       return { errCode: -1, errMsg: '仅管理员可操作' };
     }
 
-    const keyword = event.keyword && String(event.keyword).trim();
+    const rawKeyword = event.keyword;
+    const keyword = (typeof rawKeyword === 'string' ? rawKeyword : '').trim();
     const limit = Math.min(50, Math.max(1, event.limit || 20));
 
     const escapeRe = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const res = keyword
       ? await db.collection('users')
-          .where({ name: db.RegExp({ pattern: '.*' + escapeRe(keyword) + '.*', options: 'i' }) })
+          .where({ name: db.RegExp({ regexp: '.*' + escapeRe(keyword) + '.*', options: 'i' }) })
           .limit(limit)
           .get()
       : await db.collection('users').limit(limit).get();

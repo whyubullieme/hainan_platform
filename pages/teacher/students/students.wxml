@@ -29,9 +29,18 @@
       <view class="student-item">
         <view class="student-info">
           <text class="name">{{item.name}}</text>
-          <text class="meta">签到：{{item.hasCheckin ? '✅' : '❌'}} 提交：{{item.hasSubmission ? '✅' : '❌'}}</text>
+          <text class="meta">提交：{{item.hasSubmission ? '✅' : '❌'}} 点评：{{item.hasReview ? '✅' : '❌'}}</text>
         </view>
-        <button class="btn-review" size="mini" data-student-id="{{item.userId}}" data-name="{{item.name}}" bindtap="handleGoReview">批改</button>
+        <button
+          wx:if="{{item.hasSubmission}}"
+          class="btn-review"
+          size="mini"
+          data-student-id="{{item.userId}}"
+          data-name="{{item.name}}"
+          bindtap="handleGoReview"
+        >
+          {{item.hasReview ? '再次点评' : '去点评'}}
+        </button>
       </view>
     </block>
   </view>

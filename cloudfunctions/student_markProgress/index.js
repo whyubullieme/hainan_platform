@@ -22,7 +22,7 @@ function addDaysUTC(date, days) {
 /**
  * 签到 + 提交 合并接口
  * 打卡: { classId, dayNumber, action: "checkin" }
- * 提交: { classId, dayNumber, action: "submit", taskItemId, note? }
+ * 提交: { classId, dayNumber, action: "submit", taskItemId, note?, audioFileId?, audioFileName? }
  */
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
@@ -73,10 +73,13 @@ exports.main = async (event, context) => {
         }
       });
     } else if (action === 'submit') {
-      const { taskItemId, note } = event;
+      const { taskItemId, note, audioFileId, audioFileName } = event;
       if (!taskItemId) {
         return { errCode: -1, errMsg: '提交需要 taskItemId' };
       }
+      let normalizedNote = typeof note === 'string' ? note.trim() : '';
+      const normalizedAudioFileId = typeof audioFileId === 'string' ? audioFileId.trim() : '';
+      const normalizedAudioFileName = typeof audioFileName === 'string' ? audioFileName.trim() : '';
 
       // 校验任务是否属于该班级 & 对应天数，防止篡改
       const taskDoc = await db.collection('task_items').doc(taskItemId).get();
@@ -86,6 +89,20 @@ exports.main = async (event, context) => {
       const task = taskDoc.data;
       if (task.classId !== classId || Number(task.dayNumber) !== parsedDayNumber) {
         return { errCode: -1, errMsg: '任务不属于当前班级或日期，无法提交' };
+      }
+      const taskType = task.taskType || 'read_aloud';
+      if (taskType === 'read_aloud') {
+        if (!normalizedAudioFileId) {
+          return { errCode: -1, errMsg: '朗读任务需上传音频' };
+        }
+        // 朗读任务仅收音频，忽略文本
+        normalizedNote = '';
+      } else if (taskType === 'read_along') {
+        if (!normalizedAudioFileId || !normalizedNote) {
+          return { errCode: -1, errMsg: '跟读任务需提交音频和文字' };
+        }
+      } else if (!normalizedNote && !normalizedAudioFileId) {
+        return { errCode: -1, errMsg: '请填写文字或上传音频后再提交' };
       }
 
       // 不允许超前做作业（仅允许今日及已过去的日期），使用 UTC 规避时区偏移
@@ -113,13 +130,23 @@ exports.main = async (event, context) => {
         }
       }
 
-      // 避免重复提交（同一用户同一天同一任务）
+      // 重复提交时更新内容（支持先提文字后补音频，或重新上传音频）
       const exist = await db.collection('submissions')
         .where({ classId, userId, dayNumber: parsedDayNumber, taskItemId })
         .limit(1)
         .get();
       if (exist.data && exist.data.length > 0) {
-        return { errCode: 0, errMsg: 'success', ok: true };
+        const subId = exist.data[0]._id;
+        await db.collection('submissions').doc(subId).update({
+          data: {
+            note: normalizedNote,
+            audioFileId: normalizedAudioFileId,
+            audioFileName: normalizedAudioFileName,
+            status: 'recorded',
+            updatedAt: db.serverDate()
+          }
+        });
+        return { errCode: 0, errMsg: 'success', ok: true, updated: true };
       }
       await db.collection('submissions').add({
         data: {
@@ -128,9 +155,12 @@ exports.main = async (event, context) => {
           dayNumber: parsedDayNumber,
           taskItemId,
           channel: 'wechat_group',
-          note: note || '',
+          note: normalizedNote,
+          audioFileId: normalizedAudioFileId,
+          audioFileName: normalizedAudioFileName,
           status: 'recorded',
-          createdAt: db.serverDate()
+          createdAt: db.serverDate(),
+          updatedAt: db.serverDate()
         }
       });
     } else {

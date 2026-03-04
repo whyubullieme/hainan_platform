@@ -3,13 +3,16 @@
   <view class="logout-wrap">
     <text class="logout-link" bindtap="handleLogout">退出登录</text>
   </view>
+  <view class="greeting-bar">
+    <text class="greeting-text">{{greetingText}}</text>
+  </view>
 
   <view class="section">
     <view class="section-title">班级列表</view>
-    <view class="class-list" wx:if="{{classes.length > 0}}">
+    <view class="class-list" wx:if="{{visibleClasses.length > 0}}">
       <view
         class="card class-item"
-        wx:for="{{classes}}"
+        wx:for="{{visibleClasses}}"
         wx:key="_id"
         data-id="{{item._id}}"
         bindtap="goToDetail"
@@ -25,8 +28,36 @@
           <text class="code-label">教师码 {{item.teacherInviteCode}}</text>
         </view>
       </view>
+      <view class="pagination" wx:if="{{classTotalPages > 1}}">
+        <button
+          size="mini"
+          class="page-btn pager-btn {{classCurrentPage <= 1 ? 'disabled' : ''}}"
+          bindtap="goPrevClassPage"
+          disabled="{{classCurrentPage <= 1}}"
+        >
+          上一页
+        </button>
+        <view class="page-info">第 {{classCurrentPage}} / {{classTotalPages}} 页</view>
+        <button
+          size="mini"
+          class="page-btn pager-btn {{classCurrentPage >= classTotalPages ? 'disabled' : ''}}"
+          bindtap="goNextClassPage"
+          disabled="{{classCurrentPage >= classTotalPages}}"
+        >
+          下一页
+        </button>
+      </view>
     </view>
     <view class="empty-tip" wx:else>暂无班级</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">任务管理</view>
+    <view class="task-manage-card" bindtap="goToTaskManage">
+      <view class="task-manage-title">教材与任务素材管理（v1.1 预留）</view>
+      <view class="task-manage-desc">将支持编辑文字、图片、音频素材（含跟读资源）与任务模板。</view>
+      <view class="task-manage-link">进入任务管理</view>
+    </view>
   </view>
 
   <view class="section">
@@ -43,7 +74,14 @@
     </view>
     <view class="form-row">
       <text class="label">课程天数</text>
-      <input type="number" class="input" placeholder="14" value="{{totalDays}}" bindinput="onTotalDaysChange" />
+      <picker
+        mode="selector"
+        range="{{daysOptions}}"
+        value="{{daysIndex}}"
+        bindchange="onTotalDaysPickerChange"
+      >
+        <view class="picker-value">{{totalDays}} 天</view>
+      </picker>
     </view>
     <button class="btn-primary" bindtap="handleCreate" loading="{{loading}}" disabled="{{loading}}">
       创建班级并初始化任务

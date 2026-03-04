@@ -125,7 +125,9 @@ exports.main = async (event, context) => {
     });
     const classId = classRes._id;
 
-    const INIT_DAYS = totalDays;
+    // 自动初始化任务的天数上限：最多到第 30 天
+    const MAX_AUTO_TASK_DAY = 30;
+    const INIT_DAYS = Math.min(totalDays, MAX_AUTO_TASK_DAY);
     const defaultDays = [
       { dayNumber: 1, items: [
         { title: '入住场景对话练习', content: '练习酒店入住英语对话', order: 1, taskType: 'read_along' },
@@ -144,7 +146,9 @@ exports.main = async (event, context) => {
       defaultDays.push({ dayNumber: d, items: [{ title: `综合练习${d - 4}`, content: '', order: 1, taskType: 'read_aloud' }] });
     }
 
-    const daysToUse = tasks && tasks.length > 0 ? tasks : defaultDays;
+    // 如果外部传入了 tasks，也只初始化到第 30 天以内
+    const daysToUseRaw = tasks && tasks.length > 0 ? tasks : defaultDays;
+    const daysToUse = (daysToUseRaw || []).filter((d) => (d.dayNumber || 1) <= INIT_DAYS);
 
     for (const day of daysToUse) {
       const dayNumber = day.dayNumber || 1;

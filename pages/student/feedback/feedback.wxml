@@ -10,6 +10,7 @@
       <view class="review-item" wx:for="{{reviews}}" wx:key="_id">
         <view class="review-header">
           <text class="day-badge">第{{item.dayNumber}}天</text>
+          <text class="review-date" wx:if="{{item.dateStr}}">{{item.dateStr}}</text>
           <text class="teacher-name">{{item.teacherName}}</text>
         </view>
         <text class="review-comment">{{item.comment}}</text>

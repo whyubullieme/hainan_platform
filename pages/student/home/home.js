@@ -3,6 +3,13 @@ const storage = require('../../../utils/storage');
 const format = require('../../../utils/format');
 const studentService = require('../../../services/student');
 
+function getTimeGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return '早上好';
+  if (hour < 18) return '下午好';
+  return '晚上好';
+}
+
 Page({
   data: {
     dayNumber: 1,
@@ -10,13 +17,17 @@ Page({
     taskItems: [],
     status: { checkedIn: false, submittedTaskIds: [] },
     loading: false,
-    isDemo: false
+    isDemo: false,
+    greetingText: ''
   },
 
   onLoad(options) {
     const currentClassId = storage.getCurrentClassId();
+    const userInfo = storage.getUserInfo() || {};
+    const displayName = userInfo.name || userInfo.nickname || '同学';
     this.setData({
-      isDemo: currentClassId === 'demo-class-id'
+      isDemo: currentClassId === 'demo-class-id',
+      greetingText: `${displayName}，${getTimeGreeting()}！`
     });
   },
 

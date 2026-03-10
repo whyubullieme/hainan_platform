@@ -67,6 +67,7 @@ MVP 只需以下 7 个集合：
 ### task_items
 
 - `_id`, `classId`, `dayNumber`, `order`, `title`, `content?`, `taskType` (read_along | read_aloud), `createdAt`, `updatedAt`
+- **V2.0 判分配置**：`expectedAnswer?`, `acceptedAnswers?` (string[]), `keywords?` (string[]), `scoringConfig?` (`{ semanticWeight, pronWeight, semanticPassLine?, pronPassLine? }`)
 
 ### checkins
 
@@ -74,7 +75,8 @@ MVP 只需以下 7 个集合：
 
 ### submissions
 
-- `_id`, `classId`, `userId`, `dayNumber`, `taskItemId`, `channel`, `note?`, `status`, `createdAt`
+- `_id`, `classId`, `userId`, `dayNumber`, `taskItemId`, `channel`, `note?`, `audioFileId?`, `audioFileName?`, `status`, `createdAt`, `updatedAt?`
+- **V2.0 评测字段**：`asrText?`, `semanticScore?`, `pronScore?`, `finalScore?`, `semanticPassed?`, `pronDetails?`, `evaluationStatus?` (pending | running | completed | failed), `evaluationError?`
 
 ### reviews
 

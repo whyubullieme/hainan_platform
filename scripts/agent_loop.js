@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /*
  * Autonomous agent loop.
  * - Reads AGENT_TASKS.md and picks the first unchecked task

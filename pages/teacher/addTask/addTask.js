@@ -148,6 +148,10 @@ Page({
           content: t.content || '',
           taskType: t.taskType || 'read_aloud',
           order: t.order,
+          expectedAnswer: t.expectedAnswer,
+          acceptedAnswers: t.acceptedAnswers,
+          keywords: t.keywords,
+          scoringConfig: t.scoringConfig,
         })),
       };
       const res = await teacherService.addDayTasks(payload);

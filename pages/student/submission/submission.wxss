@@ -93,9 +93,37 @@
   color: #64748b;
 }
 
+.record-redo-comment {
+  font-size: 22rpx;
+  color: #b45309;
+}
+
+.record-eval {
+  margin-top: 6rpx;
+}
+
+.eval-status-text {
+  font-size: 24rpx;
+  color: #1890ff;
+}
+
+.eval-status-text.failed {
+  color: #cf1322;
+}
+
+.eval-score-text {
+  font-size: 24rpx;
+  color: #07c160;
+  font-weight: 500;
+}
+
 .submitted-at {
   font-size: 24rpx;
   color: #07c160;
+}
+
+.submitted-at.redo {
+  color: #d97706;
 }
 
 .empty-state {

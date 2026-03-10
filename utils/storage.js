@@ -85,6 +85,20 @@ const storage = {
     },
 
     /**
+     * 获取当前班级名称
+     */
+    getCurrentClassName() {
+        return this.get('currentClassName');
+    },
+
+    /**
+     * 设置当前班级名称
+     */
+    setCurrentClassName(name) {
+        this.set('currentClassName', name);
+    },
+
+    /**
      * 获取当前班级角色（来自 class_members.roleInClass）
      */
     getRoleInClass() {
@@ -104,6 +118,7 @@ const storage = {
     clearAuth() {
         this.remove('userInfo');
         this.remove('currentClassId');
+        this.remove('currentClassName');
         this.remove('roleInClass');
     }
 };

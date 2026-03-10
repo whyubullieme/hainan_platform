@@ -109,6 +109,7 @@ exports.main = async (event, context) => {
       .where({ classId, userId, dayNumber })
       .get();
     const submittedTaskIds = (subRes.data || [])
+      .filter((s) => !s.needsRedo)
       .map((s) => s.taskItemId)
       .filter(Boolean);
 
@@ -118,6 +119,7 @@ exports.main = async (event, context) => {
       dayNumber,
       taskItems,
       status: { checkedIn, submittedTaskIds },
+      className: cls.name || '',
     };
   } catch (error) {
     console.error('student_getTodayPlan:', error);

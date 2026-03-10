@@ -118,6 +118,30 @@ async function countDistinctByField(collectionName, filter, fieldName) {
   }
 }
 
+async function countDistinctSubmittedStudents(filter) {
+  const records = await fetchAllDocs('submissions', filter, { userId: true, needsRedo: true });
+  const uniq = new Set(records.filter((item) => item.userId && !item.needsRedo).map((item) => item.userId));
+  return uniq.size;
+}
+
+async function countDistinctReviewedStudents(filter) {
+  const [reviews, submissions] = await Promise.all([
+    fetchAllDocs('reviews', filter, { studentId: true, reviewAction: true }),
+    fetchAllDocs('submissions', filter, { userId: true, needsRedo: true }),
+  ]);
+  const reviewedStudents = new Set(reviews
+    .filter((item) => item.studentId && item.reviewAction !== 'redo')
+    .map((item) => item.studentId));
+  const submittedStudents = new Set(submissions
+    .filter((item) => item.userId && !item.needsRedo)
+    .map((item) => item.userId));
+  let count = 0;
+  reviewedStudents.forEach((studentId) => {
+    if (submittedStudents.has(studentId)) count += 1;
+  });
+  return count;
+}
+
 exports.main = async (event = {}) => {
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
@@ -149,8 +173,8 @@ exports.main = async (event = {}) => {
     const [totalStudents, checkedInCount, submittedCount, reviewedCount] = await Promise.all([
       countStudents(classId),
       countDistinctByField('checkins', baseFilter, 'userId'),
-      countDistinctByField('submissions', baseFilter, 'userId'),
-      countDistinctByField('reviews', baseFilter, 'studentId'),
+      countDistinctSubmittedStudents(baseFilter),
+      countDistinctReviewedStudents(baseFilter),
     ]);
 
     return {
@@ -161,6 +185,7 @@ exports.main = async (event = {}) => {
       submittedCount,
       reviewedCount,
       dayNumber: resolvedDayNumber,
+      className: cls.name || '',
     };
   } catch (error) {
     console.error('teacher_getOverview error:', error);

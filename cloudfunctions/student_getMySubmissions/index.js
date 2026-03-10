@@ -124,7 +124,18 @@ exports.main = async (event, context) => {
         note: s.note || '',
         audioFileId: s.audioFileId || '',
         audioFileName: s.audioFileName || '',
-        submittedAt: s.createdAt
+        submittedAt: s.createdAt,
+        submissionId: s._id,
+        evaluationStatus: s.evaluationStatus || 'pending',
+        asrText: s.asrText || '',
+        semanticScore: s.semanticScore,
+        pronScore: s.pronScore,
+        finalScore: s.finalScore,
+        semanticPassed: s.semanticPassed,
+        pronDetails: s.pronDetails || null,
+        evaluationError: s.evaluationError || null,
+        needsRedo: !!s.needsRedo,
+        redoComment: s.redoComment || ''
       };
     });
 

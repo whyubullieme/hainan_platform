@@ -16,6 +16,7 @@ Page({
     allTaskDone: false,
     comment: '',
     saving: false,
+    returning: false,
     error: ''
   },
   onLoad(options = {}) {
@@ -126,7 +127,16 @@ Page({
     }
     this.setData({ saving: true, error: '' });
     try {
-      await teacherService.saveReview({ classId, studentId, dayNumber, comment: comment.trim() });
+      const res = await teacherService.saveReview({
+        classId,
+        studentId,
+        dayNumber,
+        comment: comment.trim(),
+        reviewAction: 'approve'
+      });
+      if (!res || res.errCode !== 0) {
+        throw new Error(res?.errMsg || '保存失败');
+      }
       wx.showToast({ title: '已保存', icon: 'success' });
       setTimeout(() => {
         wx.redirectTo({ url: `/pages/teacher/students/students?status=reviewed&dayNumber=${dayNumber}` });
@@ -136,6 +146,44 @@ Page({
       this.setData({ error: error.message || '保存失败' });
     } finally {
       this.setData({ saving: false });
+    }
+  },
+  async handleReturnForRedo() {
+    const { classId, studentId, dayNumber, comment, submittedTaskCount } = this.data;
+    if (!classId) {
+      this.setData({ error: '缺少班级信息' });
+      return;
+    }
+    if (!studentId) {
+      this.setData({ error: '缺少学生信息' });
+      return;
+    }
+    if (!submittedTaskCount) {
+      wx.showToast({ title: '学生尚未提交，无法打回', icon: 'none' });
+      return;
+    }
+    const finalComment = (comment || '').trim() || '请根据老师意见重做并重新提交。';
+    this.setData({ returning: true, error: '' });
+    try {
+      const res = await teacherService.saveReview({
+        classId,
+        studentId,
+        dayNumber,
+        comment: finalComment,
+        reviewAction: 'redo'
+      });
+      if (!res || res.errCode !== 0) {
+        throw new Error(res?.errMsg || '打回失败');
+      }
+      wx.showToast({ title: '已打回，待学生重做', icon: 'success' });
+      setTimeout(() => {
+        wx.redirectTo({ url: `/pages/teacher/students/students?status=missing&dayNumber=${dayNumber}` });
+      }, 600);
+    } catch (error) {
+      console.error('returnForRedo error', error);
+      this.setData({ error: error.message || '打回失败' });
+    } finally {
+      this.setData({ returning: false });
     }
   },
   handleLogout() {

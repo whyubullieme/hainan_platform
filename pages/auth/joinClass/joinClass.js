@@ -70,6 +70,7 @@ Page({
 
       if (result && result.errCode === 0) {
         storage.setCurrentClassId(result.classId);
+        storage.setCurrentClassName(result.className || '');
         storage.setRoleInClass(result.roleInClass);
         wx.showToast({ title: '加入成功', icon: 'success' });
         setTimeout(() => {

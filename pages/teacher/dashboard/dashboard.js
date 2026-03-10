@@ -20,7 +20,8 @@ Page({
     loading: false,
     error: '',
     taskActionDate: '',
-    greetingText: ''
+    greetingText: '',
+    className: ''
   },
   onShow() {
     this.bootstrap();
@@ -42,7 +43,8 @@ Page({
       classId,
       date: todayStr,
       taskActionDate: todayStr,
-      greetingText: `${displayName}，${getTimeGreeting()}！`
+      greetingText: `${displayName}，${getTimeGreeting()}！`,
+      className: storage.getCurrentClassName() || ''
     }, () => {
       this.loadOverview();
     });
@@ -72,6 +74,7 @@ Page({
         dayNumber: result.dayNumber || dayNumber,
         missingCount: missing,
         pendingReviewCount: pendingReview,
+        className: result.className || storage.getCurrentClassName() || ''
       });
     } catch (error) {
       console.error('loadOverview error', error);

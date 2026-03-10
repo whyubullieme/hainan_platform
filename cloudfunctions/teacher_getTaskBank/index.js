@@ -4,21 +4,52 @@ const cloud = require('wx-server-sdk');
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 
+const DEFAULT_SCORING = {
+  semanticWeight: 0.5,
+  pronWeight: 0.5,
+  semanticPassLine: 60,
+  pronPassLine: 60,
+};
+
 /**
  * 教师：获取任务库（供“添加一天任务”时勾选）
  * 入参: 无（或 classId 仅做权限校验）
- * 出参: { tasks: [{ id, title, content, taskType, order }] }
+ * 出参: { tasks: [{ id, title, content, taskType, order, expectedAnswer?, acceptedAnswers?, keywords?, scoringConfig? }] }
  */
 function getTaskBank() {
   const list = [
-    { id: '1', title: '入住场景对话练习', content: '练习酒店入住英语对话', taskType: 'read_along', order: 1 },
-    { id: '2', title: '电话预订练习', content: '练习电话预订客房', taskType: 'read_along', order: 2 },
-    { id: '3', title: '退房场景对话', content: '练习退房流程对话', taskType: 'read_aloud', order: 3 },
-    { id: '4', title: '投诉处理对话', content: '处理客户投诉场景', taskType: 'read_along', order: 4 },
-    { id: '5', title: '海南旅游咨询', content: '介绍海南景点', taskType: 'read_aloud', order: 5 },
-    { id: '6', title: '政策说明', content: '入住政策说明', taskType: 'read_aloud', order: 6 },
-    { id: '7', title: '综合练习1', content: '', taskType: 'read_aloud', order: 7 },
-    { id: '8', title: '综合练习2', content: '', taskType: 'read_aloud', order: 8 },
+    {
+      id: '1', title: '入住场景对话练习', content: '练习酒店入住英语对话', taskType: 'read_along', order: 1,
+      expectedAnswer: 'I would like to check in.', acceptedAnswers: ['check in', 'I want to check in'],
+      keywords: ['check', 'in', 'room'], scoringConfig: DEFAULT_SCORING,
+    },
+    {
+      id: '2', title: '电话预订练习', content: '练习电话预订客房', taskType: 'read_along', order: 2,
+      expectedAnswer: 'I would like to make a reservation.', acceptedAnswers: ['reservation', 'book a room'],
+      keywords: ['reservation', 'book'], scoringConfig: DEFAULT_SCORING,
+    },
+    {
+      id: '3', title: '退房场景对话', content: '练习退房流程对话', taskType: 'read_aloud', order: 3,
+      expectedAnswer: 'I would like to check out.', acceptedAnswers: ['check out'],
+      keywords: ['check', 'out'], scoringConfig: DEFAULT_SCORING,
+    },
+    {
+      id: '4', title: '投诉处理对话', content: '处理客户投诉场景', taskType: 'read_along', order: 4,
+      expectedAnswer: 'I have a complaint.', acceptedAnswers: ['complaint', 'problem'],
+      keywords: ['complaint', 'problem'], scoringConfig: DEFAULT_SCORING,
+    },
+    {
+      id: '5', title: '海南旅游咨询', content: '介绍海南景点', taskType: 'read_aloud', order: 5,
+      expectedAnswer: 'Hainan has many tourist attractions.', acceptedAnswers: ['Sanya', 'Hainan'],
+      keywords: ['Hainan', 'travel', 'attractions'], scoringConfig: DEFAULT_SCORING,
+    },
+    {
+      id: '6', title: '政策说明', content: '入住政策说明', taskType: 'read_aloud', order: 6,
+      expectedAnswer: 'Check-in time is 2 PM.', acceptedAnswers: ['check-in', 'policy'],
+      keywords: ['check-in', 'policy'], scoringConfig: DEFAULT_SCORING,
+    },
+    { id: '7', title: '综合练习1', content: '', taskType: 'read_aloud', order: 7, scoringConfig: DEFAULT_SCORING },
+    { id: '8', title: '综合练习2', content: '', taskType: 'read_aloud', order: 8, scoringConfig: DEFAULT_SCORING },
   ];
   for (let i = 9; i <= 50; i++) {
     list.push({
@@ -27,6 +58,7 @@ function getTaskBank() {
       content: '',
       taskType: 'read_aloud',
       order: i,
+      scoringConfig: DEFAULT_SCORING,
     });
   }
   return list;

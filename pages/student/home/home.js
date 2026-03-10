@@ -18,7 +18,8 @@ Page({
     status: { checkedIn: false, submittedTaskIds: [] },
     loading: false,
     isDemo: false,
-    greetingText: ''
+    greetingText: '',
+    className: ''
   },
 
   onLoad(options) {
@@ -27,7 +28,8 @@ Page({
     const displayName = userInfo.name || userInfo.nickname || '同学';
     this.setData({
       isDemo: currentClassId === 'demo-class-id',
-      greetingText: `${displayName}，${getTimeGreeting()}！`
+      greetingText: `${displayName}，${getTimeGreeting()}！`,
+      className: storage.getCurrentClassName() || ''
     });
   },
 
@@ -57,7 +59,8 @@ Page({
             dayNumber: result.dayNumber,
             currentDate: format.formatDate(today, 'YYYY-MM-DD'),
             taskItems,
-            status: result.status || { checkedIn: false, submittedTaskIds: [] }
+            status: result.status || { checkedIn: false, submittedTaskIds: [] },
+            className: result.className || storage.getCurrentClassName() || ''
           });
         } else {
           throw new Error(result?.errMsg || '加载失败');

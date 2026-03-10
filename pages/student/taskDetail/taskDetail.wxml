@@ -21,6 +21,10 @@
 
     <view class="task-actions" wx:if="{{!submitted && !isDemo}}">
       <view class="submit-box">
+        <view class="redo-alert" wx:if="{{redoComment}}">
+          <text class="redo-alert-title">老师已打回本次作业，请重做后重新提交</text>
+          <text class="redo-alert-text">打回原因：{{redoComment}}</text>
+        </view>
         <text class="submit-label">
           {{task.taskType === 'read_along' ? '跟读文字（必填）' : '文字说明（朗读任务不需要）'}}
         </text>
@@ -35,7 +39,7 @@
 
         <text class="submit-label">朗读音频（必填）</text>
         <text class="devtools-tip" wx:if="{{isDevtools}}">
-          开发者工具录音格式与真机不同，建议使用“从文件选择音频”进行调试。
+          开发者工具录音格式与真机不同，建议使用“从文件选择音频（mp3）”进行调试。
         </text>
         <view class="audio-row">
           <button
@@ -61,6 +65,41 @@
     </view>
     <view class="task-submitted" wx:elif="{{submitted}}">
       <text class="submitted-badge">✓ 已提交</text>
+      <view class="evaluation-section" wx:if="{{submissionResult}}">
+        <view class="eval-status" wx:if="{{submissionResult.evaluationStatus === 'pending' || submissionResult.evaluationStatus === 'running'}}">
+          评测中，请稍候...
+        </view>
+        <view class="eval-status eval-failed" wx:elif="{{submissionResult.evaluationStatus === 'failed'}}">
+          评测失败：{{submissionResult.evaluationError || '未知错误'}}
+        </view>
+        <view class="eval-result" wx:elif="{{submissionResult.evaluationStatus === 'completed'}}">
+          <view class="eval-row" wx:if="{{submissionResult.asrText}}">
+            <text class="eval-label">识别文本：</text>
+            <text class="eval-value">{{submissionResult.asrText}}</text>
+          </view>
+          <view class="eval-row">
+            <text class="eval-label">语义：</text>
+            <text class="eval-value {{submissionResult.semanticPassed ? 'pass' : 'fail'}}">
+              {{submissionResult.semanticPassed ? '✓ 通过' : '✗ 未通过'}}
+            </text>
+            <text class="eval-score" wx:if="{{submissionResult.semanticScore != null}}">（{{submissionResult.semanticScore}} 分）</text>
+          </view>
+          <view class="eval-row" wx:if="{{submissionResult.pronScore != null}}">
+            <text class="eval-label">发音分：</text>
+            <text class="eval-value">{{submissionResult.pronScore}}</text>
+          </view>
+          <view class="eval-row eval-total" wx:if="{{submissionResult.finalScore != null}}">
+            <text class="eval-label">总分：</text>
+            <text class="eval-value">{{submissionResult.finalScore}}</text>
+          </view>
+          <view class="eval-tip" wx:if="{{submissionResult.pronDetails && submissionResult.pronDetails.words && submissionResult.pronDetails.words.length > 0}}">
+            <text class="eval-label">纠音建议：</text>
+            <block wx:for="{{submissionResult.pronDetails.words}}" wx:key="word">
+              <text wx:if="{{item.errorType}}" class="eval-word-error">{{item.word}} ({{item.errorType}})</text>
+            </block>
+          </view>
+        </view>
+      </view>
     </view>
   </view>
 

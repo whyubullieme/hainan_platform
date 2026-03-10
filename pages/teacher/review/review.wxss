@@ -69,12 +69,74 @@
   color: #111827;
 }
 
+.sub-redo {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 23rpx;
+  color: #b45309;
+}
+
 .sub-note {
   display: block;
   margin-top: 8rpx;
   font-size: 24rpx;
   color: #374151;
   line-height: 1.6;
+}
+
+.sub-ai-eval {
+  margin-top: 10rpx;
+  padding: 10rpx;
+  background: #f8fafc;
+  border-radius: 8rpx;
+}
+
+.ai-eval-row {
+  font-size: 24rpx;
+  margin-bottom: 6rpx;
+}
+
+.ai-eval-label {
+  color: #6b7280;
+  margin-right: 8rpx;
+}
+
+.ai-eval-value {
+  color: #1f2937;
+}
+
+.ai-eval-value.pass {
+  color: #059669;
+}
+
+.ai-eval-value.fail {
+  color: #dc2626;
+}
+
+.ai-eval-asr {
+  font-size: 22rpx;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.ai-eval-tip {
+  margin-top: 8rpx;
+}
+
+.ai-eval-word {
+  display: inline-block;
+  margin-right: 12rpx;
+  font-size: 22rpx;
+  color: #c2410c;
+}
+
+.sub-ai-pending {
+  margin-top: 8rpx;
+}
+
+.ai-eval-status {
+  font-size: 24rpx;
+  color: #1890ff;
 }
 
 .sub-audio {
@@ -118,10 +180,25 @@
   color: #ff4d4f;
 }
 
+.action-row {
+  display: flex;
+  gap: 16rpx;
+}
+
+.btn-return,
 .btn-save {
-  background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
-  color: #fff;
+  flex: 1;
   border: none;
   border-radius: 12rpx;
   padding: 24rpx;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
+  color: #fff;
+}
+
+.btn-return {
+  background: linear-gradient(135deg, #fa8c16 0%, #d97706 100%);
+  color: #fff;
 }

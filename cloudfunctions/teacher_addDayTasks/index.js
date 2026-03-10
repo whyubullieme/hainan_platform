@@ -30,7 +30,8 @@ function resolveDayNumber(startDateStr, inputDayNumber, inputDate) {
 
 /**
  * 教师：为班级添加一天任务
- * 入参: { classId, dayNumber?, date?, tasks? }  tasks 为选中的任务列表 [{ title, content?, taskType?, order? }]
+ * 入参: { classId, dayNumber?, date?, tasks? }
+ *  tasks 为选中的任务列表 [{ title, content?, taskType?, order?, expectedAnswer?, acceptedAnswers?, keywords?, scoringConfig? }]
  * 出参: { dayNumber, ok: true }
  */
 exports.main = async (event, context) => {
@@ -86,18 +87,32 @@ exports.main = async (event, context) => {
 
     for (let i = 0; i < tasks.length; i++) {
       const t = tasks[i];
-      await db.collection('task_items').add({
-        data: {
-          classId,
-          dayNumber: resolvedDay,
-          order: t.order !== undefined ? t.order : (nextOrder + i),
-          title: t.title || '任务',
-          content: t.content || '',
-          taskType: t.taskType || 'read_aloud',
-          createdAt: db.serverDate(),
-          updatedAt: db.serverDate(),
-        },
-      });
+      const taskData = {
+        classId,
+        dayNumber: resolvedDay,
+        order: t.order !== undefined ? t.order : (nextOrder + i),
+        title: t.title || '任务',
+        content: t.content || '',
+        taskType: t.taskType || 'read_aloud',
+        createdAt: db.serverDate(),
+        updatedAt: db.serverDate(),
+      };
+      if (t.expectedAnswer != null) taskData.expectedAnswer = String(t.expectedAnswer).trim() || undefined;
+      if (Array.isArray(t.acceptedAnswers) && t.acceptedAnswers.length > 0) {
+        taskData.acceptedAnswers = t.acceptedAnswers.map((a) => String(a).trim()).filter(Boolean);
+      }
+      if (Array.isArray(t.keywords) && t.keywords.length > 0) {
+        taskData.keywords = t.keywords.map((k) => String(k).trim()).filter(Boolean);
+      }
+      if (t.scoringConfig && typeof t.scoringConfig === 'object') {
+        taskData.scoringConfig = {
+          semanticWeight: Number(t.scoringConfig.semanticWeight) || 0.5,
+          pronWeight: Number(t.scoringConfig.pronWeight) || 0.5,
+          semanticPassLine: Number(t.scoringConfig.semanticPassLine),
+          pronPassLine: Number(t.scoringConfig.pronPassLine),
+        };
+      }
+      await db.collection('task_items').add({ data: taskData });
     }
 
     return { errCode: 0, errMsg: 'success', dayNumber: resolvedDay, ok: true };

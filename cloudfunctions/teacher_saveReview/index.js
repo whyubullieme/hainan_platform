@@ -68,10 +68,17 @@ function normalizeComment(comment) {
   return trimmed;
 }
 
+function normalizeReviewAction(action) {
+  if (action === 'redo' || action === 'approve') {
+    return action;
+  }
+  return 'approve';
+}
+
 exports.main = async (event = {}) => {
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
-  const { classId, studentId, dayNumber, comment } = event;
+  const { classId, studentId, dayNumber, comment, reviewAction } = event;
 
   if (!openid) {
     return { errCode: -1, errMsg: '无法获取用户身份' };
@@ -86,9 +93,14 @@ exports.main = async (event = {}) => {
   if (!parsedDayNumber) {
     return { errCode: -1, errMsg: 'dayNumber 无效' };
   }
-  const normalizedComment = normalizeComment(comment);
+  const normalizedReviewAction = normalizeReviewAction(reviewAction);
+  let normalizedComment = normalizeComment(comment);
   if (!normalizedComment) {
-    return { errCode: -1, errMsg: '点评内容不能为空' };
+    if (normalizedReviewAction === 'redo') {
+      normalizedComment = '请根据老师意见重做并重新提交。';
+    } else {
+      return { errCode: -1, errMsg: '点评内容不能为空' };
+    }
   }
 
   try {
@@ -107,11 +119,11 @@ exports.main = async (event = {}) => {
 
     const submissionRes = await db.collection('submissions')
       .where({ classId, userId: studentId, dayNumber: parsedDayNumber })
-      .limit(1)
       .get();
     if (!submissionRes.data || submissionRes.data.length === 0) {
       return { errCode: -1, errMsg: '学生尚未提交作业，无法点评' };
     }
+    const submissions = submissionRes.data || [];
 
     const now = new Date();
     const baseFilter = {
@@ -126,17 +138,30 @@ exports.main = async (event = {}) => {
       .limit(1)
       .get();
     const teacherName = teacher.name || teacher.realName || teacher.nickname || '';
+    const isRedo = normalizedReviewAction === 'redo';
+
+    await Promise.all(submissions.map((s) => db.collection('submissions').doc(s._id).update({
+      data: {
+        needsRedo: isRedo,
+        redoComment: isRedo ? normalizedComment : '',
+        redoAt: isRedo ? now : null,
+        redoByTeacherId: isRedo ? teacher._id : '',
+        updatedAt: now,
+      },
+    })));
 
     if (existingRes.data && existingRes.data.length > 0) {
       const reviewId = existingRes.data[0]._id;
       await db.collection('reviews').doc(reviewId).update({
         data: {
           comment: normalizedComment,
+          reviewAction: normalizedReviewAction,
+          needsRedo: isRedo,
           teacherName,
           updatedAt: now,
         },
       });
-      return { errCode: 0, errMsg: 'success', reviewId, ok: true };
+      return { errCode: 0, errMsg: 'success', reviewId, ok: true, reviewAction: normalizedReviewAction };
     }
 
     const addRes = await db.collection('reviews').add({
@@ -144,12 +169,14 @@ exports.main = async (event = {}) => {
         ...baseFilter,
         teacherName,
         comment: normalizedComment,
+        reviewAction: normalizedReviewAction,
+        needsRedo: isRedo,
         createdAt: now,
         updatedAt: now,
       },
     });
 
-    return { errCode: 0, errMsg: 'success', reviewId: addRes._id, ok: true };
+    return { errCode: 0, errMsg: 'success', reviewId: addRes._id, ok: true, reviewAction: normalizedReviewAction };
   } catch (error) {
     console.error('teacher_saveReview error:', error);
     return { errCode: -1, errMsg: error.message || '保存失败' };

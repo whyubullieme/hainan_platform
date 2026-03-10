@@ -16,7 +16,10 @@ Page({
     uploadingAudio: false,
     isRecording: false,
     recordTempPath: '',
-    isDevtools: false
+    isDevtools: false,
+    submissionResult: null,
+    redoComment: '',
+    pollTimer: null
   },
 
   onLoad(options) {
@@ -38,7 +41,16 @@ Page({
     this.initRecorder();
   },
 
+  onShow() {
+    if (this.data.submitted && this.data.task && !this.data.isDemo) {
+      this.loadSubmissionResult();
+    }
+  },
+
   onUnload() {
+    if (this.data.pollTimer) {
+      clearTimeout(this.data.pollTimer);
+    }
     if (this.recorderManager) {
       try {
         this.recorderManager.stop();
@@ -59,12 +71,15 @@ Page({
       const res = await studentService.getTaskDetail({ taskId });
       if (res && res.errCode === 0 && res.taskItem) {
         const t = res.taskItem;
-        const submitted = await this.checkSubmitted(t.taskItemId, t.dayNumber);
+        const { submitted, submissionResult, redoComment } = await this.checkSubmittedWithResult(t.taskItemId, t.dayNumber);
         this.setData({
           task: t,
           submitted,
+          submissionResult,
+          redoComment,
           loading: false
         });
+        if (submitted) this.schedulePoll(submissionResult);
       } else {
         throw new Error(res?.errMsg || '加载失败');
       }
@@ -74,16 +89,48 @@ Page({
     }
   },
 
-  async checkSubmitted(taskItemId, dayNumber) {
+  async checkSubmittedWithResult(taskItemId, dayNumber) {
     const classId = storage.getCurrentClassId();
-    if (!classId) return false;
+    if (!classId) return { submitted: false, submissionResult: null };
     try {
       const res = await studentService.getMySubmissions({ classId });
       if (res && res.errCode === 0 && res.records) {
-        return res.records.some(r => String(r.taskItemId) === String(taskItemId) && r.dayNumber === dayNumber);
+        const rec = res.records.find(r => String(r.taskItemId) === String(taskItemId) && r.dayNumber === dayNumber);
+        if (!rec) return { submitted: false, submissionResult: null };
+        return {
+          submitted: !rec.needsRedo,
+          submissionResult: rec.needsRedo ? null : {
+            evaluationStatus: rec.evaluationStatus || 'pending',
+            asrText: rec.asrText,
+            semanticScore: rec.semanticScore,
+            pronScore: rec.pronScore,
+            finalScore: rec.finalScore,
+            semanticPassed: rec.semanticPassed,
+            pronDetails: rec.pronDetails,
+            evaluationError: rec.evaluationError
+          },
+          redoComment: rec.needsRedo ? (rec.redoComment || '老师已打回，请重做后重新提交') : ''
+        };
       }
     } catch (_) {}
-    return false;
+    return { submitted: false, submissionResult: null, redoComment: '' };
+  },
+
+  async loadSubmissionResult() {
+    const { task } = this.data;
+    if (!task) return;
+    const { submitted, submissionResult, redoComment } = await this.checkSubmittedWithResult(task.taskItemId, task.dayNumber);
+    this.setData({ submitted, submissionResult, redoComment });
+    this.schedulePoll(submissionResult);
+  },
+
+  schedulePoll(submissionResult) {
+    if (this.data.pollTimer) clearTimeout(this.data.pollTimer);
+    const status = submissionResult && submissionResult.evaluationStatus;
+    if (status === 'pending' || status === 'running') {
+      const timer = setTimeout(() => this.loadSubmissionResult(), 2000);
+      this.setData({ pollTimer: timer });
+    }
   },
 
   setDemoTask() {
@@ -135,8 +182,14 @@ Page({
         audioFileName: this.data.audioFileName || ''
       });
       if (res && res.errCode === 0) {
-        wx.showToast({ title: '提交成功', icon: 'success' });
-        this.setData({ submitted: true });
+        wx.showToast({ title: '提交成功，评测中...', icon: 'success' });
+        const { submissionResult } = await this.checkSubmittedWithResult(task.taskItemId, task.dayNumber);
+        this.setData({
+          submitted: true,
+          submissionResult: submissionResult || { evaluationStatus: 'pending' },
+          redoComment: ''
+        });
+        this.schedulePoll(submissionResult || { evaluationStatus: 'pending' });
       } else {
         throw new Error(res?.errMsg || '操作失败');
       }
@@ -211,9 +264,9 @@ Page({
 
       const name = file.name || '';
       const lower = name.toLowerCase();
-      const isAudio = lower.endsWith('.mp3') || lower.endsWith('.m4a') || lower.endsWith('.wav') || lower.endsWith('.aac');
+      const isAudio = lower.endsWith('.mp3');
       if (!isAudio) {
-        wx.showToast({ title: '请选择音频文件', icon: 'none' });
+        wx.showToast({ title: '请上传 mp3 音频', icon: 'none' });
         return;
       }
 

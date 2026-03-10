@@ -39,8 +39,18 @@
             <text class="task-title">{{rec.taskTitle}}</text>
             <text class="record-meta" wx:if="{{rec.note}}">文字已提交</text>
             <text class="record-meta" wx:if="{{rec.audioFileId}}">音频已提交</text>
+            <text class="record-redo-comment" wx:if="{{rec.needsRedo}}">
+              老师打回：{{rec.redoComment || '请重做后重新提交'}}
+            </text>
+            <view class="record-eval" wx:if="{{rec.evaluationStatus}}">
+              <text class="eval-status-text {{rec.evaluationStatus}}" wx:if="{{rec.evaluationStatus === 'pending' || rec.evaluationStatus === 'running'}}">评测中</text>
+              <text class="eval-status-text failed" wx:elif="{{rec.evaluationStatus === 'failed'}}">评测失败</text>
+              <text class="eval-score-text" wx:elif="{{rec.evaluationStatus === 'completed' && rec.finalScore != null}}">总分 {{rec.finalScore}}</text>
+            </view>
           </view>
-          <text class="submitted-at">已提交</text>
+          <text class="submitted-at {{rec.needsRedo ? 'redo' : ''}}">
+            {{rec.needsRedo ? '已打回，待重做' : '已提交'}}
+          </text>
         </view>
       </view>
     </view>

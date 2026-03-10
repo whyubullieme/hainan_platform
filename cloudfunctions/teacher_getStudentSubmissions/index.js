@@ -113,7 +113,17 @@ exports.main = async (event = {}) => {
         note: s.note || '',
         audioFileId,
         audioFileName,
-        createdAt: s.createdAt
+        createdAt: s.createdAt,
+        evaluationStatus: s.evaluationStatus || 'pending',
+        asrText: s.asrText || '',
+        semanticScore: s.semanticScore,
+        pronScore: s.pronScore,
+        finalScore: s.finalScore,
+        semanticPassed: s.semanticPassed,
+        pronDetails: s.pronDetails || null,
+        evaluationError: s.evaluationError || null,
+        needsRedo: !!s.needsRedo,
+        redoComment: s.redoComment || ''
       };
     });
 

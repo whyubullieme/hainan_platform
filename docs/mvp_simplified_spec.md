@@ -65,20 +65,21 @@
 
 ---
 
-### CF4 student_markProgress ✅ 已实现（合并原 CF4+CF5）
+### CF4 student_markProgress ✅ 已实现（合并原 CF4+CF5，V2.0 扩展）
 
 **目的**: 签到 + 提交 合并为一个动作接口  
 **入参**（二选一）:
 
 - 打卡: `{ classId, dayNumber, action: "checkin" }`
-- 提交: `{ classId, dayNumber, action: "submit", taskItemId, note? }`
+- 提交: `{ classId, dayNumber, action: "submit", taskItemId, note?, audioFileId?, audioFileName? }`
 
-**出参**: `{ errCode, errMsg, ok: true }`  
+**出参**: `{ errCode, errMsg, ok: true, updated?, submissionId? }`  
 **涉及集合**: checkins, submissions
 
 > 前端所有按钮都调同一个 CF
 > 开发阶段：不允许超前做作业，仅允许今日及已过去的日期
 > 重复打卡/提交时返回成功（幂等）
+> 提交含音频时：异步触发 ai_evaluateSubmission，返回 submissionId
 
 ---
 
@@ -87,7 +88,16 @@
 **目的**: 学生查看提交记录，支持按日期筛选  
 **入参**: `{ classId, date? }` date 可选 YYYY-MM-DD，不传返回全部  
 **出参**: `{ errCode, errMsg, startDate, records }`  
-**records**: `[{ dayNumber, dateStr, taskItemId, taskTitle, submittedAt }]`
+**records**: `[{ dayNumber, dateStr, taskItemId, taskTitle, submittedAt, submissionId, evaluationStatus, asrText, semanticScore, pronScore, finalScore, semanticPassed, pronDetails, evaluationError }]`
+
+---
+
+### ai_evaluateSubmission ✅ 已实现（V2.0）
+
+**目的**: 提交后触发 AI 评测（ASR → 语义判分 → 发音判分 → 回写 submissions）  
+**入参**: `{ submissionId }`  
+**出参**: `{ errCode, submissionId, evaluationStatus, asrText, semanticScore, pronScore, finalScore, semanticPassed, pronDetails }`  
+**说明**: 当前为 Mock 实现，生产需接入讯飞/腾讯云 ASR 及口语评测 API
 
 ---
 

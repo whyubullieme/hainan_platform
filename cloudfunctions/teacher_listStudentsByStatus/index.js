@@ -152,13 +152,17 @@ exports.main = async (event = {}) => {
 
     const [checkins, submissions, reviews] = await Promise.all([
       fetchAllDocs('checkins', { classId, dayNumber: parsedDayNumber }, { userId: true }),
-      fetchAllDocs('submissions', { classId, dayNumber: parsedDayNumber }, { userId: true }),
-      fetchAllDocs('reviews', { classId, dayNumber: parsedDayNumber }, { studentId: true }),
+      fetchAllDocs('submissions', { classId, dayNumber: parsedDayNumber }, { userId: true, needsRedo: true }),
+      fetchAllDocs('reviews', { classId, dayNumber: parsedDayNumber }, { studentId: true, reviewAction: true }),
     ]);
 
     const checkedSet = new Set((checkins || []).map((doc) => doc.userId));
-    const submittedSet = new Set((submissions || []).map((doc) => doc.userId));
-    const reviewedSet = new Set((reviews || []).map((doc) => doc.studentId));
+    const submittedSet = new Set((submissions || [])
+      .filter((doc) => !doc.needsRedo)
+      .map((doc) => doc.userId));
+    const reviewedSet = new Set((reviews || [])
+      .filter((doc) => doc.reviewAction !== 'redo')
+      .map((doc) => doc.studentId));
 
     const nameMap = await fetchUserNameMap(studentIds);
 
@@ -172,7 +176,7 @@ exports.main = async (event = {}) => {
       const hasSubmission = submittedSet.has(userId);
       const hasReview = reviewedSet.has(userId);
       let currentStatus = 'missing';
-      if (hasReview) {
+      if (hasSubmission && hasReview) {
         currentStatus = 'reviewed';
       } else if (hasSubmission) {
         currentStatus = 'done';

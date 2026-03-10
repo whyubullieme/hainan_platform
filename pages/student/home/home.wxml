@@ -6,6 +6,7 @@
   </view>
   <view class="greeting-bar">
     <text class="greeting-text">{{greetingText}}</text>
+    <text class="class-name" wx:if="{{className}}">在 {{className}}</text>
   </view>
   <!-- 体验模式提示 -->
   <view class="demo-banner" wx:if="{{isDemo}}">

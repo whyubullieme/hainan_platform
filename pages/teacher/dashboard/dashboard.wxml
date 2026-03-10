@@ -4,6 +4,7 @@
   </view>
   <view class="greeting-bar">
     <text class="greeting-text">{{greetingText}}</text>
+    <text class="class-name" wx:if="{{className}}">在 {{className}}</text>
   </view>
 
   <view class="controls">

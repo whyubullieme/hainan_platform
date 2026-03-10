@@ -135,21 +135,35 @@ exports.main = async (event, context) => {
         .where({ classId, userId, dayNumber: parsedDayNumber, taskItemId })
         .limit(1)
         .get();
+      let submissionId;
       if (exist.data && exist.data.length > 0) {
-        const subId = exist.data[0]._id;
-        await db.collection('submissions').doc(subId).update({
-          data: {
-            note: normalizedNote,
-            audioFileId: normalizedAudioFileId,
-            audioFileName: normalizedAudioFileName,
-            status: 'recorded',
-            updatedAt: db.serverDate()
-          }
+        submissionId = exist.data[0]._id;
+        const updateData = {
+          note: normalizedNote,
+          audioFileId: normalizedAudioFileId,
+          audioFileName: normalizedAudioFileName,
+          status: 'recorded',
+          evaluationError: null,
+          asrText: '',
+          semanticScore: null,
+          pronScore: null,
+          finalScore: null,
+          semanticPassed: null,
+          pronDetails: null,
+          needsRedo: false,
+          redoComment: '',
+          redoAt: null,
+          redoByTeacherId: '',
+          updatedAt: db.serverDate()
+        };
+        if (normalizedAudioFileId) {
+          updateData.evaluationStatus = 'pending';
+        }
+        await db.collection('submissions').doc(submissionId).update({
+          data: updateData
         });
-        return { errCode: 0, errMsg: 'success', ok: true, updated: true };
-      }
-      await db.collection('submissions').add({
-        data: {
+      } else {
+        const addData = {
           classId,
           userId,
           dayNumber: parsedDayNumber,
@@ -159,10 +173,35 @@ exports.main = async (event, context) => {
           audioFileId: normalizedAudioFileId,
           audioFileName: normalizedAudioFileName,
           status: 'recorded',
+          needsRedo: false,
+          redoComment: '',
+          redoAt: null,
+          redoByTeacherId: '',
           createdAt: db.serverDate(),
           updatedAt: db.serverDate()
+        };
+        if (normalizedAudioFileId) {
+          addData.evaluationStatus = 'pending';
         }
-      });
+        const addRes = await db.collection('submissions').add({
+          data: addData
+        });
+        submissionId = addRes._id;
+      }
+
+      // 有音频时异步触发 AI 评测（不 await，避免超时）
+      if (normalizedAudioFileId && submissionId) {
+        cloud.callFunction({ name: 'ai_evaluateSubmission', data: { submissionId } })
+          .catch((err) => console.error('ai_evaluateSubmission trigger error:', err));
+      }
+
+      return {
+        errCode: 0,
+        errMsg: 'success',
+        ok: true,
+        updated: !!(exist.data && exist.data.length > 0),
+        submissionId
+      };
     } else {
       return { errCode: -1, errMsg: 'action 需为 checkin 或 submit' };
     }

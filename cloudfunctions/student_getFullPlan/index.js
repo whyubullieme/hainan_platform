@@ -103,6 +103,7 @@ exports.main = async (event, context) => {
 
     const subByDay = {};
     (allSubs || []).forEach((s) => {
+      if (s.needsRedo) return;
       if (!s.dayNumber) return;
       if (!subByDay[s.dayNumber]) subByDay[s.dayNumber] = [];
       subByDay[s.dayNumber].push(s.taskItemId);

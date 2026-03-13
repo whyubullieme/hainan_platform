@@ -4,6 +4,8 @@ const cloud = require('wx-server-sdk');
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 const BATCH_LIMIT = 100;
+const _ = db.command;
+const MANUAL_TASK_TYPES = new Set(['read_aloud', 'read_along']);
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -118,26 +120,50 @@ async function countDistinctByField(collectionName, filter, fieldName) {
   }
 }
 
-async function countDistinctSubmittedStudents(filter) {
-  const records = await fetchAllDocs('submissions', filter, { userId: true, needsRedo: true });
-  const uniq = new Set(records.filter((item) => item.userId && !item.needsRedo).map((item) => item.userId));
-  return uniq.size;
+async function countDistinctSubmittedStudents(filter, requiredTaskIds = []) {
+  const records = await fetchAllDocs('submissions', filter, { userId: true, taskItemId: true, needsRedo: true });
+  const requiredCount = requiredTaskIds.length;
+  if (requiredCount === 0) return 0;
+
+  const userTaskMap = new Map();
+  records.forEach((item) => {
+    const uid = item.userId;
+    const taskItemId = item.taskItemId;
+    if (!uid || !taskItemId || item.needsRedo) return;
+    if (!userTaskMap.has(uid)) userTaskMap.set(uid, new Set());
+    userTaskMap.get(uid).add(taskItemId);
+  });
+
+  let count = 0;
+  userTaskMap.forEach((taskSet) => {
+    if (taskSet.size >= requiredCount) count += 1;
+  });
+  return count;
 }
 
-async function countDistinctReviewedStudents(filter) {
+async function countDistinctReviewedStudents(filter, requiredTaskIds = []) {
   const [reviews, submissions] = await Promise.all([
     fetchAllDocs('reviews', filter, { studentId: true, reviewAction: true }),
-    fetchAllDocs('submissions', filter, { userId: true, needsRedo: true }),
+    fetchAllDocs('submissions', filter, { userId: true, taskItemId: true, needsRedo: true }),
   ]);
+  const requiredCount = requiredTaskIds.length;
+  if (requiredCount === 0) return 0;
+
   const reviewedStudents = new Set(reviews
     .filter((item) => item.studentId && item.reviewAction !== 'redo')
     .map((item) => item.studentId));
-  const submittedStudents = new Set(submissions
-    .filter((item) => item.userId && !item.needsRedo)
-    .map((item) => item.userId));
+  const userTaskMap = new Map();
+  submissions.forEach((item) => {
+    const uid = item.userId;
+    const taskItemId = item.taskItemId;
+    if (!uid || !taskItemId || item.needsRedo) return;
+    if (!userTaskMap.has(uid)) userTaskMap.set(uid, new Set());
+    userTaskMap.get(uid).add(taskItemId);
+  });
   let count = 0;
   reviewedStudents.forEach((studentId) => {
-    if (submittedStudents.has(studentId)) count += 1;
+    const taskSet = userTaskMap.get(studentId) || new Set();
+    if (taskSet.size >= requiredCount) count += 1;
   });
   return count;
 }
@@ -169,13 +195,31 @@ exports.main = async (event = {}) => {
 
     const resolvedDayNumber = resolveDayNumber(cls.startDate, dayNumber, date);
     const baseFilter = { classId, dayNumber: resolvedDayNumber };
-
-    const [totalStudents, checkedInCount, submittedCount, reviewedCount] = await Promise.all([
+    const [totalStudents, checkedInCount, dayTasks] = await Promise.all([
       countStudents(classId),
       countDistinctByField('checkins', baseFilter, 'userId'),
-      countDistinctSubmittedStudents(baseFilter),
-      countDistinctReviewedStudents(baseFilter),
+      fetchAllDocs('task_items', baseFilter, { _id: true, taskType: true }),
     ]);
+
+    const manualTaskIds = dayTasks
+      .filter((t) => MANUAL_TASK_TYPES.has(t.taskType || 'read_aloud'))
+      .map((t) => t._id);
+
+    let submittedCount = 0;
+    let reviewedCount = 0;
+    if (manualTaskIds.length === 0) {
+      submittedCount = totalStudents;
+      reviewedCount = totalStudents;
+    } else {
+      const manualFilter = {
+        ...baseFilter,
+        taskItemId: _.in(manualTaskIds),
+      };
+      [submittedCount, reviewedCount] = await Promise.all([
+        countDistinctSubmittedStudents(manualFilter, manualTaskIds),
+        countDistinctReviewedStudents(manualFilter, manualTaskIds),
+      ]);
+    }
 
     return {
       errCode: 0,

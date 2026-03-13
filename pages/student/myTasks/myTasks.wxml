@@ -6,7 +6,7 @@
 
   <view class="section">
     <view class="section-title">训练计划</view>
-    <view class="plan-intro">按课程进度完成任务，未完成的可在此补做</view>
+    <view class="plan-intro">题库任务可自由练习，第X天仅作进度标识</view>
     <view class="plan-meta" wx:if="{{totalDays > 0}}">
       <text class="total-days">共 {{totalDays}} 天</text>
       <view class="pagination" wx:if="{{totalPages > 1}}">
@@ -20,8 +20,6 @@
       <view class="day-header {{item.status}}">
         <text class="day-title">第{{item.dayNumber}}天 {{item.dateStr}}</text>
         <text class="day-badge" wx:if="{{item.status === 'today'}}">今日</text>
-        <text class="day-badge expired" wx:elif="{{item.status === 'expired'}}">可补做</text>
-        <text class="day-badge locked" wx:elif="{{item.status === 'locked'}}">未开放</text>
       </view>
 
       <view class="task-list">
@@ -38,12 +36,12 @@
             <view class="task-content">
               <text class="task-title">{{t.title}}</text>
               <text class="task-status" wx:if="{{t.submitted}}">✓ 已提交</text>
-              <text class="task-status pending" wx:elif="{{item.status !== 'locked'}}">待提交</text>
+              <text class="task-status pending" wx:else>待提交</text>
             </view>
             <view 
               class="task-actions" 
               catchtap="handleSubmit" 
-              wx:if="{{!t.submitted && item.status !== 'locked'}}"
+              wx:if="{{!t.submitted}}"
               data-task-id="{{t.taskItemId}}"
               data-day="{{item.dayNumber}}"
             >

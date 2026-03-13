@@ -31,7 +31,9 @@ function resolveDayNumber(startDateStr, inputDayNumber, inputDate) {
 /**
  * 教师：为班级添加一天任务
  * 入参: { classId, dayNumber?, date?, tasks? }
- *  tasks 为选中的任务列表 [{ title, content?, taskType?, order?, expectedAnswer?, acceptedAnswers?, keywords?, scoringConfig? }]
+ *  tasks 为选中的任务列表
+ *  [{ title, content?, taskType?, order?, expectedAnswer?, acceptedAnswers?, keywords?, scoringConfig?,
+ *    options?, correctOptionKey?, ttsText?, promptAudioUrl? }]
  * 出参: { dayNumber, ok: true }
  */
 exports.main = async (event, context) => {
@@ -81,9 +83,10 @@ exports.main = async (event, context) => {
       ? 1
       : (Math.max(...dayItems.map((t) => Number(t.order) || 0)) + 1);
 
-    const tasks = Array.isArray(inputTasks) && inputTasks.length > 0
-      ? inputTasks
-      : [{ title: `综合练习${Math.max(resolvedDay - 4, 1)}`, content: '', taskType: 'read_aloud', order: 1 }];
+    const tasks = Array.isArray(inputTasks) ? inputTasks : [];
+    if (tasks.length === 0) {
+      return { errCode: -1, errMsg: '请至少选择一项任务' };
+    }
 
     for (let i = 0; i < tasks.length; i++) {
       const t = tasks[i];
@@ -93,7 +96,7 @@ exports.main = async (event, context) => {
         order: t.order !== undefined ? t.order : (nextOrder + i),
         title: t.title || '任务',
         content: t.content || '',
-        taskType: t.taskType || 'read_aloud',
+        taskType: t.taskType || 'read_along',
         createdAt: db.serverDate(),
         updatedAt: db.serverDate(),
       };
@@ -111,6 +114,31 @@ exports.main = async (event, context) => {
           semanticPassLine: Number(t.scoringConfig.semanticPassLine),
           pronPassLine: Number(t.scoringConfig.pronPassLine),
         };
+      }
+      if (Array.isArray(t.options) && t.options.length > 0) {
+        taskData.options = t.options
+          .map((opt, idx) => {
+            if (!opt) return null;
+            if (typeof opt === 'string') {
+              const key = String.fromCharCode(65 + idx);
+              return { key, text: opt.trim() };
+            }
+            const key = String(opt.key || String.fromCharCode(65 + idx)).trim().slice(0, 1).toUpperCase();
+            const text = String(opt.text || '').trim();
+            if (!key || !text) return null;
+            return { key, text };
+          })
+          .filter(Boolean)
+          .slice(0, 4);
+      }
+      if (t.correctOptionKey != null) {
+        taskData.correctOptionKey = String(t.correctOptionKey).trim().slice(0, 1).toUpperCase();
+      }
+      if (t.ttsText != null) {
+        taskData.ttsText = String(t.ttsText).trim();
+      }
+      if (t.promptAudioUrl != null) {
+        taskData.promptAudioUrl = String(t.promptAudioUrl).trim();
       }
       await db.collection('task_items').add({ data: taskData });
     }

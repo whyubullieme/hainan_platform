@@ -2,6 +2,7 @@ const cloud = require('wx-server-sdk');
 
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
+const MANUAL_TASK_TYPES = new Set(['read_aloud', 'read_along']);
 
 async function getUserByOpenid(openid) {
   const userRes = await db.collection('users')
@@ -86,7 +87,7 @@ exports.main = async (event = {}) => {
     const [taskRes, subRes] = await Promise.all([
       db.collection('task_items')
         .where({ classId, dayNumber: parsedDayNumber })
-        .field({ _id: true, title: true, order: true })
+        .field({ _id: true, title: true, order: true, taskType: true })
         .orderBy('order', 'asc')
         .get(),
       db.collection('submissions')
@@ -96,14 +97,18 @@ exports.main = async (event = {}) => {
     ]);
 
     const dayTasks = taskRes.data || [];
+    const manualTasks = dayTasks.filter((t) => MANUAL_TASK_TYPES.has(t.taskType || 'read_aloud'));
+    const manualTaskIdSet = new Set(manualTasks.map((t) => String(t._id)));
     const submissions = subRes.data || [];
 
     const taskMap = {};
-    dayTasks.forEach((t) => {
+    manualTasks.forEach((t) => {
       taskMap[t._id] = t.title || '任务';
     });
 
-    const itemsBase = submissions.map((s) => {
+    const itemsBase = submissions
+      .filter((s) => manualTaskIdSet.has(String(s.taskItemId || '')))
+      .map((s) => {
       const audioFileId = pickAudioFileId(s);
       const audioFileName = pickAudioFileName(s);
       return {
@@ -150,8 +155,11 @@ exports.main = async (event = {}) => {
       audioTempUrl: item.audioFileId ? (audioTempUrlMap[item.audioFileId] || '') : '',
     }));
 
-    const submittedTaskSet = new Set(itemsBase.map((item) => item.taskItemId).filter(Boolean));
-    const dayTaskCount = dayTasks.length;
+    const submittedTaskSet = new Set(itemsBase
+      .filter((item) => !item.needsRedo)
+      .map((item) => item.taskItemId)
+      .filter(Boolean));
+    const dayTaskCount = manualTasks.length;
     const submittedTaskCount = submittedTaskSet.size;
 
     return {
@@ -160,7 +168,9 @@ exports.main = async (event = {}) => {
       items,
       dayTaskCount,
       submittedTaskCount,
-      allTaskDone: dayTaskCount > 0 && submittedTaskCount >= dayTaskCount,
+      allTaskDone: dayTaskCount === 0 || submittedTaskCount >= dayTaskCount,
+      hasManualTasks: dayTaskCount > 0,
+      autoTaskCount: Math.max(dayTasks.length - dayTaskCount, 0),
     };
   } catch (error) {
     console.error('teacher_getStudentSubmissions error:', error);

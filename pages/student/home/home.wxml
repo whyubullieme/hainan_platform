@@ -34,7 +34,7 @@
   <!-- 任务列表 -->
   <view class="task-section">
     <view class="section-title">
-      <text>今日任务</text>
+      <text>题库任务</text>
     </view>
 
     <view class="task-list" wx:if="{{taskItems.length > 0}}">
@@ -51,6 +51,7 @@
             <text class="task-status done" wx:if="{{item.submitted}}">已提交</text>
             <text class="task-status pending" wx:else>未提交</text>
           </view>
+          <text class="task-desc" wx:if="{{item.dayNumber}}">第{{item.dayNumber}}天</text>
           <text class="task-desc" wx:if="{{item.content}}">{{item.content}}</text>
         </view>
         <view class="task-link" wx:if="{{!item.submitted && !isDemo}}">

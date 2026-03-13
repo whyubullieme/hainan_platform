@@ -17,10 +17,10 @@ Page({
     error: '',
     // 任务类型 Tabs，可扩展（例如后续加入 quiz）
     tabs: [
-      { key: 'read_aloud', label: '朗读' },
       { key: 'read_along', label: '跟读' },
+      { key: 'listening_mcq', label: '听力选择' },
     ],
-    activeTab: 'read_aloud',
+    activeTab: 'read_along',
     // 分页配置
     pageSize: 8,
     currentPage: 1,
@@ -72,7 +72,7 @@ Page({
 
     const filtered =
       activeTab
-        ? normalizedTasks.filter((t) => (t.taskType || 'read_aloud') === activeTab)
+        ? normalizedTasks.filter((t) => (t.taskType || 'read_along') === activeTab)
         : normalizedTasks;
 
     const pagination = buildPagination(filtered, currentPage, pageSize);
@@ -146,12 +146,16 @@ Page({
         tasks: selected.map((t) => ({
           title: t.title,
           content: t.content || '',
-          taskType: t.taskType || 'read_aloud',
+          taskType: t.taskType || 'read_along',
           order: t.order,
           expectedAnswer: t.expectedAnswer,
           acceptedAnswers: t.acceptedAnswers,
           keywords: t.keywords,
           scoringConfig: t.scoringConfig,
+          options: t.options,
+          correctOptionKey: t.correctOptionKey,
+          ttsText: t.ttsText,
+          promptAudioUrl: t.promptAudioUrl,
         })),
       };
       const res = await teacherService.addDayTasks(payload);

@@ -66,7 +66,7 @@ MVP 只需以下 7 个集合：
 
 ### task_items
 
-- `_id`, `classId`, `dayNumber`, `order`, `title`, `content?`, `taskType` (read_along | read_aloud), `createdAt`, `updatedAt`
+- `_id`, `classId`, `dayNumber`, `order`, `title`, `content?`, `taskType` (read_along | listening_mcq), `createdAt`, `updatedAt`
 - **V2.0 判分配置**：`expectedAnswer?`, `acceptedAnswers?` (string[]), `keywords?` (string[]), `scoringConfig?` (`{ semanticWeight, pronWeight, semanticPassLine?, pronPassLine? }`)
 
 ### checkins
@@ -89,4 +89,3 @@ MVP 只需以下 7 个集合：
 1. 创建 `users` 后可测试登录
 2. 创建 `classes`、`class_members` 后可跑通 CF2 加入班级
 3. 其他集合按功能开发进度创建
-

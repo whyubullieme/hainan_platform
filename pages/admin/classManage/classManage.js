@@ -151,9 +151,7 @@ Page({
       const result = await adminService.createClassAndInitTasks({
         className: className.trim(),
         startDate: startDate || format.formatDate(new Date(), 'YYYY-MM-DD'),
-        totalDays: Math.max(1, Math.min(90, totalDays || 14)),
-        teacherUserIds: [],
-        tasks: []
+        totalDays: Math.max(1, Math.min(90, totalDays || 14))
       });
       if (result && result.errCode === 0) {
         this.setData({

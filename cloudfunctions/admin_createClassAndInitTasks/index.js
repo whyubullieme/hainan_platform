@@ -9,7 +9,7 @@ const BATCH_LIMIT = 100;
 
 /**
  * 创建班级 + 初始化任务
- * 入参: { className, startDate, teacherUserIds?, tasks }
+ * 入参: { className, startDate, totalDays? }
  * 出参: { classId, studentInviteCode, teacherInviteCode }
  */
 function genInviteCode() {
@@ -49,6 +49,12 @@ function formatYMDFromUTC(date) {
   return `${year}-${month}-${day}`;
 }
 
+function unwrapCloudCallResult(callRes) {
+  if (!callRes) return {};
+  if (callRes.result && typeof callRes.result === 'object') return callRes.result;
+  return callRes;
+}
+
 async function fetchAllClasses() {
   const all = [];
   let skip = 0;
@@ -85,7 +91,7 @@ exports.main = async (event, context) => {
       return { errCode: -1, errMsg: '仅管理员可创建班级' };
     }
 
-    const { className, startDate, totalDays: inputTotalDays, teacherUserIds = [], tasks = [] } = event;
+    const { className, startDate, totalDays: inputTotalDays } = event;
     if (!className || !startDate) {
       return { errCode: -1, errMsg: '需要 className 和 startDate' };
     }
@@ -125,49 +131,15 @@ exports.main = async (event, context) => {
     });
     const classId = classRes._id;
 
-    // 自动初始化任务的天数上限：最多到第 30 天
-    const MAX_AUTO_TASK_DAY = 30;
-    const INIT_DAYS = Math.min(totalDays, MAX_AUTO_TASK_DAY);
-    const defaultDays = [
-      { dayNumber: 1, items: [
-        { title: '入住场景对话练习', content: '练习酒店入住英语对话', order: 1, taskType: 'read_along' },
-        { title: '电话预订练习', content: '练习电话预订客房', order: 2, taskType: 'read_along' },
-        { title: '退房场景对话', content: '练习退房流程对话', order: 3, taskType: 'read_aloud' }
-      ]},
-      { dayNumber: 2, items: [
-        { title: '投诉处理对话', content: '处理客户投诉场景', order: 1, taskType: 'read_along' },
-        { title: '海南旅游咨询', content: '介绍海南景点', order: 2, taskType: 'read_aloud' }
-      ]},
-      { dayNumber: 3, items: [{ title: '政策说明', content: '入住政策说明', order: 1, taskType: 'read_aloud' }]},
-      { dayNumber: 4, items: [{ title: '综合练习1', content: '', order: 1, taskType: 'read_aloud' }]},
-      { dayNumber: 5, items: [{ title: '综合练习2', content: '', order: 1, taskType: 'read_aloud' }]}
-    ];
-    for (let d = 6; d <= INIT_DAYS; d++) {
-      defaultDays.push({ dayNumber: d, items: [{ title: `综合练习${d - 4}`, content: '', order: 1, taskType: 'read_aloud' }] });
-    }
-
-    // 如果外部传入了 tasks，也只初始化到第 30 天以内
-    const daysToUseRaw = tasks && tasks.length > 0 ? tasks : defaultDays;
-    const daysToUse = (daysToUseRaw || []).filter((d) => (d.dayNumber || 1) <= INIT_DAYS);
-
-    for (const day of daysToUse) {
-      const dayNumber = day.dayNumber || 1;
-      const items = day.items || [];
-      for (let i = 0; i < items.length; i++) {
-        const it = items[i];
-        await db.collection('task_items').add({
-          data: {
-            classId,
-            dayNumber,
-            order: it.order !== undefined ? it.order : i + 1,
-            title: it.title || '任务',
-            content: it.content || '',
-            taskType: it.taskType || 'read_aloud',
-            createdAt: db.serverDate(),
-            updatedAt: db.serverDate()
-          }
-        });
+    const listeningPackRes = await cloud.callFunction({
+      name: 'admin_seedListeningIntentPack',
+      data: {
+        classId
       }
+    });
+    const listeningPackResult = unwrapCloudCallResult(listeningPackRes);
+    if (listeningPackResult.errCode !== 0) {
+      throw new Error(`初始化听力题包失败: ${listeningPackResult.errMsg || 'unknown error'}`);
     }
 
     return {

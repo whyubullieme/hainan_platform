@@ -5,6 +5,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 
 const DAY_MS = 24 * 60 * 60 * 1000;
+const BATCH_LIMIT = 100;
 
 function parseYMDToUTC(dateStr) {
   if (!dateStr || typeof dateStr !== 'string') return null;
@@ -22,8 +23,27 @@ function formatYMDFromUTC(date) {
   return `${year}-${month}-${day}`;
 }
 
+async function fetchAllDocs(collectionName, filter) {
+  const all = [];
+  let skip = 0;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    // eslint-disable-next-line no-await-in-loop
+    const res = await db.collection(collectionName)
+      .where(filter)
+      .skip(skip)
+      .limit(BATCH_LIMIT)
+      .get();
+    const data = res.data || [];
+    all.push(...data);
+    if (data.length < BATCH_LIMIT) break;
+    skip += BATCH_LIMIT;
+  }
+  return all;
+}
+
 /**
- * 学生今日计划 + 今日状态
+ * 学生题库列表 + 今日状态指示
  * 入参: { classId, date? }  date 默认今天 YYYY-MM-DD
  * 出参: { dayNumber, taskItems, status: { checkedIn, submittedTaskIds } }
  */
@@ -82,18 +102,20 @@ exports.main = async (event, context) => {
     let dayNumber = diffDays + 1;
     if (dayNumber < 1) dayNumber = 1;
 
-    // 5. 获取当日任务
-    const taskRes = await db.collection('task_items')
-      .where({ classId, dayNumber })
-      .get();
-
-    const taskItems = (taskRes.data || [])
-      .sort((a, b) => (a.order || 0) - (b.order || 0))
+    // 5. 获取全题库任务（不再按天数限制）
+    const allTasks = await fetchAllDocs('task_items', { classId });
+    const taskItems = (allTasks || [])
+      .sort((a, b) => {
+        const dayDiff = (a.dayNumber || 0) - (b.dayNumber || 0);
+        if (dayDiff !== 0) return dayDiff;
+        return (a.order || 0) - (b.order || 0);
+      })
       .map((t) => ({
         taskItemId: t._id,
         title: t.title || '',
         content: t.content || '',
-        taskType: t.taskType || 'read_aloud',
+        taskType: t.taskType || 'read_along',
+        dayNumber: Number(t.dayNumber) || 1,
         order: t.order || 0,
       }));
 
@@ -104,11 +126,9 @@ exports.main = async (event, context) => {
       .get();
     const checkedIn = checkinRes.data && checkinRes.data.length > 0;
 
-    // 7. 已提交的任务 ID 列表
-    const subRes = await db.collection('submissions')
-      .where({ classId, userId, dayNumber })
-      .get();
-    const submittedTaskIds = (subRes.data || [])
+    // 7. 已提交的任务 ID 列表（全题库）
+    const allSubs = await fetchAllDocs('submissions', { classId, userId });
+    const submittedTaskIds = (allSubs || [])
       .filter((s) => !s.needsRedo)
       .map((s) => s.taskItemId)
       .filter(Boolean);

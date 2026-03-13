@@ -12,8 +12,9 @@
     <view class="submission-title">学生提交内容</view>
     <view class="task-progress">
       任务完成：{{submittedTaskCount}} / {{dayTaskCount}}
-      <text class="task-progress-ok" wx:if="{{allTaskDone}}">（可提交点评）</text>
-      <text class="task-progress-warn" wx:else>（未全部完成，暂不可提交点评）</text>
+      <text class="task-progress-warn" wx:if="{{!hasManualTasks}}">（当日无朗读/跟读任务）</text>
+      <text class="task-progress-ok" wx:if="{{allTaskDone && hasManualTasks}}">（可提交点评）</text>
+      <text class="task-progress-warn" wx:elif="{{hasManualTasks}}">（未全部完成，暂不可提交点评）</text>
     </view>
     <view class="submission-loading" wx:if="{{loadingSubmissions}}">加载中...</view>
     <view class="submission-empty" wx:elif="{{submissions.length === 0}}">
@@ -90,11 +91,11 @@
   <view class="error" wx:if="{{error}}">{{error}}</view>
 
   <view class="action-row">
-    <button class="btn-return" bindtap="handleReturnForRedo" loading="{{returning}}" disabled="{{saving || returning || submittedTaskCount === 0}}">
+    <button class="btn-return" bindtap="handleReturnForRedo" loading="{{returning}}" disabled="{{saving || returning || submittedTaskCount === 0 || !hasManualTasks}}">
       打回重做
     </button>
-    <button class="btn-save" bindtap="handleSave" loading="{{saving}}" disabled="{{saving || returning || !allTaskDone}}">
-      {{allTaskDone ? '保存点评' : '待学生完成全部任务后可点评'}}
+    <button class="btn-save" bindtap="handleSave" loading="{{saving}}" disabled="{{saving || returning || !allTaskDone || !hasManualTasks}}">
+      {{hasManualTasks ? (allTaskDone ? '保存点评' : '待学生完成全部任务后可点评') : '当日无人工点评任务'}}
     </button>
   </view>
 </view>

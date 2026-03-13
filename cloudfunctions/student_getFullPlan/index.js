@@ -51,7 +51,7 @@ async function fetchAllDocs(collectionName, filter) {
  * 学生：获取完整训练计划（全部任务）
  * 入参: { classId }
  * 出参: { startDate, totalDays, days: [{ dayNumber, dateStr, status, tasks, submittedTaskIds, checkedIn }] }
- * status: 'locked' | 'today' | 'expired'  locked=未来不可做 today=今日 expired=可补做
+ * status: 'today' | 'normal'（仅展示用，不做权限控制）
  */
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
@@ -95,7 +95,6 @@ exports.main = async (event, context) => {
       now.getMonth(),
       now.getDate()
     ));
-    const todayStr = formatYMDFromUTC(todayUTC);
 
     const allTasks = await fetchAllDocs('task_items', { classId });
 
@@ -123,7 +122,7 @@ exports.main = async (event, context) => {
           taskItemId: t._id,
           title: t.title || '',
           content: t.content || '',
-          taskType: t.taskType || 'read_aloud',
+          taskType: t.taskType || 'read_along',
           order: t.order || 0
         });
       });
@@ -131,15 +130,15 @@ exports.main = async (event, context) => {
     const maxTaskDay = (allTasks || []).length === 0
       ? 0
       : Math.max(...allTasks.map((t) => t.dayNumber || 0));
-    const totalDays = Math.max(maxTaskDay, cls.totalDays || 14);
+    const diffDays = Math.floor((todayUTC.getTime() - start.getTime()) / DAY_MS);
+    const todayDayNumber = Math.max(1, diffDays + 1);
+    const totalDays = Math.max(maxTaskDay, todayDayNumber);
     const days = [];
     for (let d = 1; d <= totalDays; d++) {
       const dateObj = addDaysUTC(start, d - 1);
       const dateStr = formatYMDFromUTC(dateObj);
 
-      let status = 'locked';
-      if (dateStr && dateStr < todayStr) status = 'expired';
-      else if (dateStr && dateStr === todayStr) status = 'today';
+      const status = d === todayDayNumber ? 'today' : 'normal';
 
       const tasks = (tasksByDay[d] || []).map((t) => ({
         ...t,

@@ -7,8 +7,8 @@ const db = cloud.database();
 /**
  * 学生：获取单个任务详情
  * 入参: { taskId }
- * 出参: { taskItem: { taskItemId, title, content, taskType, dayNumber, order } }
- * taskType: "read_along" | "read_aloud" 对应 跟读 | 朗读
+ * 出参: { taskItem: { taskItemId, title, content, taskType, dayNumber, order, options?, ttsText?, promptAudioUrl? } }
+ * taskType: "read_along" | "listening_mcq"
  */
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
@@ -48,9 +48,12 @@ exports.main = async (event, context) => {
         taskItemId: task._id,
         title: task.title || '',
         content: task.content || '',
-        taskType: task.taskType || 'read_aloud',
+        taskType: task.taskType || 'read_along',
         dayNumber: task.dayNumber || 1,
-        order: task.order || 0
+        order: task.order || 0,
+        options: Array.isArray(task.options) ? task.options : [],
+        ttsText: task.ttsText || '',
+        promptAudioUrl: task.promptAudioUrl || ''
       }
     };
   } catch (error) {

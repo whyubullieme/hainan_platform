@@ -4,21 +4,6 @@ const cloud = require('wx-server-sdk');
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 
-const DAY_MS = 24 * 60 * 60 * 1000;
-
-function parseYMDToUTC(dateStr) {
-  if (!dateStr || typeof dateStr !== 'string') return null;
-  const parts = dateStr.split('-').map(Number);
-  if (parts.length !== 3 || parts.some((n) => Number.isNaN(n))) return null;
-  const [year, month, day] = parts;
-  return new Date(Date.UTC(year, month - 1, day));
-}
-
-function addDaysUTC(date, days) {
-  if (!(date instanceof Date) || Number.isNaN(date.getTime())) return null;
-  return new Date(date.getTime() + (days * DAY_MS));
-}
-
 /**
  * 签到 + 提交 合并接口
  * 打卡: { classId, dayNumber, action: "checkin" }
@@ -29,13 +14,8 @@ exports.main = async (event, context) => {
   const openid = wxContext.OPENID;
   const { classId, dayNumber, action } = event;
 
-  if (!openid || !classId || !dayNumber || !action) {
-    return { errCode: -1, errMsg: '参数缺少 classId, dayNumber, action' };
-  }
-
-  const parsedDayNumber = Number.parseInt(dayNumber, 10);
-  if (Number.isNaN(parsedDayNumber) || parsedDayNumber < 1) {
-    return { errCode: -1, errMsg: 'dayNumber 无效' };
+  if (!openid || !classId || !action) {
+    return { errCode: -1, errMsg: '参数缺少 classId, action' };
   }
 
   try {
@@ -55,6 +35,11 @@ exports.main = async (event, context) => {
     }
 
     if (action === 'checkin') {
+      const parsedDayNumber = Number.parseInt(dayNumber, 10);
+      if (Number.isNaN(parsedDayNumber) || parsedDayNumber < 1) {
+        return { errCode: -1, errMsg: 'dayNumber 无效' };
+      }
+
       // 签到：upsert checkins（同一用户同一天约定一条记录）
       const exist = await db.collection('checkins')
         .where({ classId, userId, dayNumber: parsedDayNumber })
@@ -78,61 +63,38 @@ exports.main = async (event, context) => {
         return { errCode: -1, errMsg: '提交需要 taskItemId' };
       }
       let normalizedNote = typeof note === 'string' ? note.trim() : '';
-      const normalizedAudioFileId = typeof audioFileId === 'string' ? audioFileId.trim() : '';
-      const normalizedAudioFileName = typeof audioFileName === 'string' ? audioFileName.trim() : '';
+      let normalizedAudioFileId = typeof audioFileId === 'string' ? audioFileId.trim() : '';
+      let normalizedAudioFileName = typeof audioFileName === 'string' ? audioFileName.trim() : '';
 
-      // 校验任务是否属于该班级 & 对应天数，防止篡改
+      // 校验任务是否属于该班级
       const taskDoc = await db.collection('task_items').doc(taskItemId).get();
       if (!taskDoc.data) {
         return { errCode: -1, errMsg: '任务不存在' };
       }
       const task = taskDoc.data;
-      if (task.classId !== classId || Number(task.dayNumber) !== parsedDayNumber) {
-        return { errCode: -1, errMsg: '任务不属于当前班级或日期，无法提交' };
+      if (task.classId !== classId) {
+        return { errCode: -1, errMsg: '任务不属于当前班级，无法提交' };
       }
-      const taskType = task.taskType || 'read_aloud';
-      if (taskType === 'read_aloud') {
-        if (!normalizedAudioFileId) {
-          return { errCode: -1, errMsg: '朗读任务需上传音频' };
-        }
-        // 朗读任务仅收音频，忽略文本
-        normalizedNote = '';
-      } else if (taskType === 'read_along') {
+      const taskDayNumber = Number(task.dayNumber) || Number.parseInt(dayNumber, 10) || 1;
+      const taskType = task.taskType || 'read_along';
+      if (taskType === 'read_along') {
         if (!normalizedAudioFileId || !normalizedNote) {
           return { errCode: -1, errMsg: '跟读任务需提交音频和文字' };
         }
+      } else if (taskType === 'listening_mcq') {
+        if (!normalizedNote) {
+          return { errCode: -1, errMsg: '听力选择题需提交答案' };
+        }
+        // 听力选择题默认只收答案，忽略上传音频
+        normalizedAudioFileId = '';
+        normalizedAudioFileName = '';
       } else if (!normalizedNote && !normalizedAudioFileId) {
         return { errCode: -1, errMsg: '请填写文字或上传音频后再提交' };
       }
 
-      // 不允许超前做作业（仅允许今日及已过去的日期），使用 UTC 规避时区偏移
-      const classRes = await db.collection('classes').doc(classId).get();
-      if (classRes.data) {
-        const startDate = classRes.data.startDate || '';
-        const start = parseYMDToUTC(startDate);
-        if (!start) {
-          return { errCode: -1, errMsg: '班级开始日期无效，无法校验进度' };
-        }
-        const targetDayDate = addDaysUTC(start, parsedDayNumber - 1);
-        if (!targetDayDate) {
-          return { errCode: -1, errMsg: '任务日期计算失败' };
-        }
-
-        const now = new Date();
-        const todayUTC = new Date(Date.UTC(
-          now.getFullYear(),
-          now.getMonth(),
-          now.getDate()
-        ));
-
-        if (targetDayDate.getTime() > todayUTC.getTime()) {
-          return { errCode: -1, errMsg: '该任务尚未开放，请按课程进度完成' };
-        }
-      }
-
       // 重复提交时更新内容（支持先提文字后补音频，或重新上传音频）
       const exist = await db.collection('submissions')
-        .where({ classId, userId, dayNumber: parsedDayNumber, taskItemId })
+        .where({ classId, userId, dayNumber: taskDayNumber, taskItemId })
         .limit(1)
         .get();
       let submissionId;
@@ -166,7 +128,7 @@ exports.main = async (event, context) => {
         const addData = {
           classId,
           userId,
-          dayNumber: parsedDayNumber,
+          dayNumber: taskDayNumber,
           taskItemId,
           channel: 'wechat_group',
           note: normalizedNote,

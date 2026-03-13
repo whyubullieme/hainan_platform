@@ -14,6 +14,8 @@ Page({
     dayTaskCount: 0,
     submittedTaskCount: 0,
     allTaskDone: false,
+    hasManualTasks: true,
+    autoTaskCount: 0,
     comment: '',
     saving: false,
     returning: false,
@@ -52,7 +54,9 @@ Page({
         submissions: res.items || [],
         dayTaskCount,
         submittedTaskCount,
-        allTaskDone: !!res.allTaskDone
+        allTaskDone: !!res.allTaskDone,
+        hasManualTasks: res.hasManualTasks !== false,
+        autoTaskCount: Number(res.autoTaskCount) || 0,
       });
     } catch (e) {
       wx.showToast({ title: e.message || '加载提交失败', icon: 'none' });
@@ -60,7 +64,9 @@ Page({
         submissions: [],
         dayTaskCount: 0,
         submittedTaskCount: 0,
-        allTaskDone: false
+        allTaskDone: false,
+        hasManualTasks: true,
+        autoTaskCount: 0,
       });
     } finally {
       this.setData({ loadingSubmissions: false });
@@ -118,6 +124,10 @@ Page({
       wx.showToast({ title: '请输入点评内容', icon: 'none' });
       return;
     }
+    if (!this.data.hasManualTasks) {
+      wx.showToast({ title: '当日无朗读/跟读任务，无需点评', icon: 'none' });
+      return;
+    }
     if (!allTaskDone) {
       wx.showToast({
         title: `任务未完成（${submittedTaskCount}/${dayTaskCount}）`,
@@ -156,6 +166,10 @@ Page({
     }
     if (!studentId) {
       this.setData({ error: '缺少学生信息' });
+      return;
+    }
+    if (!this.data.hasManualTasks) {
+      wx.showToast({ title: '当日无朗读/跟读任务', icon: 'none' });
       return;
     }
     if (!submittedTaskCount) {

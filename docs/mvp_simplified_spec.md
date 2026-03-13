@@ -119,7 +119,7 @@
 **入参**: `{ taskId }`  
 **出参**: `{ errCode, errMsg, taskItem }`  
 **taskItem**: `{ taskItemId, title, content, taskType, dayNumber, order }`  
-**taskType**: `read_along`(跟读) | `read_aloud`(朗读)
+**taskType**: `read_along`(跟读) | `listening_mcq`(听力选择)
 
 ---
 
@@ -179,32 +179,31 @@
 
 ### CF8 admin_createClassAndInitTasks ✅ 已实现
 
-**目的**: 创建班级 + 生成双邀请码 + 初始化任务  
+**目的**: 创建班级 + 生成双邀请码 + 初始化听力题包  
 **入参**:
 
 ```json
 {
   "className": "...",
   "startDate": "YYYY-MM-DD",
-  "teacherUserIds": [],
-  "tasks": [ { "dayNumber": 1, "items": [ { "title": "...", "content": "...", "order": 1 } ] } ]
+  "totalDays": 14
 }
 ```
 
-- `teacherUserIds`、`tasks`、`totalDays` 可选；totalDays 默认 14（1–90）
-- 不传 tasks 则按 totalDays 初始化任务，Day1–5 有预设标题，Day6+ 为「综合练习 N」
+- `totalDays` 可选，默认 14（1–90）
+- 创建班级后会调用听力题包 seed 云函数初始化任务
 
 **出参**: `{ errCode, errMsg, classId, studentInviteCode, teacherInviteCode }`  
 **涉及集合**: classes, task_items
 
-> 仅 admin 可调用。teacherUserIds 暂未写入 class_members，需通过邀请码或 admin_addMember 加入
+> 仅 admin 可调用
 
 ---
 
 ### teacher_addDayTasks ✅ 已实现（扩展）
 
-**目的**: 教师为班级添加一天任务（从模板取标题）  
-**入参**: `{ classId }`  
+**目的**: 教师为班级添加一天任务（从任务库勾选）  
+**入参**: `{ classId, dayNumber?, date?, tasks }`  
 **出参**: `{ errCode, errMsg, dayNumber, ok: true }`  
 **涉及集合**: task_items
 
@@ -274,7 +273,7 @@
 | users         | 用户表 _id, openid, name, role, orgName?, createdAt, updatedAt |
 | classes       | 班级表 _id, name, startDate, endDate, **totalDays** (课程天数), studentInviteCode, teacherInviteCode, createdAt, updatedAt |
 | class_members | 班级成员表 _id, classId, userId, **roleInClass**, joinedAt, status |
-| task_items    | 任务项表 _id, classId, dayNumber, order, title, content?, **taskType** (read_along|read_aloud), createdAt, updatedAt |
+| task_items    | 任务项表 _id, classId, dayNumber, order, title, content?, **taskType** (read_along|listening_mcq), createdAt, updatedAt |
 | checkins      | 签到表 _id, classId, userId, dayNumber, status, createdAt |
 | submissions   | 提交记录表 _id, classId, userId, dayNumber, taskItemId, channel, note?, status, createdAt |
 | reviews       | 批改记录表 _id, classId, studentId, teacherId, dayNumber, comment, teacherName?, createdAt, updatedAt |
@@ -290,7 +289,7 @@
 | pages/auth/login | 登录（CF1 / auth_adminLogin） |
 | pages/auth/joinClass | 入班（CF2） |
 | pages/student/home | 学生首页（CF3） |
-| pages/student/taskDetail | 任务详情（跟读/朗读类型、「我已提交」） |
+| pages/student/taskDetail | 任务详情（跟读/听力类型、「我已提交」） |
 | pages/student/submission | 提交记录（CF4 submit） |
 | pages/student/progress | 学习进度（各天签到与任务完成） |
 | pages/student/myTasks | 完整计划（student_getFullPlan），分页 7 天/页，显示「共 X 天」 |
@@ -315,4 +314,3 @@
 | services/admin.js | admin_createClassAndInitTasks, admin_listClasses, admin_getClassDetail, admin_updateClass, admin_deleteClass, admin_listUsers, admin_addMember, admin_updateMemberRole, admin_removeMember |
 
 ---
-

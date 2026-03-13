@@ -43,7 +43,9 @@
       <view class="task-body">
         <text class="task-title">{{item.title}}</text>
         <text class="task-desc" wx:if="{{item.content}}">{{item.content}}</text>
-        <text class="task-type">{{item.taskType === 'read_along' ? '跟读' : '朗读'}}</text>
+        <text class="task-type">
+          {{item.taskType === 'listening_mcq' ? '听力选择' : '跟读'}}
+        </text>
       </view>
     </view>
   </scroll-view>

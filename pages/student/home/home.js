@@ -79,9 +79,9 @@ Page({
       dayNumber: 1,
       currentDate: format.formatDate(today, 'YYYY-MM-DD'),
       taskItems: [
-        { taskItemId: 'demo1', title: '入住场景对话练习', content: '', order: 1, submitted: false },
-        { taskItemId: 'demo2', title: '电话预订练习', content: '', order: 2, submitted: false },
-        { taskItemId: 'demo3', title: '退房场景对话', content: '', order: 3, submitted: false }
+        { taskItemId: 'demo1', title: '听力训练', content: '听句子，选择最合适的中文意思', order: 1, taskType: 'listening_mcq', submitted: false },
+        { taskItemId: 'demo2', title: '听力训练', content: '听句子，选择最合适的中文意思', order: 2, taskType: 'listening_mcq', submitted: false },
+        { taskItemId: 'demo3', title: '前台欢迎语跟读', content: 'Good evening, welcome to our hotel.', order: 3, taskType: 'read_along', submitted: false }
       ],
       status: { checkedIn: false, submittedTaskIds: [] }
     });

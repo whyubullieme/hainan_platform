@@ -60,6 +60,28 @@ const studentService = {
       ...params,
       action: 'submit'
     });
+  },
+
+  /**
+   * 讯飞 TTS 合成并返回可播放临时 URL
+   * @param {object} params { text, voice? }
+   */
+  synthesizeXfyunTts(params) {
+    return api.callCloudFunction('tts_synthesizeXfyun', params);
+  },
+
+  /**
+   * 获取听力 session（同一天 listening_mcq 连续作答）
+   */
+  getListeningSession(params) {
+    return api.callCloudFunction('student_getListeningSession', params);
+  },
+
+  /**
+   * 提交听力 session，返回正确答案与得分
+   */
+  submitListeningSession(params) {
+    return api.callCloudFunction('student_submitListeningSession', params);
   }
 };
 

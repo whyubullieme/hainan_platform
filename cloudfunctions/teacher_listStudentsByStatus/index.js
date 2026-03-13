@@ -5,6 +5,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 const _ = db.command;
 const BATCH_LIMIT = 100;
+const MANUAL_TASK_TYPES = new Set(['read_aloud', 'read_along']);
 
 async function getUserByOpenid(openid) {
   const userRes = await db.collection('users')
@@ -150,16 +151,31 @@ exports.main = async (event = {}) => {
       return { errCode: 0, errMsg: 'success', students: [] };
     }
 
-    const [checkins, submissions, reviews] = await Promise.all([
+    const [checkins, submissions, reviews, dayTasks] = await Promise.all([
       fetchAllDocs('checkins', { classId, dayNumber: parsedDayNumber }, { userId: true }),
-      fetchAllDocs('submissions', { classId, dayNumber: parsedDayNumber }, { userId: true, needsRedo: true }),
+      fetchAllDocs('submissions', { classId, dayNumber: parsedDayNumber }, { userId: true, taskItemId: true, needsRedo: true }),
       fetchAllDocs('reviews', { classId, dayNumber: parsedDayNumber }, { studentId: true, reviewAction: true }),
+      fetchAllDocs('task_items', { classId, dayNumber: parsedDayNumber }, { _id: true, taskType: true }),
     ]);
 
+    const manualTaskIds = (dayTasks || [])
+      .filter((t) => MANUAL_TASK_TYPES.has(t.taskType || 'read_aloud'))
+      .map((t) => String(t._id));
+    const manualTaskIdSet = new Set(manualTaskIds);
+
+    if (manualTaskIds.length === 0) {
+      return { errCode: 0, errMsg: 'success', students: [] };
+    }
+
     const checkedSet = new Set((checkins || []).map((doc) => doc.userId));
-    const submittedSet = new Set((submissions || [])
-      .filter((doc) => !doc.needsRedo)
-      .map((doc) => doc.userId));
+    const submissionTaskMap = new Map();
+    (submissions || []).forEach((doc) => {
+      const uid = doc.userId;
+      const taskItemId = String(doc.taskItemId || '');
+      if (!uid || !taskItemId || doc.needsRedo || !manualTaskIdSet.has(taskItemId)) return;
+      if (!submissionTaskMap.has(uid)) submissionTaskMap.set(uid, new Set());
+      submissionTaskMap.get(uid).add(taskItemId);
+    });
     const reviewedSet = new Set((reviews || [])
       .filter((doc) => doc.reviewAction !== 'redo')
       .map((doc) => doc.studentId));
@@ -173,12 +189,14 @@ exports.main = async (event = {}) => {
         return;
       }
       const hasCheckin = checkedSet.has(userId);
-      const hasSubmission = submittedSet.has(userId);
+      const submittedTaskSet = submissionTaskMap.get(userId) || new Set();
+      const hasSubmission = submittedTaskSet.size > 0;
+      const hasAllManualSubmitted = submittedTaskSet.size >= manualTaskIds.length;
       const hasReview = reviewedSet.has(userId);
       let currentStatus = 'missing';
-      if (hasSubmission && hasReview) {
+      if (hasAllManualSubmitted && hasReview) {
         currentStatus = 'reviewed';
-      } else if (hasSubmission) {
+      } else if (hasAllManualSubmitted) {
         currentStatus = 'done';
       }
       if (currentStatus === normalizedStatus) {
@@ -189,6 +207,7 @@ exports.main = async (event = {}) => {
           status: currentStatus,
           hasCheckin,
           hasSubmission,
+          hasAllManualSubmitted,
           hasReview,
         });
       }

@@ -1,0 +1,27 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32rpx;
+  padding: 24rpx 0 8rpx;
+}
+
+.page-btn {
+  font-size: 28rpx;
+  color: #07c160;
+  padding: 10rpx 28rpx;
+  border: 1rpx solid #07c160;
+  border-radius: 40rpx;
+}
+
+.page-btn.disabled {
+  color: #ccc;
+  border-color: #e0e0e0;
+}
+
+.page-info {
+  font-size: 26rpx;
+  color: #666;
+  min-width: 80rpx;
+  text-align: center;
+}

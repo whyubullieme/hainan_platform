@@ -82,6 +82,38 @@ const studentService = {
    */
   submitListeningSession(params) {
     return api.callCloudFunction('student_submitListeningSession', params);
+  },
+
+  /**
+   * 开始对话会话
+   * @param {object} params { taskItemId }
+   */
+  dialogueStartSession(params) {
+    return api.callCloudFunction('dialogue_startSession', params);
+  },
+
+  /**
+   * 对话下一轮（文字模式 fallback）
+   * @param {object} params { sessionId, userText }
+   */
+  dialogueNextTurn(params) {
+    return api.callCloudFunction('dialogue_nextTurn', params);
+  },
+
+  /**
+   * 保存网关对话结果
+   * @param {object} params { sessionId, turns, totalScore, passed, summary }
+   */
+  dialogueSaveResult(params) {
+    return api.callCloudFunction('dialogue_saveResult', params);
+  },
+
+  /**
+   * 获取对话会话（含评分结果，用于轮询）
+   * @param {object} params { sessionId }
+   */
+  dialogueGetSession(params) {
+    return api.callCloudFunction('dialogue_getSession', params);
   }
 };
 

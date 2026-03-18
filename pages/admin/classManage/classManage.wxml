@@ -28,25 +28,11 @@
           <text class="code-label">教师码 {{item.teacherInviteCode}}</text>
         </view>
       </view>
-      <view class="pagination" wx:if="{{classTotalPages > 1}}">
-        <button
-          size="mini"
-          class="page-btn pager-btn {{classCurrentPage <= 1 ? 'disabled' : ''}}"
-          bindtap="goPrevClassPage"
-          disabled="{{classCurrentPage <= 1}}"
-        >
-          上一页
-        </button>
-        <view class="page-info">第 {{classCurrentPage}} / {{classTotalPages}} 页</view>
-        <button
-          size="mini"
-          class="page-btn pager-btn {{classCurrentPage >= classTotalPages ? 'disabled' : ''}}"
-          bindtap="goNextClassPage"
-          disabled="{{classCurrentPage >= classTotalPages}}"
-        >
-          下一页
-        </button>
-      </view>
+      <pagination
+        current-page="{{classCurrentPage}}"
+        total-pages="{{classTotalPages}}"
+        bind:change="onClassPageChange"
+      />
     </view>
     <view class="empty-tip" wx:else>暂无班级</view>
   </view>

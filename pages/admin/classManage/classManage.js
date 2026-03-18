@@ -96,20 +96,9 @@ Page({
     });
   },
 
-  goPrevClassPage() {
-    const { classCurrentPage } = this.data;
-    if (classCurrentPage <= 1) return;
+  onClassPageChange(e) {
     this.setData(
-      { classCurrentPage: classCurrentPage - 1 },
-      () => this.applyClassPagination()
-    );
-  },
-
-  goNextClassPage() {
-    const { classCurrentPage, classTotalPages } = this.data;
-    if (classCurrentPage >= classTotalPages) return;
-    this.setData(
-      { classCurrentPage: classCurrentPage + 1 },
+      { classCurrentPage: e.detail.page },
       () => this.applyClassPagination()
     );
   },

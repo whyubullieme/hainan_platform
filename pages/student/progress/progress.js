@@ -79,19 +79,8 @@ Page({
     }
   },
 
-  prevPage() {
-    const { currentPage } = this.data;
-    if (currentPage <= 1) return;
-    this.goToPage(currentPage - 1);
-  },
-
-  nextPage() {
-    const { currentPage, totalPages } = this.data;
-    if (currentPage >= totalPages) return;
-    this.goToPage(currentPage + 1);
-  },
-
-  goToPage(page) {
+  onPageChange(e) {
+    const { page } = e.detail;
     const { days, pageSize } = this.data;
     const pagination = buildPagination(days, page, pageSize);
     this.setData({

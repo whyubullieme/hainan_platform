@@ -242,20 +242,9 @@ Page({
     });
   },
 
-  goPrevMemberPage() {
-    const { memberCurrentPage } = this.data;
-    if (memberCurrentPage <= 1) return;
+  onMemberPageChange(e) {
     this.setData(
-      { memberCurrentPage: memberCurrentPage - 1 },
-      () => this.applyMemberFilters()
-    );
-  },
-
-  goNextMemberPage() {
-    const { memberCurrentPage, memberTotalPages } = this.data;
-    if (memberCurrentPage >= memberTotalPages) return;
-    this.setData(
-      { memberCurrentPage: memberCurrentPage + 1 },
+      { memberCurrentPage: e.detail.page },
       () => this.applyMemberFilters()
     );
   },

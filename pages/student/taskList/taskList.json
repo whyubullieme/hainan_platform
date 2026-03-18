@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "pagination": "../../../components/pagination/pagination"
+  }
+}

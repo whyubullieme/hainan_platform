@@ -1,62 +1,31 @@
 <!--pages/student/myTasks/myTasks.wxml-->
 <view class="container">
-  <view class="logout-wrap">
-    <text class="logout-link" bindtap="handleLogout">退出登录</text>
-  </view>
+  <view class="section-title">选择练习类型</view>
+  <view class="type-grid">
 
-  <view class="section">
-    <view class="section-title">训练计划</view>
-    <view class="plan-intro">题库任务可自由练习，第X天仅作进度标识</view>
-    <view class="plan-meta" wx:if="{{totalDays > 0}}">
-      <text class="total-days">共 {{totalDays}} 天</text>
-      <view class="pagination" wx:if="{{totalPages > 1}}">
-        <text class="page-btn {{currentPage <= 1 ? 'disabled' : ''}}" bindtap="prevPage">上一页</text>
-        <text class="page-info">第 {{currentPage}} / {{totalPages}} 页</text>
-        <text class="page-btn {{currentPage >= totalPages ? 'disabled' : ''}}" bindtap="nextPage">下一页</text>
-      </view>
+    <view class="type-card" bindtap="goToType" data-type="read_aloud">
+      <text class="type-icon">📖</text>
+      <text class="type-name">朗读</text>
+      <text class="type-desc">录音朗读，AI 评分</text>
     </view>
 
-    <view class="day-block" wx:for="{{displayedDays}}" wx:key="dayNumber">
-      <view class="day-header {{item.status}}">
-        <text class="day-title">第{{item.dayNumber}}天 {{item.dateStr}}</text>
-        <text class="day-badge" wx:if="{{item.status === 'today'}}">今日</text>
-      </view>
-
-      <view class="task-list">
-        <block wx:if="{{item.tasks && item.tasks.length > 0}}">
-          <view 
-            class="task-item" 
-            wx:for="{{item.tasks}}" 
-            wx:for-item="t" 
-            wx:key="taskItemId"
-            data-task-id="{{t.taskItemId}}"
-            data-day="{{item.dayNumber}}"
-            bindtap="viewTaskDetail"
-          >
-            <view class="task-content">
-              <text class="task-title">{{t.title}}</text>
-              <text class="task-status" wx:if="{{t.submitted}}">✓ 已提交</text>
-              <text class="task-status pending" wx:else>待提交</text>
-            </view>
-            <view 
-              class="task-actions" 
-              catchtap="handleSubmit" 
-              wx:if="{{!t.submitted}}"
-              data-task-id="{{t.taskItemId}}"
-              data-day="{{item.dayNumber}}"
-            >
-              <button class="action-btn" size="mini">我已提交</button>
-            </view>
-          </view>
-        </block>
-        <view class="task-placeholder" wx:else>
-          <text>待教师添加任务</text>
-        </view>
-      </view>
+    <view class="type-card" bindtap="goToType" data-type="listening_mcq">
+      <text class="type-icon">🎧</text>
+      <text class="type-name">听力</text>
+      <text class="type-desc">听句子，选正确答案</text>
     </view>
 
-    <view class="empty-state" wx:if="{{displayedDays.length === 0 && !loading}}">
-      <text>暂无任务</text>
+    <view class="type-card" bindtap="goToType" data-type="dialogue">
+      <text class="type-icon">💬</text>
+      <text class="type-name">对话</text>
+      <text class="type-desc">情景对话练习</text>
     </view>
+
+    <view class="type-card" bindtap="goToType" data-type="read_along">
+      <text class="type-icon">🎙️</text>
+      <text class="type-name">跟读</text>
+      <text class="type-desc">跟读录音，纠音反馈</text>
+    </view>
+
   </view>
 </view>

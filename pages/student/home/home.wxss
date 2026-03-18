@@ -104,126 +104,40 @@
   color: rgba(255,255,255,0.95);
 }
 
-.task-desc {
-  font-size: 26rpx;
-  color: #999;
-}
-
-.task-section {
-  margin: 40rpx 30rpx;
-}
-
-.task-list {
-  display: flex;
-  flex-direction: column;
-  gap: 24rpx;
-}
-
-.task-item {
-  background-color: #fff;
-  border-radius: 16rpx;
-  padding: 32rpx;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
-}
-
-.task-content {
-  flex: 1;
-}
-
-.task-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12rpx;
-}
-
-.task-title {
-  font-size: 32rpx;
-  font-weight: 500;
-  color: #333;
-  margin-right: 16rpx;
-}
-
-.task-status {
-  font-size: 24rpx;
-  color: #07c160;
-  padding: 4rpx 12rpx;
-  background-color: #e8f5e9;
-  border-radius: 8rpx;
-}
-
-.task-status.pending {
-  color: #999;
-  background-color: #f5f5f5;
-}
-
-.task-status.done {
-  color: #07c160;
-  background-color: #e8f5e9;
-}
-
-.task-link {
-  font-size: 26rpx;
-  color: #07c160;
-  display: flex;
-  align-items: center;
-  gap: 4rpx;
-}
-
-.task-link .arrow {
-  font-size: 32rpx;
-  font-weight: 300;
-}
-
-.task-scenario {
-  font-size: 26rpx;
-  color: #999;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 120rpx 40rpx;
-}
-
-.empty-text {
-  font-size: 28rpx;
-  color: #999;
-}
-
+/* Quick action cards */
 .quick-actions {
   margin: 40rpx 30rpx;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 24rpx;
 }
 
-.action-button {
-  flex: 1;
-  min-width: 45%;
-  border: none;
-  border-radius: 12rpx;
-  padding: 28rpx;
-  font-size: 30rpx;
-  font-weight: 500;
+.action-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
 }
 
-.action-button.primary {
+.action-card.primary {
   background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
+}
+
+.action-card.primary .action-icon,
+.action-card.primary .action-label {
   color: #fff;
 }
 
-.action-button.primary:active {
-  opacity: 0.9;
+.action-icon {
+  font-size: 48rpx;
 }
 
-.action-button.secondary {
-  background: #fff;
-  color: #07c160;
-  border: 2rpx solid #07c160;
-}
-
-.action-button.secondary:active {
-  background: #f0f9eb;
+.action-label {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #334155;
 }

@@ -14,7 +14,6 @@ Page({
   data: {
     dayNumber: 1,
     currentDate: '',
-    taskItems: [],
     status: { checkedIn: false, submittedTaskIds: [] },
     loading: false,
     isDemo: false,
@@ -22,90 +21,43 @@ Page({
     className: ''
   },
 
-  onLoad(options) {
+  onLoad() {
     const currentClassId = storage.getCurrentClassId();
     const userInfo = storage.getUserInfo() || {};
     const displayName = userInfo.name || userInfo.nickname || '同学';
     this.setData({
       isDemo: currentClassId === 'demo-class-id',
       greetingText: `${displayName}，${getTimeGreeting()}！`,
-      className: storage.getCurrentClassName() || ''
+      className: storage.getCurrentClassName() || '',
+      currentDate: format.formatDate(new Date(), 'YYYY-MM-DD')
     });
   },
 
   onShow() {
-    this.loadTodayPlan();
+    this.loadTodayInfo();
   },
 
-  async loadTodayPlan() {
+  async loadTodayInfo() {
+    if (this.data.isDemo) {
+      this.setData({ dayNumber: 1 });
+      return;
+    }
+    const classId = storage.getCurrentClassId();
+    if (!classId) return;
     this.setData({ loading: true });
     try {
-      if (this.data.isDemo) {
-        this.setDemoData();
-      } else {
-        const classId = storage.getCurrentClassId();
-        if (!classId) {
-          wx.showToast({ title: '请先加入班级', icon: 'none' });
-          return;
-        }
-        const result = await studentService.getTodayPlan({ classId });
-        if (result && result.errCode === 0) {
-          const today = new Date();
-          const taskItems = (result.taskItems || []).map(t => ({
-            ...t,
-            submitted: (result.status?.submittedTaskIds || []).includes(t.taskItemId)
-          }));
-          this.setData({
-            dayNumber: result.dayNumber,
-            currentDate: format.formatDate(today, 'YYYY-MM-DD'),
-            taskItems,
-            status: result.status || { checkedIn: false, submittedTaskIds: [] },
-            className: result.className || storage.getCurrentClassName() || ''
-          });
-        } else {
-          throw new Error(result?.errMsg || '加载失败');
-        }
+      const result = await studentService.getTodayPlan({ classId });
+      if (result && result.errCode === 0) {
+        this.setData({
+          dayNumber: result.dayNumber || 1,
+          status: result.status || { checkedIn: false, submittedTaskIds: [] },
+          className: result.className || storage.getCurrentClassName() || ''
+        });
       }
-    } catch (error) {
-      wx.showToast({ title: error.message || '加载失败', icon: 'none' });
+    } catch (e) {
+      // silent fail — home page info is non-critical
     } finally {
       this.setData({ loading: false });
-    }
-  },
-
-  setDemoData() {
-    const today = new Date();
-    this.setData({
-      dayNumber: 1,
-      currentDate: format.formatDate(today, 'YYYY-MM-DD'),
-      taskItems: [
-        { taskItemId: 'demo1', title: '听力训练', content: '听句子，选择最合适的中文意思', order: 1, taskType: 'listening_mcq', submitted: false },
-        { taskItemId: 'demo2', title: '听力训练', content: '听句子，选择最合适的中文意思', order: 2, taskType: 'listening_mcq', submitted: false },
-        { taskItemId: 'demo3', title: '前台欢迎语跟读', content: 'Good evening, welcome to our hotel.', order: 3, taskType: 'read_along', submitted: false }
-      ],
-      status: { checkedIn: false, submittedTaskIds: [] }
-    });
-  },
-
-  viewTaskDetail(e) {
-    const taskId = e.currentTarget.dataset.taskId;
-    wx.navigateTo({ url: `/pages/student/taskDetail/taskDetail?taskId=${taskId}` });
-  },
-
-  async handleCheckin() {
-    const classId = storage.getCurrentClassId();
-    if (!classId || this.data.isDemo) return;
-    try {
-      const result = await studentService.markCheckin({
-        classId,
-        dayNumber: this.data.dayNumber
-      });
-      if (result && result.errCode === 0) {
-        wx.showToast({ title: '签到成功', icon: 'success' });
-        this.setData({ 'status.checkedIn': true });
-      } else throw new Error(result?.errMsg);
-    } catch (error) {
-      wx.showToast({ title: error.message || '签到失败', icon: 'none' });
     }
   },
 
@@ -126,7 +78,7 @@ Page({
   },
 
   handleRefresh() {
-    this.loadTodayPlan();
+    this.loadTodayInfo();
   },
 
   handleLogout() {
@@ -135,9 +87,7 @@ Page({
   },
 
   onPullDownRefresh() {
-    this.loadTodayPlan();
-    setTimeout(() => {
-      wx.stopPullDownRefresh();
-    }, 1000);
+    this.loadTodayInfo();
+    setTimeout(() => wx.stopPullDownRefresh(), 1000);
   }
 });

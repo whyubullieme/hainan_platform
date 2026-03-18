@@ -9,11 +9,7 @@
     <view class="section-desc">各天签到与任务完成情况</view>
     <view class="progress-meta" wx:if="{{totalDays > 0}}">
       <text class="total-days">共 {{totalDays}} 天</text>
-      <view class="pagination" wx:if="{{totalPages > 1}}">
-        <text class="page-btn {{currentPage <= 1 ? 'disabled' : ''}}" bindtap="prevPage">上一页</text>
-        <text class="page-info">第 {{currentPage}} / {{totalPages}} 页</text>
-        <text class="page-btn {{currentPage >= totalPages ? 'disabled' : ''}}" bindtap="nextPage">下一页</text>
-      </view>
+      <pagination current-page="{{currentPage}}" total-pages="{{totalPages}}" bind:change="onPageChange" wx:if="{{totalPages > 1}}" />
     </view>
 
     <view class="progress-list" wx:if="{{visibleDays.length > 0}}">

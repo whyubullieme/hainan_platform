@@ -123,21 +123,10 @@
       </view>
     </view>
 
-    <!-- 成员分页 -->
-    <view class="pagination" wx:if="{{memberTotalPages > 1}}">
-      <text
-        class="page-btn {{memberCurrentPage <= 1 ? 'disabled' : ''}}"
-        bindtap="goPrevMemberPage"
-      >
-        上一页
-      </text>
-      <text class="page-info">第 {{memberCurrentPage}} / {{memberTotalPages}} 页</text>
-      <text
-        class="page-btn {{memberCurrentPage >= memberTotalPages ? 'disabled' : ''}}"
-        bindtap="goNextMemberPage"
-      >
-        下一页
-      </text>
-    </view>
+    <pagination
+      current-page="{{memberCurrentPage}}"
+      total-pages="{{memberTotalPages}}"
+      bind:change="onMemberPageChange"
+    />
   </view>
 </view>

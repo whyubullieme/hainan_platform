@@ -7,6 +7,8 @@
         "pages/student/submission/submission",
         "pages/student/progress/progress",
         "pages/student/myTasks/myTasks",
+        "pages/student/taskList/taskList",
+        "pages/student/dialogue/dialogue",
         "pages/student/feedback/feedback",
         "pages/teacher/dashboard/dashboard",
         "pages/teacher/addTask/addTask",

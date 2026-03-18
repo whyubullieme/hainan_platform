@@ -1,0 +1,5 @@
+<view class="pagination" wx:if="{{totalPages > 1}}">
+  <text class="page-btn {{currentPage <= 1 ? 'disabled' : ''}}" bindtap="onPrev">上一页</text>
+  <text class="page-info">{{currentPage}} / {{totalPages}} 页</text>
+  <text class="page-btn {{currentPage >= totalPages ? 'disabled' : ''}}" bindtap="onNext">下一页</text>
+</view>

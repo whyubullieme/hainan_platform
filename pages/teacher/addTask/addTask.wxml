@@ -44,32 +44,18 @@
         <text class="task-title">{{item.title}}</text>
         <text class="task-desc" wx:if="{{item.content}}">{{item.content}}</text>
         <text class="task-type">
-          {{item.taskType === 'listening_mcq' ? '听力选择' : '跟读'}}
+          {{item.taskType === 'listening_mcq' ? '听力' : item.taskType === 'read_aloud' ? '朗读' : item.taskType === 'dialogue' ? '对话' : '跟读'}}
         </text>
       </view>
     </view>
   </scroll-view>
 
-  <!-- 分页，每页 8 条 -->
-  <view class="pagination" wx:if="{{totalPages > 1 && !loading && !error}}">
-    <button
-      class="btn-page"
-      size="mini"
-      bindtap="goPrevPage"
-      disabled="{{currentPage <= 1}}"
-    >
-      上一页
-    </button>
-    <text class="page-info">第 {{currentPage}} / {{totalPages}} 页</text>
-    <button
-      class="btn-page"
-      size="mini"
-      bindtap="goNextPage"
-      disabled="{{currentPage >= totalPages}}"
-    >
-      下一页
-    </button>
-  </view>
+  <pagination
+    wx:if="{{!loading && !error}}"
+    current-page="{{currentPage}}"
+    total-pages="{{totalPages}}"
+    bind:change="onPageChange"
+  />
 
   <view class="footer">
     <button class="btn-confirm" bindtap="handleConfirm" loading="{{submitting}}" disabled="{{submitting}}">

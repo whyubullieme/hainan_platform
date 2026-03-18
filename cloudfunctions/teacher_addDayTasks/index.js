@@ -140,6 +140,13 @@ exports.main = async (event, context) => {
       if (t.promptAudioUrl != null) {
         taskData.promptAudioUrl = String(t.promptAudioUrl).trim();
       }
+      // dialogue-specific fields
+      if (t.sceneId != null) {
+        taskData.sceneId = String(t.sceneId).trim();
+      }
+      if (t.level != null) {
+        taskData.level = Number(t.level) || 1;
+      }
       await db.collection('task_items').add({ data: taskData });
     }
 

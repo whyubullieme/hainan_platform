@@ -1,0 +1,42 @@
+<!--pages/student/taskList/taskList.wxml-->
+<view class="container">
+
+  <view class="list-meta" wx:if="{{totalItems > 0}}">
+    <text class="meta-text">共 {{totalItems}} 题</text>
+  </view>
+
+  <view class="task-list" wx:if="{{displayedTasks.length > 0}}">
+    <view
+      class="task-card"
+      wx:for="{{displayedTasks}}"
+      wx:key="taskItemId"
+      data-task-id="{{item.taskItemId}}"
+      data-task-type="{{item.taskType}}"
+      bindtap="viewTask"
+    >
+      <view class="card-left">
+        <text class="task-title">{{item.title}}</text>
+        <text class="task-meta">第 {{item.dayNumber}} 天</text>
+        <text class="task-content" wx:if="{{item.content}}">{{item.content}}</text>
+      </view>
+      <view class="card-right">
+        <text class="status-badge done" wx:if="{{item.submitted}}">已提交</text>
+        <text class="status-badge pending" wx:else>未提交</text>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:elif="{{!loading}}">
+    <text class="empty-icon" wx:if="{{taskType === 'dialogue'}}">💬</text>
+    <text class="empty-text" wx:if="{{taskType === 'dialogue'}}">对话任务即将上线，敬请期待</text>
+    <text class="empty-text" wx:else>暂无{{typeLabel}}任务</text>
+  </view>
+
+  <pagination
+    current-page="{{currentPage}}"
+    total-pages="{{totalPages}}"
+    bind:change="onPageChange"
+  />
+
+</view>

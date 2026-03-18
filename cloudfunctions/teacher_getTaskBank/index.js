@@ -341,8 +341,47 @@ function buildReadAlongFrontDeskSamples() {
  * 入参: 无（或 classId 仅做权限校验）
  * 出参: { tasks: [{ id, title, content, taskType, order, expectedAnswer?, acceptedAnswers?, keywords?, scoringConfig? }] }
  */
+function buildDialogueSamples() {
+  return [
+    {
+      id: 'd301',
+      title: '前台入住对话',
+      content: '情景：客人到达酒店前台，你作为前台员工办理入住（Level 1 · 3轮）',
+      taskType: 'dialogue',
+      order: 301,
+      sceneId: 'scene_checkin',
+      level: 1,
+      scoringConfig: { semanticWeight: 0.6, pronWeight: 0.4, semanticPassLine: 60, pronPassLine: 60 }
+    },
+    {
+      id: 'd302',
+      title: '客房投诉处理对话',
+      content: '情景：客人来电投诉房间问题，你作为前台员工安抚并解决（Level 2 · 4轮）',
+      taskType: 'dialogue',
+      order: 302,
+      sceneId: 'scene_complaint',
+      level: 2,
+      scoringConfig: { semanticWeight: 0.6, pronWeight: 0.4, semanticPassLine: 60, pronPassLine: 60 }
+    },
+    {
+      id: 'd303',
+      title: '客房服务对话',
+      content: '情景：客人来电点餐或请求额外物品，你作为客房服务人员接单（Level 3 · 5轮）',
+      taskType: 'dialogue',
+      order: 303,
+      sceneId: 'scene_service',
+      level: 3,
+      scoringConfig: { semanticWeight: 0.6, pronWeight: 0.4, semanticPassLine: 60, pronPassLine: 60 }
+    }
+  ];
+}
+
 function getTaskBank() {
-  return [...buildListeningHotelSamples(), ...buildReadAlongFrontDeskSamples()];
+  return [
+    ...buildListeningHotelSamples(),
+    ...buildReadAlongFrontDeskSamples(),
+    ...buildDialogueSamples()
+  ];
 }
 
 exports.main = async (event, context) => {

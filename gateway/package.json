@@ -1,0 +1,13 @@
+{
+  "name": "hainan-dialogue-gateway",
+  "version": "1.0.0",
+  "description": "WebSocket gateway: mini-program ↔ Doubao Realtime Dialogue API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
+  }
+}

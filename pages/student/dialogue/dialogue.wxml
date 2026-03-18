@@ -1,0 +1,291 @@
+<!--pages/student/dialogue/dialogue.wxml-->
+<view class="page">
+
+  <!-- ═══ Loading screen ════════════════════════════════════════════ -->
+  <view class="loading-screen" wx:if="{{loading}}">
+    <view class="loading-icon-wrap">
+      <text class="loading-icon">🏨</text>
+    </view>
+    <text class="loading-title">正在准备对话场景</text>
+    <text class="loading-sub">AI 客人即将出现…</text>
+    <view class="loading-dots">
+      <view class="ldot ldot-1"></view>
+      <view class="ldot ldot-2"></view>
+      <view class="ldot ldot-3"></view>
+    </view>
+  </view>
+
+  <!-- ═══ Chat screen ═══════════════════════════════════════════════ -->
+  <view class="chat-screen" wx:if="{{!loading}}">
+
+    <!-- Sticky header -->
+    <view class="chat-header">
+      <view class="header-main">
+        <view class="header-scene-info">
+          <text class="header-scene-name">{{sceneName}}</text>
+          <view class="header-level-tag">Lv.{{level}}</view>
+        </view>
+        <text class="header-round-text" wx:if="{{!isSessionEnd}}">{{currentRound}}/{{maxRounds}} 轮</text>
+        <view class="header-done-tag" wx:if="{{isSessionEnd}}">已完成</view>
+      </view>
+      <view class="header-progress-dots" wx:if="{{!isSessionEnd}}">
+        <view
+          class="rdot {{item.state}}"
+          wx:for="{{roundDots}}"
+          wx:for-item="item"
+          wx:key="index"
+        ></view>
+        <text class="header-role-hint">你的角色：前台工作人员</text>
+      </view>
+      <!-- Gateway status -->
+      <view class="header-ws-status" wx:if="{{!isSessionEnd}}">
+        <view class="ws-dot {{gatewayReady ? 'ws-ok' : wsConnected ? 'ws-pending' : 'ws-off'}}"></view>
+        <text class="ws-label">{{gatewayReady ? '实时连接' : wsConnected ? '连接中…' : '离线模式'}}</text>
+      </view>
+    </view>
+
+    <!-- Messages area -->
+    <view class="messages">
+
+      <!-- Scene context card -->
+      <view class="scene-card">
+        <view class="scene-card-top">
+          <text class="scene-card-icon">📋</text>
+          <text class="scene-card-label">场景说明</text>
+        </view>
+        <text class="scene-card-desc">{{sceneDesc}}</text>
+        <view class="scene-card-tip">
+          <text class="tip-icon">💡</text>
+          <text class="tip-text">{{levelTip}}</text>
+        </view>
+      </view>
+
+      <!-- Message bubbles -->
+      <block wx:for="{{messages}}" wx:for-item="msg" wx:key="id">
+
+        <!-- AI bubble ─ left -->
+        <view class="msg-group" wx:if="{{msg.role === 'ai'}}">
+          <text class="msg-role-label">客人</text>
+          <view class="msg-row ai-row">
+            <view class="avatar ai-avatar">🧑‍💼</view>
+            <view class="bubble-col">
+              <view class="bubble ai-bubble">
+                <text class="bubble-text">{{msg.text}}</text>
+                <view class="streaming-dot" wx:if="{{msg._streaming}}"></view>
+                <!-- Spoiler overlay: hold to reveal, release to cover -->
+                <view
+                  wx:if="{{!msg._streaming}}"
+                  class="spoiler-mask {{revealId === msg.id ? 'spoiler-off' : ''}}"
+                  bindtouchstart="revealText"
+                  bindtouchend="hideText"
+                  bindtouchcancel="hideText"
+                  data-id="{{msg.id}}"
+                >
+                  <text class="spoiler-hint">👁 按住看文字</text>
+                </view>
+              </view>
+              <!-- Replay audio -->
+              <view class="replay-row" wx:if="{{msg.audioPath && !msg._streaming}}">
+                <view class="btn-replay" bindtap="replayAudio" data-path="{{msg.audioPath}}">
+                  <text class="replay-icon">🔁</text>
+                  <text class="replay-label">重听</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- User bubble ─ right -->
+        <view class="msg-group" wx:if="{{msg.role === 'user'}}">
+          <text class="msg-role-label user-label-right">我</text>
+          <view class="msg-row user-row">
+            <view class="bubble user-bubble">
+              <text class="bubble-text user-text">{{msg.text}}</text>
+            </view>
+            <view class="avatar user-avatar">👤</view>
+          </view>
+        </view>
+
+      </block>
+
+      <!-- Typing indicator -->
+      <view class="msg-group" wx:if="{{sending && !recording}}">
+        <text class="msg-role-label">客人</text>
+        <view class="msg-row ai-row">
+          <view class="avatar ai-avatar">🧑‍💼</view>
+          <view class="bubble ai-bubble typing-bubble">
+            <view class="typing-dots">
+              <view class="tdot tdot-1"></view>
+              <view class="tdot tdot-2"></view>
+              <view class="tdot tdot-3"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- ─── Session end summary ─────────────────────────────────── -->
+      <view class="summary-wrap" wx:if="{{isSessionEnd}}">
+        <view class="summary-card">
+          <view class="summary-band {{passed ? 'band-pass' : 'band-fail'}}">
+            <text class="summary-emoji">{{passed ? '🎉' : '💪'}}</text>
+            <text class="summary-headline">{{passed ? '对话完成！' : '继续加油！'}}</text>
+            <text class="summary-sub">{{evaluationStatus === 'completed' ? '正式评分（讯飞+LLM）' : evaluationStatus === 'pending' || evaluationStatus === 'running' ? '正式评分计算中…' : '综合得分'}}</text>
+          </view>
+          <view class="score-circle-wrap">
+            <view class="score-circle {{totalScore != null ? (passed ? 'circle-pass' : 'circle-fail') : 'circle-pending'}}">
+              <text class="circle-num">{{totalScore != null ? totalScore : '--'}}</text>
+              <text class="circle-unit" wx:if="{{totalScore != null}}">分</text>
+            </view>
+            <view class="result-tag {{totalScore != null ? (passed ? 'tag-pass' : 'tag-fail') : 'tag-pending'}}" wx:if="{{totalScore != null}}">
+              <text>{{passed ? '✓ 通过' : '✗ 需复习'}}</text>
+            </view>
+          </view>
+
+          <!-- Formal evaluation section -->
+          <view class="eval-section">
+            <!-- Pending / Running -->
+            <view class="eval-status-card" wx:if="{{evaluationStatus === 'pending' || evaluationStatus === 'running'}}">
+              <view class="eval-status-row">
+                <view class="eval-spinner"></view>
+                <text class="eval-status-text">正式评分中（讯飞+LLM）…</text>
+              </view>
+              <text class="eval-status-sub">评分完成后将自动显示</text>
+            </view>
+
+            <!-- Failed -->
+            <view class="eval-status-card eval-failed" wx:if="{{evaluationStatus === 'failed'}}">
+              <text class="eval-status-text">正式评分暂时不可用</text>
+            </view>
+
+            <!-- Completed -->
+            <view class="eval-result-card" wx:if="{{evaluationStatus === 'completed' && finalScore != null}}">
+              <view class="eval-result-header">
+                <text class="eval-result-title">正式评分（讯飞+LLM）</text>
+              </view>
+              <view class="eval-scores-row">
+                <view class="eval-score-item eval-final">
+                  <text class="eval-score-num">{{finalScore}}</text>
+                  <text class="eval-score-label">综合分</text>
+                </view>
+                <view class="eval-score-item" wx:if="{{semanticScore != null}}">
+                  <text class="eval-score-num">{{semanticScore}}</text>
+                  <text class="eval-score-label">语义分</text>
+                </view>
+                <view class="eval-score-item" wx:if="{{avgPronScore != null}}">
+                  <text class="eval-score-num">{{avgPronScore}}</text>
+                  <text class="eval-score-label">发音分</text>
+                </view>
+              </view>
+
+              <!-- Breakdown -->
+              <view class="eval-breakdown" wx:if="{{semanticBreakdown}}">
+                <view class="breakdown-item" wx:if="{{semanticBreakdown.greeting != null}}">
+                  <text class="breakdown-label">问候礼仪</text>
+                  <view class="breakdown-bar-wrap">
+                    <view class="breakdown-bar" style="width:{{semanticBreakdown.greeting}}%"></view>
+                  </view>
+                  <text class="breakdown-num">{{semanticBreakdown.greeting}}</text>
+                </view>
+                <view class="breakdown-item" wx:if="{{semanticBreakdown.information != null}}">
+                  <text class="breakdown-label">信息传递</text>
+                  <view class="breakdown-bar-wrap">
+                    <view class="breakdown-bar" style="width:{{semanticBreakdown.information}}%"></view>
+                  </view>
+                  <text class="breakdown-num">{{semanticBreakdown.information}}</text>
+                </view>
+                <view class="breakdown-item" wx:if="{{semanticBreakdown.service != null}}">
+                  <text class="breakdown-label">服务意识</text>
+                  <view class="breakdown-bar-wrap">
+                    <view class="breakdown-bar" style="width:{{semanticBreakdown.service}}%"></view>
+                  </view>
+                  <text class="breakdown-num">{{semanticBreakdown.service}}</text>
+                </view>
+                <view class="breakdown-item" wx:if="{{semanticBreakdown.closing != null}}">
+                  <text class="breakdown-label">结束用语</text>
+                  <view class="breakdown-bar-wrap">
+                    <view class="breakdown-bar" style="width:{{semanticBreakdown.closing}}%"></view>
+                  </view>
+                  <text class="breakdown-num">{{semanticBreakdown.closing}}</text>
+                </view>
+              </view>
+
+              <!-- Semantic feedback -->
+              <view class="eval-feedback" wx:if="{{semanticFeedback}}">
+                <text class="eval-feedback-text">{{semanticFeedback}}</text>
+              </view>
+            </view>
+          </view>
+
+          <view class="summary-body" wx:if="{{summary}}">
+            <text class="summary-text">{{summary}}</text>
+          </view>
+          <view class="summary-actions">
+            <button class="btn-retry" bindtap="retrySession">再练一次</button>
+            <button class="btn-back" bindtap="goBack">返回题库</button>
+          </view>
+        </view>
+      </view>
+
+      <view class="scroll-anchor" id="chat-bottom"></view>
+    </view>
+
+    <!-- ─── Input area ──────────────────────────────────────────── -->
+    <view class="input-area" wx:if="{{!isSessionEnd}}">
+
+      <!-- ── Voice mode ── -->
+      <view class="voice-input-wrap" wx:if="{{voiceMode}}">
+        <view class="input-hint-row">
+          <text class="input-hint">{{recording ? '正在录音，松开结束' : sending ? '客人正在回应…' : '按住说英语（录音将保存）'}}</text>
+          <view class="btn-mode-switch" bindtap="toggleInputMode">
+            <text class="mode-icon">Aa</text>
+          </view>
+        </view>
+        <view
+          class="btn-record {{recording ? 'btn-recording' : ''}} {{sending ? 'btn-disabled' : ''}}"
+          bindtouchstart="startRecording"
+          bindtouchend="stopRecording"
+          bindtouchcancel="stopRecording"
+        >
+          <view class="record-icon-wrap">
+            <text class="record-icon">🎤</text>
+          </view>
+          <text class="record-label">{{recording ? '松开 结束' : '按住 说话'}}</text>
+          <view class="record-pulse" wx:if="{{recording}}">
+            <view class="pulse-ring pulse-1"></view>
+            <view class="pulse-ring pulse-2"></view>
+          </view>
+        </view>
+      </view>
+
+      <!-- ── Text mode (default) ── -->
+      <view class="text-input-wrap" wx:if="{{!voiceMode}}">
+        <view class="input-row">
+          <view class="btn-mode-switch" bindtap="toggleInputMode">
+            <text class="mode-icon">🎤</text>
+          </view>
+          <input
+            class="text-input"
+            placeholder="{{sending ? '客人正在回应…' : '用英文回复客人…'}}"
+            placeholder-style="color:#aaa"
+            value="{{inputText}}"
+            bindinput="onInputChange"
+            confirm-type="send"
+            bindconfirm="sendMessage"
+            disabled="{{sending}}"
+            adjust-position
+            hold-keyboard
+            focus="{{!sending && gatewayReady}}"
+          />
+          <view
+            class="btn-send {{inputText.length > 0 && !sending ? 'send-active' : ''}}"
+            bindtap="sendMessage"
+          >
+            <text class="send-arrow">↑</text>
+          </view>
+        </view>
+      </view>
+
+    </view>
+
+  </view>
+</view>

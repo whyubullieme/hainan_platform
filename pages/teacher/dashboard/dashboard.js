@@ -144,5 +144,28 @@ Page({
         }
       },
     });
+  },
+
+  goToTopErrors() {
+    wx.navigateTo({ url: '/pages/teacher/topErrors/topErrors' });
+  },
+
+  async handleExportCSV() {
+    const { classId } = this.data;
+    if (!classId) return;
+    wx.showLoading({ title: '生成报表...', mask: true });
+    try {
+      const res = await teacherService.exportCSV({ classId, type: 'overview' });
+      wx.hideLoading();
+      if (res.errCode === 0 && res.csvUrl) {
+        wx.setClipboardData({ data: res.csvUrl });
+        wx.showModal({ title: '报表已生成', content: '下载链接已复制到剪贴板', showCancel: false });
+      } else {
+        wx.showToast({ title: res.errMsg || '导出失败', icon: 'none' });
+      }
+    } catch (e) {
+      wx.hideLoading();
+      wx.showToast({ title: e.message || '导出失败', icon: 'none' });
+    }
   }
 });

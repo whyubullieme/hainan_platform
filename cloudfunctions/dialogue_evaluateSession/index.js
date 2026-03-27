@@ -242,6 +242,56 @@ const SCENES = {
       'It will be delivered in about 30 minutes.',
       'Is there anything else I can help you with?'
     ]
+  },
+  scene_checkout: {
+    nameZh: '退房结账',
+    targetExpressions: [
+      'Certainly, let me pull up your account.',
+      'Your total comes to X yuan.',
+      'Would you like to pay by card or cash?',
+      'I hope you enjoyed your stay.',
+      'Would you need help with your luggage?'
+    ]
+  },
+  scene_directions: {
+    nameZh: '问路指引',
+    targetExpressions: [
+      'It is about X minutes by taxi.',
+      'You can also take the shuttle bus.',
+      'Would you like me to call a taxi for you?',
+      'I would recommend visiting in the morning.',
+      'Here is a map for your reference.'
+    ]
+  },
+  scene_reservation: {
+    nameZh: '餐厅预约',
+    targetExpressions: [
+      'For how many guests?',
+      'What time would you prefer?',
+      'We have a table available at X.',
+      'Would you like a window seat?',
+      'Your reservation is confirmed.'
+    ]
+  },
+  scene_wake_up: {
+    nameZh: '叫醒服务',
+    targetExpressions: [
+      'What time would you like the wake-up call?',
+      'I will set that up for you right away.',
+      'Breakfast is served from X to X.',
+      'Would you like us to arrange airport transportation?',
+      'Have a pleasant journey!'
+    ]
+  },
+  scene_lost_item: {
+    nameZh: '失物招领',
+    targetExpressions: [
+      'I am sorry to hear that. Let me check with our staff.',
+      'Could you describe the item?',
+      'Where did you last see it?',
+      'We found an item matching your description.',
+      'Please come to the front desk to collect it.'
+    ]
   }
 };
 
@@ -282,6 +332,18 @@ async function callArkLLM(transcript, sceneId, level, targetExpressions) {
    - 70-89: 有收尾但不够专业
    - <70: 对话突然结束或无收尾
 
+5. fluency (语言流利度, 0-100)
+   - 90+: 表达流畅、句子完整、无明显语法错误
+   - 70-89: 基本流畅但偶有犹豫或小错
+   - 50-69: 句子不完整、明显犹豫("uh","um")、语法差
+   - <50: 表达混乱、无法组织完整句子、答非所问
+
+【流利度判断依据】
+- 学生的文字来自语音识别(ASR)，请注意ASR痕迹: "uh","um","er"等填充词说明犹豫
+- 短句、残句(如"No check in uh I don't know")说明表达能力差
+- 答非所问的轮次（AI回复"I didn't quite catch that"）= 学生说的话AI都没懂，流利度和信息传递应大幅扣分
+- 语法错误(如"I dont know"省略撇号不扣分，但"No rooms I dont know"这种语序混乱要扣分)
+
 【目标表达检查】(0-based 索引)
 学生应尝试使用以下表达（完全匹配或近似均可）:
 ${exprList}
@@ -289,11 +351,11 @@ ${exprList}
 场景: ${sceneId}，难度等级: ${level}
 
 【注意】
-- 答非所问的轮次（AI回复"I'm sorry, I didn't quite catch that"）不计入正面评分
-- semanticScore = (greeting + information + service + closing) / 4 的加权综合分
+- 答非所问的轮次不计入正面评分，反而应扣分
+- semanticScore = (greeting + information + service + closing + fluency) / 5 的综合分
 
 只输出JSON，不要其他内容:
-{"semanticScore":75,"breakdown":{"greeting":80,"information":70,"service":75,"closing":75},"feedback":"中文评语，指出1个优点和1个最需改进的地方，100字以内","expressionsUsed":[0,2]}`;
+{"semanticScore":75,"breakdown":{"greeting":80,"information":70,"service":75,"closing":75,"fluency":70},"feedback":"中文评语，指出1个优点和1个最需改进的地方，100字以内","expressionsUsed":[0,2]}`;
 
   const body = JSON.stringify({
     model: modelId,
@@ -380,67 +442,13 @@ exports.main = async (event) => {
     }
 
     const turns = session.turns || [];
-    const voiceTurns = turns.filter((t) => t.inputMode === 'voice' && t.audioFileId);
 
-    // 3. Suntone pronunciation evaluation — voice turns only
-    const pronResults = session.pronResults || [];
-    let processedCount = startFromTurn;
+    // NOTE: Suntone pronunciation scoring removed for dialogue mode.
+    // Reason: refText = ASR output creates circular self-reference (always scores high).
+    // Suntone is designed for read-aloud (fixed reference text), not free-form dialogue.
+    // Fluency is now evaluated by the LLM based on ASR artifacts.
 
-    for (let i = startFromTurn; i < voiceTurns.length; i++) {
-      // Check timeout — chain to self if running long
-      if (Date.now() - startTime > CHAIN_TIMEOUT_MS) {
-        console.log(`approaching timeout at turn ${i}, chaining to self`);
-        await db.collection('dialogue_sessions').doc(sessionId).update({
-          data: {
-            evaluationCursor: i,
-            pronResults,
-            updatedAt: db.serverDate(),
-          },
-        });
-        // Fire-and-forget self-chain
-        cloud.callFunction({
-          name: 'dialogue_evaluateSession',
-          data: { sessionId, startFromTurn: i },
-        }).catch((e) => console.warn('self-chain failed:', e.message));
-        return { errCode: 0, errMsg: 'chained', cursor: i };
-      }
-
-      const turn = voiceTurns[i];
-      try {
-        const audioBuffer = await downloadAudioFromCloud(turn.audioFileId);
-        const refText = turn.asrText || turn.userText || '';
-        const result = await callSuntone(audioBuffer, refText, turn.audioFileId);
-
-        if (result.error) {
-          console.warn(`suntone error for turn ${turn.round}:`, result.error);
-          pronResults.push({ round: turn.round, pronScore: null, pronDetails: null, error: result.error });
-        } else {
-          pronResults.push({ round: turn.round, pronScore: result.pronScore, pronDetails: result.pronDetails });
-        }
-      } catch (e) {
-        console.warn(`suntone exception for turn ${turn.round}:`, e.message);
-        pronResults.push({ round: turn.round, pronScore: null, pronDetails: null, error: e.message });
-      }
-      processedCount = i + 1;
-    }
-
-    // Add skipped entries for text-only turns
-    const voiceRounds = new Set(voiceTurns.map((t) => t.round));
-    for (const turn of turns) {
-      if (turn.inputMode === 'text' || !voiceRounds.has(turn.round)) {
-        if (!pronResults.some((p) => p.round === turn.round)) {
-          pronResults.push({ round: turn.round, pronScore: null, skipped: true });
-        }
-      }
-    }
-
-    // Average pronunciation score (voice turns only)
-    const validPronScores = pronResults.filter((p) => typeof p.pronScore === 'number');
-    const avgPronScore = validPronScores.length > 0
-      ? Math.round(validPronScores.reduce((sum, p) => sum + p.pronScore, 0) / validPronScores.length)
-      : null;
-
-    // 4. LLM semantic evaluation — build transcript
+    // 3. LLM semantic + fluency evaluation — build transcript
     const transcript = turns.map((t) => {
       const prefix = t.round === 0 ? 'AI (guest)' : `Round ${t.round}`;
       const offTopic = t.aiReply && t.aiReply.includes("didn't quite catch that");
@@ -458,8 +466,8 @@ exports.main = async (event) => {
     console.log('[eval] === LLM RAW RESULT ===', JSON.stringify(llmResult));
     if (llmResult.breakdown) {
       const b = llmResult.breakdown;
-      console.log('[eval] breakdown: greeting=%d information=%d service=%d closing=%d',
-        b.greeting, b.information, b.service, b.closing);
+      console.log('[eval] breakdown: greeting=%d information=%d service=%d closing=%d fluency=%d',
+        b.greeting, b.information, b.service, b.closing, b.fluency);
     }
 
     let semanticScore = null;
@@ -482,41 +490,30 @@ exports.main = async (event) => {
       expressionsUsed = llmResult.expressionsUsed;
     }
 
-    // 5. Fusion score
-    const semW = 0.5;
-    const pronW = 0.5;
-    let finalScore;
-    if (avgPronScore != null) {
-      finalScore = Math.round((semW * semanticScore + pronW * avgPronScore) / (semW + pronW));
-    } else {
-      // No voice turns — semantic only
-      finalScore = semanticScore;
-    }
+    // 4. Final score = LLM semantic score (includes fluency)
+    const finalScore = semanticScore;
 
-    // 6. Write results
+    // 5. Write results
     await db.collection('dialogue_sessions').doc(sessionId).update({
       data: {
         evaluationStatus: 'completed',
-        evaluationCursor: processedCount,
-        pronResults,
-        avgPronScore,
         semanticScore,
         semanticBreakdown: semanticBreakdown || {},
         semanticFeedback: semanticFeedback || '',
         expressionsUsed,
         finalScore,
+        avgPronScore: null,
         updatedAt: db.serverDate(),
       },
     });
 
-    console.log('evaluation completed:', { sessionId, finalScore, semanticScore, avgPronScore });
+    console.log('evaluation completed:', { sessionId, finalScore, semanticScore });
     return {
       errCode: 0,
       errMsg: 'evaluation completed',
       sessionId,
       finalScore,
       semanticScore,
-      avgPronScore,
     };
   } catch (error) {
     console.error('dialogue_evaluateSession error:', error);

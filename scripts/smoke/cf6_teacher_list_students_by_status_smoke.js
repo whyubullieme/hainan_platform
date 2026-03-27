@@ -21,8 +21,14 @@ const fakeData = {
   checkins: [
     { _id: 'ck-1', classId: 'class-1', dayNumber: 1, userId: 'stu-1' }
   ],
+  task_items: [
+    { _id: 'task-1', classId: 'class-1', dayNumber: 1, taskType: 'read_aloud' }
+  ],
   submissions: [
-    { _id: 'sb-1', classId: 'class-1', dayNumber: 1, userId: 'stu-1' }
+    { _id: 'sb-1', classId: 'class-1', dayNumber: 1, userId: 'stu-1', taskItemId: 'task-1' }
+  ],
+  reviews: [
+    { _id: 'rv-1', classId: 'class-1', dayNumber: 1, studentId: 'stu-1', reviewAction: 'approve' }
   ]
 };
 
@@ -138,14 +144,19 @@ async function run() {
   const handlerPath = path.join(__dirname, '..', '..', 'cloudfunctions', 'teacher_listStudentsByStatus', 'index.js');
   // eslint-disable-next-line import/no-dynamic-require, global-require
   const handler = require(handlerPath);
-  const doneRes = await handler.main({ classId: 'class-1', dayNumber: 1, status: 'done' }, {});
-  if (doneRes.errCode !== 0 || doneRes.students.length !== 1 || doneRes.students[0].userId !== 'stu-1' || !doneRes.students[0].hasCheckin || !doneRes.students[0].hasSubmission) {
-    console.error('CF6 done smoke test failed:', doneRes);
+  const reviewedRes = await handler.main({ classId: 'class-1', dayNumber: 1, status: 'reviewed' }, {});
+  if (reviewedRes.errCode !== 0 || reviewedRes.students.length !== 1 || reviewedRes.students[0].userId !== 'stu-1' || !reviewedRes.students[0].hasCheckin || !reviewedRes.students[0].hasSubmission || !reviewedRes.students[0].hasReview) {
+    console.error('CF6 reviewed smoke test failed:', reviewedRes);
     process.exit(1);
   }
   const missingRes = await handler.main({ classId: 'class-1', dayNumber: 1, status: 'missing' }, {});
   if (missingRes.errCode !== 0 || missingRes.students.length !== 1 || missingRes.students[0].userId !== 'stu-2' || missingRes.students[0].hasCheckin || missingRes.students[0].hasSubmission) {
     console.error('CF6 missing smoke test failed:', missingRes);
+    process.exit(1);
+  }
+  const doneRes = await handler.main({ classId: 'class-1', dayNumber: 1, status: 'done' }, {});
+  if (doneRes.errCode !== 0 || doneRes.students.length !== 0) {
+    console.error('CF6 done smoke test failed:', doneRes);
     process.exit(1);
   }
   console.log('CF6 teacher_listStudentsByStatus smoke test passed.');

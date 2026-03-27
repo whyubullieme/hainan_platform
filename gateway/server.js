@@ -78,6 +78,66 @@ const SCENES = {
       'It will be delivered in about 30 minutes.',
       'Is there anything else I can help you with?'
     ]
+  },
+  scene_checkout: {
+    nameZh: '退房结账', name: 'Hotel Check-out',
+    desc: 'A guest comes to the front desk to check out and settle the bill.',
+    firstGreeting: 'Good morning, I would like to check out, please. My room number is 1208.',
+    targetExpressions: [
+      'Certainly, let me pull up your account.',
+      'Your total comes to X yuan.',
+      'Would you like to pay by card or cash?',
+      'I hope you enjoyed your stay.',
+      'Would you need help with your luggage?'
+    ]
+  },
+  scene_directions: {
+    nameZh: '问路指引', name: 'Giving Directions',
+    desc: 'A guest asks the concierge for directions to a nearby attraction or restaurant.',
+    firstGreeting: 'Hi, could you tell me how to get to Wanning Beach from here? I heard it is beautiful.',
+    targetExpressions: [
+      'It is about X minutes by taxi.',
+      'You can also take the shuttle bus.',
+      'Would you like me to call a taxi for you?',
+      'I would recommend visiting in the morning.',
+      'Here is a map for your reference.'
+    ]
+  },
+  scene_reservation: {
+    nameZh: '餐厅预约', name: 'Restaurant Reservation',
+    desc: 'A guest wants to make a reservation at the hotel restaurant.',
+    firstGreeting: 'Hi, I would like to book a table at your seafood restaurant for tonight. There will be four of us.',
+    targetExpressions: [
+      'For how many guests?',
+      'What time would you prefer?',
+      'We have a table available at X.',
+      'Would you like a window seat?',
+      'Your reservation is confirmed.'
+    ]
+  },
+  scene_wake_up: {
+    nameZh: '叫醒服务', name: 'Wake-up Call',
+    desc: 'A guest calls the front desk to request a wake-up call and ask about breakfast hours.',
+    firstGreeting: 'Hello, I have an early flight tomorrow. Could I get a wake-up call?',
+    targetExpressions: [
+      'What time would you like the wake-up call?',
+      'I will set that up for you right away.',
+      'Breakfast is served from X to X.',
+      'Would you like us to arrange airport transportation?',
+      'Have a pleasant journey!'
+    ]
+  },
+  scene_lost_item: {
+    nameZh: '失物招领', name: 'Lost and Found',
+    desc: 'A guest reports a lost item and asks the hotel for help finding it.',
+    firstGreeting: 'Excuse me, I think I left my wallet in the lobby restaurant about an hour ago. Can you help me find it?',
+    targetExpressions: [
+      'I am sorry to hear that. Let me check with our staff.',
+      'Could you describe the item?',
+      'Where did you last see it?',
+      'We found an item matching your description.',
+      'Please come to the front desk to collect it.'
+    ]
   }
 };
 

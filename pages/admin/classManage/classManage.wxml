@@ -40,9 +40,9 @@
   <view class="section">
     <view class="section-title">任务管理</view>
     <view class="task-manage-card" bindtap="goToTaskManage">
-      <view class="task-manage-title">教材与任务素材管理（v1.1 预留）</view>
-      <view class="task-manage-desc">将支持编辑文字、图片、音频素材（含跟读资源）与任务模板。</view>
-      <view class="task-manage-link">进入任务管理</view>
+      <view class="task-manage-title">题库管理</view>
+      <view class="task-manage-desc">管理朗读、跟读、听力、对话任务模板</view>
+      <view class="task-manage-link">进入题库管理 →</view>
     </view>
   </view>
 

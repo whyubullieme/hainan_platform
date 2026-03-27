@@ -129,7 +129,7 @@
           <view class="summary-band {{passed ? 'band-pass' : 'band-fail'}}">
             <text class="summary-emoji">{{passed ? '🎉' : '💪'}}</text>
             <text class="summary-headline">{{passed ? '对话完成！' : '继续加油！'}}</text>
-            <text class="summary-sub">{{evaluationStatus === 'completed' ? '正式评分（讯飞+LLM）' : evaluationStatus === 'pending' || evaluationStatus === 'running' ? '正式评分计算中…' : '综合得分'}}</text>
+            <text class="summary-sub">{{evaluationStatus === 'completed' ? '正式评分（LLM）' : evaluationStatus === 'pending' || evaluationStatus === 'running' ? '正式评分计算中…' : '综合得分'}}</text>
           </view>
           <view class="score-circle-wrap">
             <view class="score-circle {{totalScore != null ? (passed ? 'circle-pass' : 'circle-fail') : 'circle-pending'}}">
@@ -147,7 +147,7 @@
             <view class="eval-status-card" wx:if="{{evaluationStatus === 'pending' || evaluationStatus === 'running'}}">
               <view class="eval-status-row">
                 <view class="eval-spinner"></view>
-                <text class="eval-status-text">正式评分中（讯飞+LLM）…</text>
+                <text class="eval-status-text">正式评分中…</text>
               </view>
               <text class="eval-status-sub">评分完成后将自动显示</text>
             </view>
@@ -160,20 +160,12 @@
             <!-- Completed -->
             <view class="eval-result-card" wx:if="{{evaluationStatus === 'completed' && finalScore != null}}">
               <view class="eval-result-header">
-                <text class="eval-result-title">正式评分（讯飞+LLM）</text>
+                <text class="eval-result-title">正式评分（LLM）</text>
               </view>
               <view class="eval-scores-row">
                 <view class="eval-score-item eval-final">
                   <text class="eval-score-num">{{finalScore}}</text>
                   <text class="eval-score-label">综合分</text>
-                </view>
-                <view class="eval-score-item" wx:if="{{semanticScore != null}}">
-                  <text class="eval-score-num">{{semanticScore}}</text>
-                  <text class="eval-score-label">语义分</text>
-                </view>
-                <view class="eval-score-item" wx:if="{{avgPronScore != null}}">
-                  <text class="eval-score-num">{{avgPronScore}}</text>
-                  <text class="eval-score-label">发音分</text>
                 </view>
               </view>
 
@@ -206,6 +198,13 @@
                     <view class="breakdown-bar" style="width:{{semanticBreakdown.closing}}%"></view>
                   </view>
                   <text class="breakdown-num">{{semanticBreakdown.closing}}</text>
+                </view>
+                <view class="breakdown-item" wx:if="{{semanticBreakdown.fluency != null}}">
+                  <text class="breakdown-label">语言流利</text>
+                  <view class="breakdown-bar-wrap">
+                    <view class="breakdown-bar" style="width:{{semanticBreakdown.fluency}}%"></view>
+                  </view>
+                  <text class="breakdown-num">{{semanticBreakdown.fluency}}</text>
                 </view>
               </view>
 

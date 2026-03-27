@@ -1,130 +1,172 @@
 /* pages/student/home/home.wxss */
+
 .home-container {
   min-height: 100vh;
-  background-color: #f5f5f5;
-  padding-bottom: 40rpx;
+  background: #f0f4f8;
+  padding: 0 0 60rpx;
 }
 
+/* Header bar */
 .header-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24rpx 32rpx;
+  padding: 24rpx 28rpx 12rpx;
 }
 
 .refresh-link {
   font-size: 28rpx;
-  color: #07c160;
+  color: #3b82f6;
+  font-weight: 500;
+  letter-spacing: 1rpx;
+}
+
+.refresh-link:active {
+  opacity: 0.7;
 }
 
 .logout-link {
   font-size: 26rpx;
-  color: #999;
+  color: #94a3b8;
 }
 
+.logout-link:active {
+  color: #64748b;
+}
+
+/* Greeting bar */
 .greeting-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 32rpx 20rpx;
-  padding: 14rpx 18rpx;
+  margin: 0 28rpx 24rpx;
+  padding: 20rpx 24rpx;
   background: #fff;
-  border: 1rpx solid #e6edf7;
-  border-radius: 12rpx;
+  border: 1rpx solid #e2e8f0;
+  border-radius: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
 }
 
 .greeting-text {
-  font-size: 26rpx;
-  color: #334155;
+  font-size: 28rpx;
+  color: #1e293b;
+  font-weight: 500;
 }
 
 .greeting-bar .class-name {
   font-size: 24rpx;
-  color: #6b7280;
+  color: #64748b;
 }
 
+/* Demo banner */
 .demo-banner {
-  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-  padding: 24rpx;
+  margin: 0 28rpx 24rpx;
+  background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%);
+  padding: 20rpx 28rpx;
   text-align: center;
+  border-radius: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
 }
 
 .demo-text {
   font-size: 26rpx;
-  color: #333;
+  color: #1e293b;
   font-weight: 500;
 }
 
+/* Date header hero */
 .date-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 60rpx 40rpx;
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  margin: 0 28rpx 32rpx;
+  padding: 56rpx 40rpx 48rpx;
+  border-radius: 20rpx;
   color: #fff;
+  text-align: center;
+  box-shadow: 0 8rpx 24rpx rgba(59, 130, 246, 0.18);
 }
 
 .day-info {
   display: flex;
   align-items: baseline;
   justify-content: center;
-  margin-bottom: 20rpx;
+  margin-bottom: 16rpx;
 }
 
 .day-label {
-  font-size: 32rpx;
-  margin: 0 8rpx;
+  font-size: 30rpx;
+  margin: 0 6rpx;
+  opacity: 0.9;
+  font-weight: 400;
 }
 
 .day-number {
   font-size: 80rpx;
-  font-weight: bold;
-  margin: 0 16rpx;
+  font-weight: 700;
+  margin: 0 12rpx;
+  line-height: 1;
 }
 
 .date-text {
   display: block;
   text-align: center;
-  font-size: 28rpx;
-  opacity: 0.9;
+  font-size: 26rpx;
+  opacity: 0.85;
+  letter-spacing: 1rpx;
 }
 
+/* Check-in button */
 .checkin-header-btn {
   margin-top: 24rpx;
-  background-color: rgba(255,255,255,0.3);
+  background: rgba(255, 255, 255, 0.2);
   color: #fff;
-  border: 1rpx solid rgba(255,255,255,0.6);
+  border: 1rpx solid rgba(255, 255, 255, 0.4);
+  border-radius: 14rpx;
+  font-size: 26rpx;
+  padding: 12rpx 28rpx;
 }
 
 .checkin-header-btn.checkin-disabled {
-  opacity: 0.6;
+  opacity: 0.55;
 }
 
 .checked-badge {
   display: block;
   margin-top: 16rpx;
   font-size: 26rpx;
-  color: rgba(255,255,255,0.95);
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
 }
 
 /* Quick action cards */
 .quick-actions {
-  margin: 40rpx 30rpx;
+  margin: 0 28rpx;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24rpx;
+  gap: 20rpx;
 }
 
 .action-card {
   background: #fff;
-  border-radius: 16rpx;
-  padding: 40rpx 24rpx;
+  border-radius: 20rpx;
+  padding: 44rpx 24rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+  box-shadow: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
+  border: 1rpx solid #e2e8f0;
+  transition: transform 0.15s ease;
+}
+
+.action-card:active {
+  transform: scale(0.97);
+  opacity: 0.9;
 }
 
 .action-card.primary {
-  background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border: none;
+  box-shadow: 0 6rpx 20rpx rgba(59, 130, 246, 0.2);
 }
 
 .action-card.primary .action-icon,
@@ -133,11 +175,11 @@
 }
 
 .action-icon {
-  font-size: 48rpx;
+  font-size: 52rpx;
 }
 
 .action-label {
   font-size: 30rpx;
-  font-weight: 500;
-  color: #334155;
+  font-weight: 600;
+  color: #1e293b;
 }

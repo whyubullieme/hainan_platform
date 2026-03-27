@@ -114,6 +114,14 @@ const studentService = {
    */
   dialogueGetSession(params) {
     return api.callCloudFunction('dialogue_getSession', params);
+  },
+
+  /**
+   * 获取历史对话记录列表
+   * @param {object} params {}
+   */
+  getDialogueSessions(params) {
+    return api.callCloudFunction('student_getDialogueSessions', params);
   }
 };
 

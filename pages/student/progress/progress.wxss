@@ -1,41 +1,50 @@
 /* pages/student/progress/progress.wxss */
+
 .container {
   min-height: 100vh;
-  padding: 32rpx;
-  background: #f8f9fa;
+  padding: 24rpx 28rpx 48rpx;
+  background: #f0f4f8;
 }
 
+/* Logout */
 .logout-wrap {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 24rpx;
+  margin-bottom: 20rpx;
 }
 
 .logout-link {
   font-size: 26rpx;
-  color: #999;
+  color: #94a3b8;
 }
 
+.logout-link:active {
+  color: #64748b;
+}
+
+/* Section card */
 .section {
   background: #fff;
-  border-radius: 16rpx;
-  padding: 32rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+  border-radius: 20rpx;
+  padding: 32rpx 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
+  border: 1rpx solid #e2e8f0;
 }
 
 .section-title {
   font-size: 36rpx;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 8rpx;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 6rpx;
 }
 
 .section-desc {
   font-size: 26rpx;
-  color: #999;
-  margin-bottom: 32rpx;
+  color: #94a3b8;
+  margin-bottom: 28rpx;
 }
 
+/* Progress meta */
 .progress-meta {
   display: flex;
   justify-content: space-between;
@@ -45,10 +54,11 @@
 
 .total-days {
   font-size: 28rpx;
-  color: #07c160;
-  font-weight: 500;
+  color: #3b82f6;
+  font-weight: 600;
 }
 
+/* Pagination (component overrides) */
 .pagination {
   display: flex;
   align-items: center;
@@ -57,18 +67,20 @@
 
 .page-btn {
   font-size: 26rpx;
-  color: #07c160;
+  color: #3b82f6;
+  font-weight: 500;
 }
 
 .page-btn.disabled {
-  color: #ccc;
+  color: #cbd5e1;
 }
 
 .page-info {
   font-size: 24rpx;
-  color: #666;
+  color: #64748b;
 }
 
+/* Progress list */
 .progress-list {
   display: flex;
   flex-direction: column;
@@ -79,56 +91,67 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24rpx;
-  background: #f8f9fa;
-  border-radius: 12rpx;
+  padding: 24rpx 20rpx;
+  background: #f8fafc;
+  border-radius: 16rpx;
+  border: 1rpx solid #e2e8f0;
+  transition: background 0.2s ease;
 }
 
 .day-row.completed {
-  background: #f0f9eb;
-  border-left: 4rpx solid #52c41a;
+  background: rgba(16, 185, 129, 0.06);
+  border-color: rgba(16, 185, 129, 0.25);
+  border-left: 6rpx solid #10b981;
 }
 
+/* Day info */
 .day-info {
   display: flex;
   flex-direction: column;
+  gap: 4rpx;
 }
 
 .day-num {
   font-size: 30rpx;
-  font-weight: 500;
-  color: #333;
+  font-weight: 600;
+  color: #1e293b;
 }
 
 .day-date {
   font-size: 24rpx;
-  color: #999;
-  margin-top: 4rpx;
+  color: #94a3b8;
 }
 
+/* Day status */
 .day-status {
   display: flex;
-  gap: 24rpx;
+  gap: 20rpx;
 }
 
 .status-item {
   font-size: 24rpx;
-  color: #999;
-}
-
-.status-item.done {
-  color: #52c41a;
-}
-
-.complete-badge {
-  font-size: 24rpx;
-  color: #52c41a;
+  color: #94a3b8;
   font-weight: 500;
 }
 
+.status-item.done {
+  color: #10b981;
+}
+
+/* Complete badge */
+.complete-badge {
+  font-size: 22rpx;
+  color: #10b981;
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+/* Empty state */
 .empty-state {
   text-align: center;
-  padding: 80rpx;
-  color: #999;
+  padding: 80rpx 40rpx;
+  color: #94a3b8;
   font-size: 28rpx;
 }

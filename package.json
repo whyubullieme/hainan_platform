@@ -5,6 +5,11 @@
   "scripts": {
     "agent:loop": "node scripts/agent_loop.js",
     "lint:configs": "node scripts/lint-configs.js",
-    "test:agent-loop": "node scripts/test_agent_loop_bootstrap.js"
+    "test:agent-loop": "node scripts/test_agent_loop_bootstrap.js",
+    "test:smoke": "node scripts/smoke/cf5_teacher_get_overview_smoke.js && node scripts/smoke/cf6_teacher_list_students_by_status_smoke.js && node scripts/smoke/cf7_teacher_save_review_smoke.js",
+    "test:cf-all": "node scripts/smoke/all_cloudfunctions_smoke.js"
+  },
+  "dependencies": {
+    "wscat": "^6.1.0"
   }
 }

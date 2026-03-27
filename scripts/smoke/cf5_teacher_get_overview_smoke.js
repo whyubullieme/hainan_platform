@@ -18,19 +18,26 @@ const fakeData = {
   checkins: [
     { _id: 'ck-1', classId: 'class-1', dayNumber: 1, userId: 'stu-1' }
   ],
+  task_items: [
+    { _id: 'task-1', classId: 'class-1', dayNumber: 1, taskType: 'read_aloud' }
+  ],
   submissions: [
-    { _id: 'sb-1', classId: 'class-1', dayNumber: 1, userId: 'stu-1' },
-    { _id: 'sb-2', classId: 'class-1', dayNumber: 1, userId: 'stu-2' }
+    { _id: 'sb-1', classId: 'class-1', dayNumber: 1, userId: 'stu-1', taskItemId: 'task-1' },
+    { _id: 'sb-2', classId: 'class-1', dayNumber: 1, userId: 'stu-2', taskItemId: 'task-1', needsRedo: true }
   ],
   reviews: [
-    { _id: 'rv-1', classId: 'class-1', dayNumber: 1, studentId: 'stu-1' }
+    { _id: 'rv-1', classId: 'class-1', dayNumber: 1, studentId: 'stu-1', reviewAction: 'approve' }
   ]
 };
 
 function matchesFilter(doc, filter = {}) {
   return Object.keys(filter).every((key) => {
-    if (filter[key] === undefined) return true;
-    return doc[key] === filter[key];
+    const value = filter[key];
+    if (value === undefined) return true;
+    if (value && value._internal === 'in') {
+      return value.values.includes(doc[key]);
+    }
+    return doc[key] === value;
   });
 }
 
@@ -104,6 +111,11 @@ function createAggregate(collectionName) {
 }
 
 function createDb() {
+  const command = {
+    in(values) {
+      return { _internal: 'in', values: Array.from(new Set(values)) };
+    }
+  };
   return {
     collection(name) {
       return {
@@ -123,7 +135,8 @@ function createDb() {
           return createAggregate(name);
         }
       };
-    }
+    },
+    command
   };
 }
 
@@ -154,7 +167,7 @@ async function run() {
     console.error('CF5 smoke test failed:', result);
     process.exit(1);
   }
-  if (result.totalStudents !== 2 || result.checkedInCount !== 1 || result.submittedCount !== 2 || result.reviewedCount !== 1) {
+  if (result.totalStudents !== 2 || result.checkedInCount !== 1 || result.submittedCount !== 1 || result.reviewedCount !== 0) {
     console.error('CF5 smoke test count mismatch:', result);
     process.exit(1);
   }

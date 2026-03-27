@@ -54,12 +54,55 @@ function buildDialogueTasks() {
       taskType: 'dialogue',
       sceneId: 'scene_complaint',
       level: 2,
-      scoringConfig: {
-        semanticWeight: 0.6,
-        pronWeight: 0.4,
-        semanticPassLine: 60,
-        pronPassLine: 60
-      }
+      scoringConfig: { semanticWeight: 0.6, pronWeight: 0.4, semanticPassLine: 60, pronPassLine: 60 }
+    },
+    {
+      title: '客房服务对话',
+      content: '情景：客人拨打客房服务电话点餐或要求额外用品（Level 1 · 3轮）',
+      taskType: 'dialogue',
+      sceneId: 'scene_service',
+      level: 1,
+      scoringConfig: { semanticWeight: 0.6, pronWeight: 0.4, semanticPassLine: 60, pronPassLine: 60 }
+    },
+    {
+      title: '退房结账对话',
+      content: '情景：客人来前台退房结账（Level 2 · 4轮）',
+      taskType: 'dialogue',
+      sceneId: 'scene_checkout',
+      level: 2,
+      scoringConfig: { semanticWeight: 0.6, pronWeight: 0.4, semanticPassLine: 60, pronPassLine: 60 }
+    },
+    {
+      title: '问路指引对话',
+      content: '情景：客人询问附近景点或餐厅的路线（Level 1 · 3轮）',
+      taskType: 'dialogue',
+      sceneId: 'scene_directions',
+      level: 1,
+      scoringConfig: { semanticWeight: 0.6, pronWeight: 0.4, semanticPassLine: 60, pronPassLine: 60 }
+    },
+    {
+      title: '餐厅预约对话',
+      content: '情景：客人想预约酒店餐厅（Level 2 · 4轮）',
+      taskType: 'dialogue',
+      sceneId: 'scene_reservation',
+      level: 2,
+      scoringConfig: { semanticWeight: 0.6, pronWeight: 0.4, semanticPassLine: 60, pronPassLine: 60 }
+    },
+    {
+      title: '叫醒服务对话',
+      content: '情景：客人打电话要求叫醒服务并询问早餐时间（Level 1 · 3轮）',
+      taskType: 'dialogue',
+      sceneId: 'scene_wake_up',
+      level: 1,
+      scoringConfig: { semanticWeight: 0.6, pronWeight: 0.4, semanticPassLine: 60, pronPassLine: 60 }
+    },
+    {
+      title: '失物招领对话',
+      content: '情景：客人在酒店丢了东西，寻求前台帮助（Level 3 · 5轮）',
+      taskType: 'dialogue',
+      sceneId: 'scene_lost_item',
+      level: 3,
+      scoringConfig: { semanticWeight: 0.6, pronWeight: 0.4, semanticPassLine: 60, pronPassLine: 60 }
     }
   ];
 }

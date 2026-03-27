@@ -1,31 +1,83 @@
 <!--pages/student/myTasks/myTasks.wxml-->
 <view class="container">
-  <view class="section-title">选择练习类型</view>
-  <view class="type-grid">
+  <!-- Tab bar -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 'types' ? 'tab-active' : ''}}" bindtap="switchTab" data-tab="types">
+      <text>练习类型</text>
+    </view>
+    <view class="tab-item {{activeTab === 'dialogue_history' ? 'tab-active' : ''}}" bindtap="switchTab" data-tab="dialogue_history">
+      <text>对话记录</text>
+    </view>
+  </view>
 
-    <view class="type-card" bindtap="goToType" data-type="read_aloud">
-      <text class="type-icon">📖</text>
-      <text class="type-name">朗读</text>
-      <text class="type-desc">录音朗读，AI 评分</text>
+  <!-- Tab: Practice types -->
+  <view wx:if="{{activeTab === 'types'}}">
+    <view class="section-title">选择练习类型</view>
+    <view class="type-grid">
+
+      <view class="type-card" bindtap="goToType" data-type="read_aloud">
+        <text class="type-icon">📖</text>
+        <text class="type-name">朗读</text>
+        <text class="type-desc">录音朗读，AI 评分</text>
+      </view>
+
+      <view class="type-card" bindtap="goToType" data-type="listening_mcq">
+        <text class="type-icon">🎧</text>
+        <text class="type-name">听力</text>
+        <text class="type-desc">听句子，选正确答案</text>
+      </view>
+
+      <view class="type-card" bindtap="goToType" data-type="dialogue">
+        <text class="type-icon">💬</text>
+        <text class="type-name">对话</text>
+        <text class="type-desc">情景对话练习</text>
+      </view>
+
+      <view class="type-card" bindtap="goToType" data-type="read_along">
+        <text class="type-icon">🎙️</text>
+        <text class="type-name">跟读</text>
+        <text class="type-desc">跟读录音，纠音反馈</text>
+      </view>
+
+    </view>
+  </view>
+
+  <!-- Tab: Dialogue history -->
+  <view wx:if="{{activeTab === 'dialogue_history'}}">
+    <view class="section-title">对话记录</view>
+
+    <view class="loading-hint" wx:if="{{dialogueLoading}}">加载中...</view>
+    <view class="error-hint" wx:if="{{dialogueError}}">{{dialogueError}}</view>
+
+    <view wx:if="{{!dialogueLoading && !dialogueError && dialogueSessions.length === 0}}" class="empty-hint">
+      暂无对话记录
     </view>
 
-    <view class="type-card" bindtap="goToType" data-type="listening_mcq">
-      <text class="type-icon">🎧</text>
-      <text class="type-name">听力</text>
-      <text class="type-desc">听句子，选正确答案</text>
+    <view class="dialogue-list" wx:if="{{dialogueSessions.length > 0}}">
+      <view class="dialogue-card" wx:for="{{dialogueSessions}}" wx:key="_id">
+        <view class="dialogue-card-header">
+          <text class="dialogue-scene-name">{{item.sceneName || '对话练习'}}</text>
+          <text class="badge {{item.passedClass}}">{{item.passedText}}</text>
+        </view>
+        <view class="dialogue-card-body">
+          <view class="dialogue-info-row">
+            <text class="dialogue-label">得分</text>
+            <text class="dialogue-value dialogue-score">{{item.displayScore}}</text>
+          </view>
+          <view class="dialogue-info-row" wx:if="{{item.level}}">
+            <text class="dialogue-label">等级</text>
+            <text class="dialogue-value">{{item.level}}</text>
+          </view>
+          <view class="dialogue-info-row">
+            <text class="dialogue-label">轮次</text>
+            <text class="dialogue-value">{{item.turnCount}}</text>
+          </view>
+          <view class="dialogue-info-row" wx:if="{{item.dateStr}}">
+            <text class="dialogue-label">时间</text>
+            <text class="dialogue-value">{{item.dateStr}}</text>
+          </view>
+        </view>
+      </view>
     </view>
-
-    <view class="type-card" bindtap="goToType" data-type="dialogue">
-      <text class="type-icon">💬</text>
-      <text class="type-name">对话</text>
-      <text class="type-desc">情景对话练习</text>
-    </view>
-
-    <view class="type-card" bindtap="goToType" data-type="read_along">
-      <text class="type-icon">🎙️</text>
-      <text class="type-name">跟读</text>
-      <text class="type-desc">跟读录音，纠音反馈</text>
-    </view>
-
   </view>
 </view>

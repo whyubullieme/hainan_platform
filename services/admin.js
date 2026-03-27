@@ -28,6 +28,27 @@ const adminService = {
   },
   removeMember(params) {
     return api.callCloudFunction('admin_removeMember', params);
+  },
+  listTaskBank() {
+    return api.callCloudFunction('admin_listTaskBank', {});
+  },
+  upsertTask(params) {
+    return api.callCloudFunction('admin_upsertTask', params);
+  },
+  deleteTask(params) {
+    return api.callCloudFunction('admin_deleteTask', params);
+  },
+  bulkUpsertTasks(params) {
+    return api.callCloudFunction('admin_bulkUpsertTasks', params);
+  },
+  publishTasks(params) {
+    return api.callCloudFunction('admin_publishTasks', params);
+  },
+  parseTaskArchive(params) {
+    return api.callCloudFunction('admin_parseTaskArchive', params);
+  },
+  cleanupDuplicates(params) {
+    return api.callCloudFunction('admin_cleanupDuplicates', params);
   }
 };
 

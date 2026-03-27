@@ -1,11 +1,277 @@
+<!--pages/admin/taskManage/taskManage.wxml-->
 <view class="container">
-  <view class="section">
-    <view class="title">任务管理（v1.1 规划）</view>
-    <view class="desc">
-      本页面将用于统一管理教材与任务内容，支持文字、图片、音频（含跟读素材）等资源编辑。
+  <!-- Header -->
+  <view class="header-row">
+    <text class="page-title">题库管理</text>
+    <view class="header-actions">
+      <button class="btn-import" size="mini" bindtap="handleOpenImport">导入JSON</button>
+      <button class="btn-import" size="mini" bindtap="handleUploadArchive" loading="{{parsingArchive}}">上传题包</button>
+      <button class="btn-publish" size="mini" bindtap="handlePublishDrafts" loading="{{publishing}}">发布草稿</button>
+      <button class="btn-dedup" size="mini" bindtap="handleDedup" loading="{{deduping}}">去重</button>
+      <button class="btn-add" size="mini" bindtap="handleAdd">添加任务</button>
     </view>
-    <view class="desc">
-      当前版本先预留入口与信息说明，v1.1 开始补充素材上传、版本管理、任务模板配置等能力。
+  </view>
+
+  <!-- Tabs -->
+  <view class="tabs">
+    <view
+      class="tab-item {{activeTab === item.key ? 'active' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="key"
+      data-key="{{item.key}}"
+      bindtap="onTabChange"
+    >
+      {{item.label}}
     </view>
+  </view>
+  <view class="tabs status-tabs">
+    <view
+      class="tab-item {{activeStatus === item.key ? 'active' : ''}}"
+      wx:for="{{statusTabs}}"
+      wx:key="key"
+      data-key="{{item.key}}"
+      bindtap="onStatusTabChange"
+    >
+      {{item.label}}
+    </view>
+  </view>
+
+  <!-- Loading -->
+  <view class="loading-tip" wx:if="{{loading && !showForm}}">加载中...</view>
+
+  <!-- Task list -->
+  <view class="task-list" wx:if="{{!loading || showForm}}">
+    <view class="task-card" wx:for="{{filteredTasks}}" wx:key="_id">
+      <view class="card-header">
+        <text class="task-title">{{item.title}}</text>
+        <text class="type-badge type-{{item.taskType}}">{{taskTypeLabels[item.taskType] || item.taskType}}</text>
+      </view>
+      <view class="card-source">
+        <text class="source-tag status-{{item.status || 'draft'}}">{{statusLabels[item.status || 'draft'] || '草稿'}}</text>
+        <text class="source-tag" wx:if="{{item.versionTag}}">{{item.versionTag}}</text>
+      </view>
+      <view class="card-source" wx:if="{{item.dayNumber}}">
+        <text class="source-tag">第{{item.dayNumber}}天</text>
+        <text class="source-tag" wx:if="{{item.isTemplate}}">模板</text>
+      </view>
+      <view class="card-content" wx:if="{{item.content}}">
+        <text class="content-preview">{{item.content}}</text>
+      </view>
+      <view class="card-meta" wx:if="{{item.expectedAnswer}}">
+        <text class="meta-label">预期答案：</text>
+        <text class="meta-value">{{item.expectedAnswer}}</text>
+      </view>
+      <view class="card-meta" wx:if="{{item.ttsText}}">
+        <text class="meta-label">TTS 文本：</text>
+        <text class="meta-value">{{item.ttsText}}</text>
+      </view>
+      <view class="card-meta" wx:if="{{item.sceneId}}">
+        <text class="meta-label">场景：</text>
+        <text class="meta-value">{{item.sceneId}} (Level {{item.level}})</text>
+      </view>
+      <view class="card-actions">
+        <button class="btn-edit" size="mini" data-id="{{item._id}}" bindtap="handleEdit">编辑</button>
+        <button class="btn-delete" size="mini" data-id="{{item._id}}" bindtap="handleDelete">删除</button>
+      </view>
+    </view>
+
+    <!-- Empty state -->
+    <view class="empty-tip" wx:if="{{filteredTasks.length === 0 && !loading}}">
+      暂无任务模板，点击"添加任务"创建
+    </view>
+  </view>
+
+  <!-- Form modal -->
+  <view class="form-mask" wx:if="{{showForm}}" bindtap="handleCancel"></view>
+  <view class="form-panel" wx:if="{{showForm}}">
+    <view class="form-header">
+      <text class="form-title">{{isEditing ? '编辑任务' : '添加任务'}}</text>
+      <text class="form-close" bindtap="handleCancel">取消</text>
+    </view>
+
+    <scroll-view scroll-y class="form-scroll">
+      <!-- Title -->
+      <view class="form-row">
+        <text class="form-label">任务标题 *</text>
+        <input
+          class="form-input"
+          placeholder="请输入任务标题"
+          value="{{formData.title}}"
+          bindinput="onTitleInput"
+        />
+      </view>
+
+      <!-- Task type -->
+      <view class="form-row">
+        <text class="form-label">任务类型 *</text>
+        <picker
+          mode="selector"
+          range="{{taskTypeList}}"
+          range-key="label"
+          value="{{taskTypeIndex}}"
+          bindchange="onTaskTypePicker"
+        >
+          <view class="form-picker">{{taskTypeList[taskTypeIndex].label}}</view>
+        </picker>
+      </view>
+
+      <!-- Content -->
+      <view class="form-row">
+        <text class="form-label">任务内容 / 描述</text>
+        <textarea
+          class="form-textarea"
+          placeholder="请输入任务内容"
+          value="{{formData.content}}"
+          bindinput="onContentInput"
+          auto-height
+          maxlength="500"
+        />
+      </view>
+
+      <!-- Order -->
+      <view class="form-row">
+        <text class="form-label">排序号</text>
+        <input
+          class="form-input"
+          type="number"
+          placeholder="数字越小越靠前"
+          value="{{formData.order}}"
+          bindinput="onOrderInput"
+        />
+      </view>
+
+      <!-- read_aloud / read_along fields -->
+      <block wx:if="{{formData.taskType === 'read_aloud' || formData.taskType === 'read_along'}}">
+        <view class="form-row">
+          <text class="form-label">预期答案 (expectedAnswer)</text>
+          <textarea
+            class="form-textarea"
+            placeholder="学生需要朗读/跟读的标准文本"
+            value="{{formData.expectedAnswer}}"
+            bindinput="onExpectedAnswerInput"
+            auto-height
+          />
+        </view>
+      </block>
+
+      <!-- listening_mcq fields -->
+      <block wx:if="{{formData.taskType === 'listening_mcq'}}">
+        <view class="form-row">
+          <text class="form-label">TTS 文本 (听力播放内容)</text>
+          <textarea
+            class="form-textarea"
+            placeholder="播放给学生听的英文句子"
+            value="{{formData.ttsText}}"
+            bindinput="onTtsTextInput"
+            auto-height
+          />
+        </view>
+        <view class="form-row">
+          <text class="form-label">选项 A</text>
+          <input class="form-input" placeholder="选项A文本" value="{{formData.optionA}}" bindinput="onOptionAInput" />
+        </view>
+        <view class="form-row">
+          <text class="form-label">选项 B</text>
+          <input class="form-input" placeholder="选项B文本" value="{{formData.optionB}}" bindinput="onOptionBInput" />
+        </view>
+        <view class="form-row">
+          <text class="form-label">选项 C</text>
+          <input class="form-input" placeholder="选项C文本" value="{{formData.optionC}}" bindinput="onOptionCInput" />
+        </view>
+        <view class="form-row">
+          <text class="form-label">选项 D</text>
+          <input class="form-input" placeholder="选项D文本" value="{{formData.optionD}}" bindinput="onOptionDInput" />
+        </view>
+        <view class="form-row">
+          <text class="form-label">正确选项</text>
+          <picker
+            mode="selector"
+            range="{{correctOptionKeys}}"
+            value="{{correctOptionIndex}}"
+            bindchange="onCorrectOptionPicker"
+          >
+            <view class="form-picker">{{correctOptionKeys[correctOptionIndex]}}</view>
+          </picker>
+        </view>
+      </block>
+
+      <!-- dialogue fields -->
+      <block wx:if="{{formData.taskType === 'dialogue'}}">
+        <view class="form-row">
+          <text class="form-label">场景 ID (sceneId)</text>
+          <input class="form-input" placeholder="如 scene_checkin" value="{{formData.sceneId}}" bindinput="onSceneIdInput" />
+        </view>
+        <view class="form-row">
+          <text class="form-label">场景名称 (sceneName)</text>
+          <input class="form-input" placeholder="如 前台入住" value="{{formData.sceneName}}" bindinput="onSceneNameInput" />
+        </view>
+        <view class="form-row">
+          <text class="form-label">场景描述 (sceneDesc)</text>
+          <textarea
+            class="form-textarea"
+            placeholder="对话场景描述"
+            value="{{formData.sceneDesc}}"
+            bindinput="onSceneDescInput"
+            auto-height
+          />
+        </view>
+        <view class="form-row">
+          <text class="form-label">难度等级 (level)</text>
+          <input class="form-input" type="number" placeholder="1, 2, 3..." value="{{formData.level}}" bindinput="onLevelInput" />
+        </view>
+      </block>
+
+      <!-- Save button -->
+      <button class="btn-save" bindtap="handleSave" loading="{{loading}}" disabled="{{loading}}">
+        {{isEditing ? '保存修改' : '添加任务'}}
+      </button>
+    </scroll-view>
+  </view>
+
+  <view class="form-mask" wx:if="{{showImportPanel}}" bindtap="handleCancelImport"></view>
+  <view class="form-panel" wx:if="{{showImportPanel}}">
+    <view class="form-header">
+      <text class="form-title">批量导入（JSON）</text>
+      <text class="form-close" bindtap="handleCancelImport">取消</text>
+    </view>
+    <scroll-view scroll-y class="form-scroll">
+      <view class="form-row">
+        <text class="form-label">版本标签（可选）</text>
+        <input class="form-input" placeholder="例如 2026Q2-v1" value="{{importVersionTag}}" bindinput="onImportVersionTagInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">JSON 数组</text>
+        <textarea
+          class="form-textarea"
+          placeholder='粘贴如 [{"title":"...","taskType":"read_aloud","content":"..."}]'
+          value="{{importText}}"
+          bindinput="onImportTextInput"
+          auto-height
+        />
+      </view>
+      <view class="empty-tip">
+        也可以直接点顶部“上传题包”，支持 zip/docx/json 自动解析。
+      </view>
+      <button class="btn-edit" bindtap="handleParseImport">解析预览</button>
+      <view class="card-meta" wx:if="{{importErrors.length > 0}}">
+        <text class="meta-label">错误：</text>
+        <text class="meta-value">{{importErrors[0]}}</text>
+      </view>
+      <view class="task-card" wx:for="{{importPreviewDisplay}}" wx:key="title">
+        <view class="card-header">
+          <text class="task-title">{{item.title}}</text>
+          <text class="type-badge type-{{item.taskType}}">{{taskTypeLabels[item.taskType] || item.taskType}}</text>
+        </view>
+        <view class="card-content">
+          <text class="content-preview">{{item.content}}</text>
+        </view>
+      </view>
+      <view class="empty-tip" wx:if="{{importPreviewOverflow}}">
+        仅展示前 10 条，待导入总数 {{importPreview.length}}。
+      </view>
+      <button class="btn-save" bindtap="handleConfirmImport" loading="{{importing}}" disabled="{{importing}}">
+        确认导入
+      </button>
+    </scroll-view>
   </view>
 </view>

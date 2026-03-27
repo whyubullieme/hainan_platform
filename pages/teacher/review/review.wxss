@@ -1,204 +1,441 @@
+/* pages/teacher/review/review.wxss */
+
 .container {
-  padding: 24rpx;
+  min-height: 100vh;
+  background: #f0f4f8;
+  padding: 24rpx 28rpx;
   display: flex;
   flex-direction: column;
   gap: 24rpx;
 }
 
+/* Logout */
 .logout-wrap {
   display: flex;
   justify-content: flex-end;
 }
 
+.logout-link {
+  color: #94a3b8;
+  font-size: 24rpx;
+}
+
+/* Student / Day info */
 .info {
   display: flex;
   flex-direction: column;
   gap: 8rpx;
 }
 
+.student {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.day {
+  font-size: 26rpx;
+  color: #64748b;
+}
+
+/* Submission panel */
 .submission-panel {
   background: #fff;
-  border: 1rpx solid #e6edf7;
-  border-radius: 14rpx;
-  padding: 18rpx;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
 }
 
 .submission-title {
-  font-size: 28rpx;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 10rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 16rpx;
 }
 
 .submission-loading,
 .submission-empty {
-  font-size: 24rpx;
-  color: #6b7280;
+  font-size: 26rpx;
+  color: #94a3b8;
+  padding: 24rpx 0;
 }
 
 .task-progress {
-  font-size: 24rpx;
-  color: #4b5563;
-  margin-bottom: 12rpx;
+  font-size: 25rpx;
+  color: #64748b;
+  margin-bottom: 18rpx;
+  line-height: 1.6;
 }
 
 .task-progress-ok {
-  color: #059669;
+  color: #10b981;
+  font-weight: 500;
 }
 
 .task-progress-warn {
-  color: #d97706;
+  color: #f59e0b;
+  font-weight: 500;
 }
 
+/* Submission list */
 .submission-list {
   display: flex;
   flex-direction: column;
-  gap: 12rpx;
+  gap: 16rpx;
 }
 
 .submission-item {
-  border: 1rpx solid #edf2f7;
-  border-radius: 10rpx;
-  padding: 12rpx;
+  border: 1rpx solid #e2e8f0;
+  border-radius: 14rpx;
+  padding: 20rpx;
+  background: #fff;
+  transition: box-shadow 0.2s;
 }
 
 .sub-task {
   display: block;
-  font-size: 26rpx;
+  font-size: 28rpx;
   font-weight: 600;
-  color: #111827;
+  color: #1e293b;
 }
 
 .sub-redo {
   display: block;
-  margin-top: 8rpx;
-  font-size: 23rpx;
-  color: #b45309;
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #f59e0b;
+  background: #fffbeb;
+  padding: 8rpx 14rpx;
+  border-radius: 8rpx;
 }
 
 .sub-note {
   display: block;
-  margin-top: 8rpx;
-  font-size: 24rpx;
-  color: #374151;
-  line-height: 1.6;
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #1e293b;
+  line-height: 1.65;
 }
 
+/* AI Evaluation block */
 .sub-ai-eval {
-  margin-top: 10rpx;
-  padding: 10rpx;
+  margin-top: 14rpx;
+  padding: 16rpx;
   background: #f8fafc;
-  border-radius: 8rpx;
+  border: 1rpx solid #e2e8f0;
+  border-radius: 12rpx;
 }
 
 .ai-eval-row {
-  font-size: 24rpx;
-  margin-bottom: 6rpx;
+  font-size: 25rpx;
+  margin-bottom: 8rpx;
+  display: flex;
+  align-items: center;
 }
 
 .ai-eval-label {
-  color: #6b7280;
+  color: #94a3b8;
   margin-right: 8rpx;
+  font-size: 24rpx;
 }
 
 .ai-eval-value {
-  color: #1f2937;
+  color: #1e293b;
+  font-weight: 500;
 }
 
 .ai-eval-value.pass {
-  color: #059669;
+  color: #10b981;
 }
 
 .ai-eval-value.fail {
-  color: #dc2626;
+  color: #ef4444;
 }
 
 .ai-eval-asr {
-  font-size: 22rpx;
-  color: #4b5563;
+  font-size: 24rpx;
+  color: #64748b;
   line-height: 1.5;
 }
 
 .ai-eval-tip {
-  margin-top: 8rpx;
+  margin-top: 10rpx;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .ai-eval-word {
   display: inline-block;
   margin-right: 12rpx;
-  font-size: 22rpx;
-  color: #c2410c;
+  margin-bottom: 6rpx;
+  font-size: 23rpx;
+  color: #ef4444;
+  background: #fef2f2;
+  padding: 4rpx 10rpx;
+  border-radius: 6rpx;
 }
 
+/* AI pending */
 .sub-ai-pending {
-  margin-top: 8rpx;
+  margin-top: 10rpx;
+  padding: 10rpx 14rpx;
+  background: #eff6ff;
+  border-radius: 8rpx;
 }
 
 .ai-eval-status {
-  font-size: 24rpx;
-  color: #1890ff;
+  font-size: 25rpx;
+  color: #3b82f6;
+  font-weight: 500;
 }
 
+/* Audio */
 .sub-audio {
-  margin-top: 8rpx;
+  margin-top: 12rpx;
 }
 
 .sub-audio-name {
   display: block;
-  font-size: 24rpx;
-  color: #2563eb;
-  margin-bottom: 8rpx;
+  font-size: 25rpx;
+  color: #3b82f6;
+  margin-bottom: 10rpx;
+  font-weight: 500;
 }
 
 .sub-audio-actions {
   display: flex;
   align-items: center;
-  gap: 10rpx;
-  margin-bottom: 8rpx;
+  gap: 12rpx;
+  margin-bottom: 10rpx;
 }
 
 .btn-audio-play {
-  background: #eef6ff;
-  color: #1677ff;
+  background: #eff6ff;
+  color: #3b82f6;
   border: 1rpx solid #bfdbfe;
+  border-radius: 14rpx;
+  font-size: 24rpx;
+  padding: 0 20rpx;
+  min-height: 56rpx;
+  line-height: 56rpx;
 }
 
 .btn-audio-stop {
-  background: #fff1f0;
-  color: #cf1322;
-  border: 1rpx solid #ffccc7;
+  background: #fef2f2;
+  color: #ef4444;
+  border: 1rpx solid #fecaca;
+  border-radius: 14rpx;
+  font-size: 24rpx;
+  padding: 0 20rpx;
+  min-height: 56rpx;
+  line-height: 56rpx;
 }
 
+/* Comment textarea */
 .comment {
+  width: 100%;
   min-height: 240rpx;
-  border: 1px solid #ddd;
-  border-radius: 16rpx;
-  padding: 16rpx;
+  border: 1rpx solid #e2e8f0;
+  border-radius: 14rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  color: #1e293b;
+  background: #fff;
+  box-sizing: border-box;
+  box-shadow: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
 }
 
+/* Error */
 .error {
-  color: #ff4d4f;
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 16rpx 20rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  line-height: 1.5;
 }
 
+/* Action buttons */
 .action-row {
   display: flex;
-  gap: 16rpx;
+  gap: 20rpx;
 }
 
 .btn-return,
 .btn-save {
   flex: 1;
   border: none;
-  border-radius: 12rpx;
+  border-radius: 14rpx;
   padding: 24rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  text-align: center;
 }
 
 .btn-save {
-  background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: #fff;
+  box-shadow: 0 4rpx 14rpx rgba(16, 185, 129, 0.25);
+}
+
+.btn-save[disabled] {
+  background: #cbd5e1;
+  color: #94a3b8;
+  box-shadow: none;
 }
 
 .btn-return {
-  background: linear-gradient(135deg, #fa8c16 0%, #d97706 100%);
+  background: linear-gradient(135deg, #f59e0b, #d97706);
   color: #fff;
+  box-shadow: 0 4rpx 14rpx rgba(245, 158, 11, 0.25);
+}
+
+.btn-return[disabled] {
+  background: #cbd5e1;
+  color: #94a3b8;
+  box-shadow: none;
+}
+
+/* =================== Dialogue sessions =================== */
+.dialogue-panel {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
+}
+
+.dialogue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.dialogue-card {
+  border: 1rpx solid #e2e8f0;
+  border-radius: 14rpx;
+  overflow: hidden;
+}
+
+.dialogue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18rpx 20rpx;
+  background: #f8fafc;
+}
+
+.dialogue-info {
+  display: flex;
+  align-items: baseline;
+  gap: 10rpx;
+}
+
+.dialogue-scene {
+  font-size: 27rpx;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.dialogue-meta {
+  font-size: 23rpx;
+  color: #94a3b8;
+}
+
+.dialogue-score-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.dialogue-score {
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.score-pass {
+  color: #10b981;
+}
+
+.score-fail {
+  color: #ef4444;
+}
+
+.score-pending {
+  color: #94a3b8;
+}
+
+.expand-arrow {
+  font-size: 20rpx;
+  color: #94a3b8;
+}
+
+/* Dialogue detail */
+.dialogue-detail {
+  padding: 18rpx 20rpx;
+  border-top: 1rpx solid #e2e8f0;
+}
+
+.dialogue-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.bd-item {
+  font-size: 23rpx;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 6rpx 14rpx;
+  border-radius: 8rpx;
+  font-weight: 500;
+}
+
+.dialogue-feedback {
+  font-size: 25rpx;
+  color: #1e293b;
+  margin-bottom: 16rpx;
+  padding: 14rpx 16rpx;
+  background: #fffbeb;
+  border: 1rpx solid #fde68a;
+  border-radius: 10rpx;
+  line-height: 1.6;
+}
+
+.dialogue-turns {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.turn-item {
+  border-left: 4rpx solid #e2e8f0;
+  padding-left: 16rpx;
+}
+
+.turn-user {
+  margin-bottom: 4rpx;
+}
+
+.turn-label {
+  font-size: 23rpx;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.turn-text {
+  font-size: 25rpx;
+  color: #1e293b;
+  display: block;
+  margin-top: 4rpx;
+  line-height: 1.55;
+}
+
+.turn-ai {
+  margin-top: 6rpx;
+}
+
+.turn-ai .turn-label {
+  color: #7c3aed;
 }

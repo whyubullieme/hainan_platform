@@ -1,50 +1,100 @@
+/* pages/teacher/students/students.wxss */
+
 .container {
-  padding: 24rpx;
+  min-height: 100vh;
+  background: #f0f4f8;
+  padding: 24rpx 28rpx;
 }
 
+/* Logout */
 .logout-wrap {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 24rpx;
+  margin-bottom: 20rpx;
 }
 
+.logout-link {
+  color: #94a3b8;
+  font-size: 24rpx;
+}
+
+/* Tabs */
 .tab-bar {
+  display: flex;
+  gap: 10rpx;
+  padding: 8rpx;
+  background: #e2e8f0;
+  border-radius: 18rpx;
   margin-bottom: 24rpx;
 }
 
 .tab-item {
+  flex: 1;
   min-height: 72rpx;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 14rpx;
+  font-size: 27rpx;
+  font-weight: 500;
+  color: #64748b;
+  transition: all 0.2s ease;
 }
 
 .tab-item.active {
-  color: #14532d;
+  background: #fff;
+  color: #1e293b;
+  font-weight: 700;
+  box-shadow: 0 4rpx 12rpx rgba(15, 23, 42, 0.08);
 }
 
+/* Day info row */
 .info-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16rpx;
+  margin-bottom: 20rpx;
   background: #fff;
-  border: 1rpx solid #e6edf7;
+  border-radius: 20rpx;
+  padding: 18rpx 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
+  font-size: 28rpx;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.info-row button {
+  background: #f1f5f9;
+  color: #3b82f6;
+  border: 1rpx solid #e2e8f0;
   border-radius: 14rpx;
-  padding: 12rpx 18rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+  padding: 0 24rpx;
+  min-height: 56rpx;
+  line-height: 56rpx;
 }
 
+/* Error */
 .error {
-  color: #ff4d4f;
-  margin-bottom: 16rpx;
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 16rpx 20rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  margin-bottom: 20rpx;
+  line-height: 1.5;
 }
 
+/* Empty state */
 .empty {
   text-align: center;
-  color: #888;
-  margin-top: 40rpx;
+  color: #94a3b8;
+  margin-top: 80rpx;
+  font-size: 28rpx;
 }
 
+/* Student list */
 .list {
   display: flex;
   flex-direction: column;
@@ -57,31 +107,38 @@
   align-items: center;
   padding: 24rpx;
   background: #fff;
-  border-radius: 16rpx;
-  border: 1rpx solid #e6edf7;
-  box-shadow: 0 8rpx 16rpx rgba(15, 23, 42, 0.05);
+  border-radius: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
 }
 
 .student-info {
   display: flex;
   flex-direction: column;
+  gap: 6rpx;
 }
 
 .name {
-  font-size: 32rpx;
+  font-size: 30rpx;
   font-weight: 600;
-  margin-bottom: 8rpx;
+  color: #1e293b;
 }
 
 .meta {
-  color: #6b7280;
+  color: #94a3b8;
   font-size: 24rpx;
+  line-height: 1.5;
 }
 
+/* Review button */
 .btn-review {
-  background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: #fff;
   border: none;
   border-radius: 999rpx;
-  padding: 0 22rpx;
+  padding: 0 28rpx;
+  font-size: 25rpx;
+  font-weight: 600;
+  min-height: 60rpx;
+  line-height: 60rpx;
+  box-shadow: 0 4rpx 12rpx rgba(16, 185, 129, 0.25);
 }

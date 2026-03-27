@@ -1,69 +1,83 @@
-<view class="container">
-  <view class="logout-wrap">
-    <text class="logout-link" bindtap="handleLogout">退出登录</text>
-  </view>
-  <view class="greeting-bar">
-    <text class="greeting-text">{{greetingText}}</text>
-    <text class="class-name" wx:if="{{className}}">在 {{className}}</text>
-  </view>
-
-  <view class="controls">
-    <view class="input-group">
-      <text class="label">查看日期</text>
-      <picker mode="date" value="{{date}}" bindchange="handleDateChange">
-        <view class="day-input">
-          {{date || '请选择日期'}}
-        </view>
-      </picker>
-      <text class="label">（第 {{dayNumber}} 天）</text>
+<view class="page">
+  <view class="topbar">
+    <view class="topbar-left">
+      <text class="greeting">{{greetingText}}</text>
+      <text class="class-tag" wx:if="{{className}}">{{className}}</text>
     </view>
-    <button size="mini" bindtap="handleRefresh" loading="{{loading}}">刷新概览</button>
+    <text class="logout-link" bindtap="handleLogout">退出</text>
   </view>
 
   <view class="error" wx:if="{{error}}">{{error}}</view>
 
-  <view class="overview" wx:if="{{overview}}">
+  <view class="date-bar">
+    <picker mode="date" value="{{date}}" bindchange="handleDateChange">
+      <view class="date-picker">
+        <text class="date-value">{{date || '选择日期'}}</text>
+        <text class="date-day">第 {{dayNumber}} 天</text>
+      </view>
+    </picker>
+    <button class="btn-refresh" size="mini" bindtap="handleRefresh" loading="{{loading}}">刷新</button>
+  </view>
+
+  <view class="stats-grid" wx:if="{{overview}}">
     <view class="stat-card">
+      <text class="stat-num">{{overview.totalStudents || 0}}</text>
       <text class="stat-label">班级总人数</text>
-      <text class="stat-value">{{overview.totalStudents || 0}}</text>
     </view>
     <view class="stat-card">
+      <text class="stat-num">{{overview.checkedInCount || 0}}</text>
       <text class="stat-label">已签到</text>
-      <text class="stat-value">{{overview.checkedInCount || 0}}</text>
     </view>
     <view class="stat-card">
+      <text class="stat-num">{{overview.submittedCount || 0}}</text>
       <text class="stat-label">已提交</text>
-      <text class="stat-value">{{overview.submittedCount || 0}}</text>
     </view>
     <view class="stat-card">
+      <text class="stat-num">{{overview.reviewedCount || 0}}</text>
       <text class="stat-label">已点评</text>
-      <text class="stat-value">{{overview.reviewedCount || 0}}</text>
     </view>
   </view>
 
-  <view class="actions">
-    <button class="btn-missing" bindtap="handleViewMissing">未提交 {{missingCount}} 人</button>
-    <button class="btn-done" bindtap="handleViewDone">待点评 {{pendingReviewCount}} 人</button>
-    <button class="btn-reviewed" bindtap="handleViewReviewed">已点评 {{overview.reviewedCount || 0}} 人</button>
+  <view class="action-cards">
+    <view class="action-card card-missing" bindtap="handleViewMissing">
+      <text class="action-num">{{missingCount}}</text>
+      <text class="action-label">未提交</text>
+    </view>
+    <view class="action-card card-pending" bindtap="handleViewDone">
+      <text class="action-num">{{pendingReviewCount}}</text>
+      <text class="action-label">待点评</text>
+    </view>
+    <view class="action-card card-done" bindtap="handleViewReviewed">
+      <text class="action-num">{{overview.reviewedCount || 0}}</text>
+      <text class="action-label">已点评</text>
+    </view>
   </view>
 
-  <view class="add-task-section">
+  <view class="section-card">
+    <text class="section-title">任务管理</text>
     <view class="task-date-row">
-      <text class="task-date-label">任务操作日期</text>
+      <text class="field-label">操作日期</text>
       <picker mode="date" value="{{taskActionDate}}" bindchange="handleTaskActionDateChange">
-        <view class="task-date-picker">{{taskActionDate || '请选择日期'}}</view>
+        <view class="date-chip">{{taskActionDate || '选择日期'}}</view>
       </picker>
     </view>
-    <view class="add-task-row">
-      <button class="add-task-btn" bindtap="handleAddDayTasks">
-        + 为该日期添加任务
-      </button>
-      <button class="revoke-task-btn" bindtap="handleRevokeDayTasks">
-        撤销该日期任务
-      </button>
+    <view class="btn-row">
+      <button class="btn-primary" bindtap="handleAddDayTasks">添加任务</button>
+      <button class="btn-outline-danger" bindtap="handleRevokeDayTasks">撤销任务</button>
     </view>
-    <text class="add-task-tip">
-      添加或撤销任务都以“任务操作日期”为准。
-    </text>
+  </view>
+
+  <view class="section-card">
+    <text class="section-title">工具</text>
+    <view class="tool-list">
+      <view class="tool-item" bindtap="goToTopErrors">
+        <text class="tool-name">高频错题分析</text>
+        <text class="tool-arrow">></text>
+      </view>
+      <view class="tool-item" bindtap="handleExportCSV">
+        <text class="tool-name">导出班级报表 (CSV)</text>
+        <text class="tool-arrow">></text>
+      </view>
+    </view>
   </view>
 </view>

@@ -22,6 +22,15 @@ const teacherService = {
   },
   revokeDayTasks(params) {
     return api.callCloudFunction('teacher_revokeDayTasks', params);
+  },
+  getTopErrors(params) {
+    return api.callCloudFunction('teacher_getTopErrors', params);
+  },
+  exportCSV(params) {
+    return api.callCloudFunction('export_csvReports', params);
+  },
+  getDialogueSessions(params) {
+    return api.callCloudFunction('teacher_getDialogueSessions', params);
   }
 };
 

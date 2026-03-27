@@ -1,6 +1,7 @@
 // cloudfunctions/admin_seedDemoTasks/index.js
 // 一键为指定班级插入 demo 任务（含 expectedAnswer / acceptedAnswers / keywords / scoringConfig）
 const cloud = require('wx-server-sdk');
+const importedTasks = require('./readaloud_tasks.generated.json');
 
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
@@ -40,6 +41,9 @@ async function ensureAdminOrTeacher(classId, openid) {
  * 为某个 dayNumber 生成 demo 任务列表（可后续按此模板转换真实题库）
  */
 function buildDemoTasks() {
+  if (Array.isArray(importedTasks) && importedTasks.length > 0) {
+    return importedTasks;
+  }
   return [
     {
       title: '前台欢迎语',
@@ -182,4 +186,3 @@ exports.main = async (event, context) => {
     return { errCode: -1, errMsg: error.message || '插入 demo 任务失败' };
   }
 };
-

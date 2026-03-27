@@ -80,6 +80,53 @@
     </view>
   </view>
 
+  <!-- Dialogue sessions section -->
+  <view class="dialogue-panel" wx:if="{{dialogueSessions.length > 0 || loadingDialogue}}">
+    <view class="submission-title">对话练习记录</view>
+    <view class="submission-loading" wx:if="{{loadingDialogue}}">加载中...</view>
+    <view class="dialogue-list" wx:else>
+      <view class="dialogue-card" wx:for="{{dialogueSessions}}" wx:key="_id">
+        <view class="dialogue-header" bindtap="toggleSessionExpand" data-id="{{item._id}}">
+          <view class="dialogue-info">
+            <text class="dialogue-scene">{{item.sceneName}}</text>
+            <text class="dialogue-meta">Lv.{{item.level}} · {{item.turnCount}}轮</text>
+          </view>
+          <view class="dialogue-score-wrap">
+            <text class="dialogue-score {{item.finalScore != null ? (item.passed ? 'score-pass' : 'score-fail') : 'score-pending'}}">
+              {{item.finalScore != null ? item.finalScore + '分' : item.evaluationStatus === 'completed' ? (item.totalScore != null ? item.totalScore + '分' : '--') : '评分中'}}
+            </text>
+            <text class="expand-arrow">{{expandedSessionId === item._id ? '▲' : '▼'}}</text>
+          </view>
+        </view>
+        <!-- Expanded: show turns + breakdown -->
+        <view class="dialogue-detail" wx:if="{{expandedSessionId === item._id}}">
+          <view class="dialogue-breakdown" wx:if="{{item.semanticBreakdown}}">
+            <text class="bd-item" wx:if="{{item.semanticBreakdown.greeting != null}}">礼仪:{{item.semanticBreakdown.greeting}}</text>
+            <text class="bd-item" wx:if="{{item.semanticBreakdown.information != null}}">信息:{{item.semanticBreakdown.information}}</text>
+            <text class="bd-item" wx:if="{{item.semanticBreakdown.service != null}}">服务:{{item.semanticBreakdown.service}}</text>
+            <text class="bd-item" wx:if="{{item.semanticBreakdown.closing != null}}">结束:{{item.semanticBreakdown.closing}}</text>
+            <text class="bd-item" wx:if="{{item.semanticBreakdown.fluency != null}}">流利:{{item.semanticBreakdown.fluency}}</text>
+          </view>
+          <view class="dialogue-feedback" wx:if="{{item.semanticFeedback}}">
+            <text>{{item.semanticFeedback}}</text>
+          </view>
+          <view class="dialogue-turns">
+            <view class="turn-item" wx:for="{{item.turns}}" wx:for-item="turn" wx:key="round">
+              <view class="turn-user">
+                <text class="turn-label">学生 (R{{turn.round}}) {{turn.inputMode === 'voice' ? '🎤' : '⌨️'}}:</text>
+                <text class="turn-text">{{turn.userText || '(无)'}}</text>
+              </view>
+              <view class="turn-ai">
+                <text class="turn-label">AI:</text>
+                <text class="turn-text">{{turn.aiReply || '(无)'}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
   <textarea
     class="comment"
     placeholder="输入点评内容（最多 500 字）"

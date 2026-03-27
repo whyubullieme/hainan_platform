@@ -67,6 +67,11 @@ Page({
   _evalTimer: null,       // polling timer
   _audioBuf: [],          // accumulated binary TTS frames for current turn
   _audioCtx: null,        // InnerAudioContext currently playing
+  _reconnectAttempts: 0,  // reconnection counter
+  _maxReconnect: 3,       // max reconnect attempts
+  _reconnectTimer: null,  // reconnect delay timer
+  _recordTimer: null,     // recording duration timer
+  _recordStartTime: 0,    // recording start timestamp
 
   // ═══ Lifecycle ═══════════════════════════════════════════════════════════════
 
@@ -84,6 +89,7 @@ Page({
   onUnload() {
     this._closeGateway();
     this._stopEvalPolling();
+    if (this._recordTimer) { clearTimeout(this._recordTimer); this._recordTimer = null; }
   },
 
   onHide() {
@@ -180,17 +186,28 @@ Page({
     ws.onClose((e) => {
       D.warn('[ws] CLOSED code:', e && e.code, 'reason:', e && e.reason);
       this.setData({ wsConnected: false, gatewayReady: false });
+      // Auto-reconnect if session is still active
+      if (!this.data.isSessionEnd && this._ws) {
+        this._ws = null;
+        this._attemptReconnect();
+      }
     });
 
     ws.onError((err) => {
       D.err('[ws] ERROR', JSON.stringify(err));
-      this._fallbackToText('网关连接错误');
+      if (!this.data.isSessionEnd && this._reconnectAttempts < this._maxReconnect) {
+        this._attemptReconnect();
+      } else {
+        this._fallbackToText('网关连接错误');
+      }
     });
 
     this._ws = ws;
   },
 
   _closeGateway() {
+    if (this._reconnectTimer) { clearTimeout(this._reconnectTimer); this._reconnectTimer = null; }
+    this._reconnectAttempts = 0;
     if (this._ws) {
       try { this._ws.send({ data: JSON.stringify({ action: 'endSession' }) }); } catch {}
       try { this._ws.close(); } catch {}
@@ -199,6 +216,26 @@ Page({
     this._audioBuf = [];
     if (this._audioCtx) { try { this._audioCtx.stop(); this._audioCtx.destroy(); } catch {} this._audioCtx = null; }
     this.setData({ wsConnected: false, gatewayReady: false });
+  },
+
+  _attemptReconnect() {
+    if (this._reconnectAttempts >= this._maxReconnect) {
+      D.warn('[ws] max reconnect attempts reached, saving partial turns');
+      this._fallbackToText('连接断开，已切换文字模式');
+      // Save any turns we have so far
+      if (this._turns.length > 0 && this.data.sessionId) {
+        this._saveSessionResult();
+      }
+      return;
+    }
+    this._reconnectAttempts++;
+    const delay = this._reconnectAttempts * 2000; // 2s, 4s, 6s
+    D.log(`[ws] reconnecting in ${delay}ms (attempt ${this._reconnectAttempts}/${this._maxReconnect})`);
+    wx.showToast({ title: `重新连接中 (${this._reconnectAttempts}/${this._maxReconnect})`, icon: 'none', duration: 2000 });
+    this._reconnectTimer = setTimeout(() => {
+      if (this.data.isSessionEnd) return;
+      this._connectGateway();
+    }, delay);
   },
 
   _fallbackToText(reason) {
@@ -461,82 +498,98 @@ Page({
     recorderManager.onStop((res) => {
       this.setData({ recording: false });
       if (!res.tempFilePath) return;
-      console.log('[rec] stopped, file:', res.tempFilePath, 'duration:', res.duration);
+      D.log('[rec] stopped, file:', res.tempFilePath, 'duration:', res.duration);
 
       if (!this._ws || !this.data.gatewayReady) {
         wx.showToast({ title: '网关未就绪', icon: 'none' });
         return;
       }
-
       this._handleVoiceRecording(res.tempFilePath);
     });
 
     recorderManager.onError((err) => {
-      console.error('[rec] error', err);
+      D.err('[rec] error', err);
       this.setData({ recording: false });
       wx.showToast({ title: '录音失败', icon: 'none' });
-    });
-
-    recorderManager.onFrameRecorded((res) => {
-      // Stream audio chunks to gateway (PCM only — not used in MP3 mode)
-      // MP3 mode: we handle the complete file in onStop
     });
   },
 
   startRecording() {
     if (this.data.sending || this.data.isSessionEnd) return;
     this.setData({ recording: true });
+    this._recordStartTime = Date.now();
     recorderManager.start({
       format: 'mp3',
       sampleRate: 16000,
       numberOfChannels: 1,
       encodeBitRate: 48000,
+      duration: 58000, // hard limit 58s (讯飞 ASR max 60s)
     });
+    // Warning at 50s, auto-stop at 58s handled by duration param
+    this._recordTimer = setTimeout(() => {
+      if (this.data.recording) {
+        wx.showToast({ title: '即将达到录音上限', icon: 'none', duration: 2000 });
+      }
+    }, 50000);
   },
 
   stopRecording() {
     if (!this.data.recording) return;
+    if (this._recordTimer) { clearTimeout(this._recordTimer); this._recordTimer = null; }
     recorderManager.stop();
-    // onStop callback handles the rest
   },
 
   async _handleVoiceRecording(filePath) {
     D.log('[voice] handling recording, filePath:', filePath);
     const msgs = [...this.data.messages];
     const uid = msgs.length;
-    msgs.push({ id: uid, role: 'user', text: '🎤 语音输入…', feedback: '', coachScore: null, _isAudio: true });
+    msgs.push({ id: uid, role: 'user', text: '🎤 识别中…', feedback: '', coachScore: null, _isAudio: true });
     this.setData({ messages: msgs, sending: true });
     this._scrollToBottom();
 
     try {
-      // 1. ASR first — only upload audio if we have text to send
-      D.log('[voice] step 1: ASR…');
-      const asrText = await this._recognizeSpeech(filePath);
-      D.log('[voice] ASR result:', JSON.stringify(asrText));
+      // 1. Read audio file as base64
+      D.log('[voice] step 1: reading file as base64…');
+      const fs = wx.getFileSystemManager();
+      const audioBase64 = fs.readFileSync(filePath, 'base64');
+      D.log('[voice] audio base64 length:', audioBase64.length);
 
+      // 2. Call iFlytek ASR cloud function
+      D.log('[voice] step 2: calling dialogue_asr…');
+      const asrRes = await wx.cloud.callFunction({
+        name: 'dialogue_asr',
+        data: { audioBase64, encoding: 'lame', lang: 'en_us' },
+      }).then(r => r.result);
+      D.api('dialogue_asr', { len: audioBase64.length }, asrRes);
+
+      const asrText = (asrRes && asrRes.text || '').trim();
       if (!asrText) {
-        // No ASR — skip upload, switch to text mode
-        D.warn('[voice] ASR empty → switching to text mode (no cloud upload)');
-        this.setData({ sending: false, voiceMode: false });
-        wx.showToast({ title: '语音识别暂不可用，请打字输入', icon: 'none', duration: 2500 });
-        const updMsgs2 = [...this.data.messages];
-        if (updMsgs2.length && updMsgs2[updMsgs2.length - 1]._isAudio) {
-          updMsgs2.pop();
-          this.setData({ messages: updMsgs2 });
+        D.warn('[voice] ASR empty → ask user to retry');
+        this.setData({ sending: false });
+        wx.showToast({ title: '没有识别到语音，请重试', icon: 'none', duration: 2500 });
+        const updMsgs = [...this.data.messages];
+        if (updMsgs.length && updMsgs[updMsgs.length - 1]._isAudio) {
+          updMsgs.pop();
+          this.setData({ messages: updMsgs });
         }
         return;
       }
 
-      // 2. Upload MP3 to cloud storage (only when we have usable ASR text)
-      D.log('[voice] step 2: uploading to cloud storage…');
-      const cloudPath = `dialogue_audio/${this.data.sessionId}/${this.data.currentRound + 1}_${Date.now()}.mp3`;
-      const uploadRes = await new Promise((resolve, reject) => {
-        wx.cloud.uploadFile({ cloudPath, filePath, success: resolve, fail: reject });
-      });
-      const audioFileId = uploadRes.fileID;
-      D.log('[voice] step 2: uploaded, fileID:', audioFileId);
+      // 3. Upload MP3 to cloud storage (for pronunciation scoring)
+      D.log('[voice] step 3: uploading MP3 to cloud…');
+      let audioFileId = '';
+      try {
+        const cloudPath = `dialogue_audio/${this.data.sessionId}/${this.data.currentRound + 1}_${Date.now()}.mp3`;
+        const uploadRes = await new Promise((resolve, reject) => {
+          wx.cloud.uploadFile({ cloudPath, filePath, success: resolve, fail: reject });
+        });
+        audioFileId = uploadRes.fileID;
+        D.log('[voice] uploaded, fileID:', audioFileId);
+      } catch (e) {
+        D.warn('[voice] upload failed (non-fatal):', e.message);
+      }
 
-      // 3. Track inputMode
+      // 4. Track inputMode
       this._lastInputMode = 'voice';
       this._lastAudioFileId = audioFileId;
       this._lastAsrText = asrText;
@@ -546,26 +599,20 @@ Page({
       const userMsg = updMsgs[uid];
       if (userMsg) { userMsg.text = `🎤 ${asrText}`; this.setData({ messages: updMsgs }); }
 
-      // 4. Send to gateway
-      D.log('[voice] step 3: sending to gateway, text:', asrText);
+      // 5. Send to gateway
+      D.log('[voice] step 4: sending to gateway:', asrText);
       this._ws.send({ data: JSON.stringify({ action: 'textInput', text: asrText }) });
     } catch (e) {
       D.err('[voice] failed:', e.message);
-      wx.showToast({ title: '语音处理失败', icon: 'none' });
+      wx.showToast({ title: '语音处理失败: ' + e.message, icon: 'none', duration: 3000 });
       this.setData({ sending: false });
+      // Remove the pending voice message
+      const updMsgs = [...this.data.messages];
+      if (updMsgs.length && updMsgs[updMsgs.length - 1]._isAudio) {
+        updMsgs.pop();
+        this.setData({ messages: updMsgs });
+      }
     }
-  },
-
-  _recognizeSpeech(filePath) {
-    // Use WeChat's built-in speech recognition plugin or return empty
-    // This is a best-effort ASR — the real scoring uses suntone on the server
-    return new Promise((resolve) => {
-      const plugin = requirePlugin && typeof requirePlugin === 'function'
-        ? null : null; // Plugin not always available
-      // Fallback: no client-side ASR, return empty (gateway handles text input)
-      // In production, integrate wx speech recognition plugin here
-      resolve('');
-    });
   },
 
   // ═══ Text input (fallback) ═══════════════════════════════════════════════════

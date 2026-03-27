@@ -1,66 +1,86 @@
 /* pages/teacher/addTask/addTask.wxss */
+
 .container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 24rpx;
+  padding: 24rpx 28rpx;
   box-sizing: border-box;
+  background: #f0f4f8;
 }
 
 .header {
-  margin-bottom: 24rpx;
-}
-
-.assign-date-box {
-  background: #fff;
-  border: 1rpx solid #e6edf7;
-  border-radius: 16rpx;
-  padding: 18rpx;
-  margin-bottom: 18rpx;
-}
-
-.assign-date-label {
-  display: block;
-  font-size: 24rpx;
-  color: #6b7280;
-  margin-bottom: 8rpx;
-}
-
-.assign-date-value {
-  border: 1rpx solid #d7e0ec;
-  border-radius: 12rpx;
-  padding: 14rpx 18rpx;
-  color: #1f2937;
-  background: #f8fbff;
-}
-
-.tabs {
-  margin-bottom: 18rpx;
+  margin-bottom: 28rpx;
 }
 
 .title {
   display: block;
-  font-size: 34rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 12rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 10rpx;
+  letter-spacing: 0.5rpx;
 }
 
 .subtitle {
   display: block;
   font-size: 26rpx;
-  color: #999;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.assign-date-box {
+  background: #fff;
+  border: 1rpx solid #e2e8f0;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
+}
+
+.assign-date-label {
+  display: block;
+  font-size: 26rpx;
+  color: #64748b;
+  margin-bottom: 10rpx;
+}
+
+.assign-date-value {
+  border: 1rpx solid #e2e8f0;
+  border-radius: 14rpx;
+  padding: 16rpx 20rpx;
+  color: #1e293b;
+  background: #f8fafc;
+  font-size: 28rpx;
+}
+
+.tabs {
+  margin-bottom: 20rpx;
 }
 
 .error {
-  color: #ff4d4f;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1rpx solid #fecaca;
+  border-radius: 14rpx;
+  padding: 16rpx 20rpx;
   margin-bottom: 16rpx;
+  font-size: 26rpx;
 }
 
 .loading {
   padding: 60rpx;
   text-align: center;
-  color: #999;
+  color: #94a3b8;
+  font-size: 28rpx;
+}
+
+.empty-text {
+  display: block;
+  text-align: center;
+  padding: 60rpx 0;
+  color: #94a3b8;
+  font-size: 28rpx;
 }
 
 .task-list {
@@ -74,22 +94,24 @@
   align-items: center;
   padding: 24rpx 20rpx;
   background: #fff;
-  border-radius: 16rpx;
+  border-radius: 20rpx;
   margin-bottom: 16rpx;
-  border: 2rpx solid #e7eef8;
-  box-shadow: 0 8rpx 18rpx rgba(15, 23, 42, 0.05);
+  border: 1rpx solid #e2e8f0;
+  box-shadow: 0 2rpx 12rpx rgba(15, 23, 42, 0.04);
+  transition: all 0.2s ease;
 }
 
 .task-item.selected {
-  border-color: #07c160;
-  background: #f4fcf7;
+  border-color: #10b981;
+  background: #f0fdf4;
+  box-shadow: 0 2rpx 16rpx rgba(16, 185, 129, 0.1);
 }
 
 .task-check {
   width: 48rpx;
   height: 48rpx;
   margin-right: 24rpx;
-  border: 2rpx solid #cfd8e6;
+  border: 2rpx solid #cbd5e1;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -97,11 +119,12 @@
   font-size: 28rpx;
   color: #fff;
   flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 
 .task-item.selected .task-check {
-  background: #07c160;
-  border-color: #07c160;
+  background: #10b981;
+  border-color: #10b981;
 }
 
 .task-body {
@@ -112,21 +135,22 @@
 .task-title {
   display: block;
   font-size: 30rpx;
-  font-weight: 500;
-  color: #333;
+  font-weight: 600;
+  color: #1e293b;
   margin-bottom: 8rpx;
 }
 
 .task-desc {
   display: block;
   font-size: 24rpx;
-  color: #6b7280;
-  margin-bottom: 4rpx;
+  color: #64748b;
+  margin-bottom: 6rpx;
+  line-height: 1.5;
 }
 
 .task-type {
   font-size: 22rpx;
-  color: #047857;
+  color: #059669;
   font-weight: 600;
 }
 
@@ -140,29 +164,41 @@
 
 .btn-page {
   background: #fff !important;
-  color: #374151 !important;
-  border: 1rpx solid #d7e0ec !important;
+  color: #1e293b !important;
+  border: 1rpx solid #e2e8f0 !important;
   border-radius: 999rpx !important;
   padding: 0 20rpx !important;
 }
 
 .btn-confirm {
   width: 100%;
-  background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: #fff;
   border: none;
-  border-radius: 12rpx;
+  border-radius: 14rpx;
   padding: 28rpx;
   font-size: 32rpx;
+  font-weight: 600;
   margin-bottom: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(16, 185, 129, 0.25);
+  letter-spacing: 1rpx;
+}
+
+.btn-confirm[disabled] {
+  opacity: 0.6;
 }
 
 .btn-back {
   width: 100%;
-  background: #f5f5f5;
-  color: #666;
-  border: none;
-  border-radius: 12rpx;
+  background: #fff;
+  color: #64748b;
+  border: 1rpx solid #e2e8f0;
+  border-radius: 14rpx;
   padding: 24rpx;
   font-size: 28rpx;
+  font-weight: 500;
+}
+
+.btn-back:active {
+  background: #f8fafc;
 }

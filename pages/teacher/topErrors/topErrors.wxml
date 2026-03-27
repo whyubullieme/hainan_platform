@@ -3,6 +3,61 @@
   <view class="logout-wrap">
     <text class="logout-link" bindtap="handleLogout">退出登录</text>
   </view>
-  <text>常见错误</text>
-</view>
 
+  <view class="page-title">高频错题分析</view>
+
+  <view class="error" wx:if="{{error}}">{{error}}</view>
+
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <view class="empty-state" wx:elif="{{!hasData && !error}}">
+    <text class="empty-text">暂无评测数据</text>
+    <text class="empty-hint">学生完成任务并评测后，这里将显示高频错题分析</text>
+  </view>
+
+  <block wx:else>
+    <!-- Top Tasks with Low Scores -->
+    <view class="section" wx:if="{{topTasks.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">低分任务排行</text>
+        <text class="section-subtitle">按平均分从低到高</text>
+      </view>
+      <view class="task-card" wx:for="{{topTasks}}" wx:key="taskItemId">
+        <view class="task-rank">{{index + 1}}</view>
+        <view class="task-info">
+          <text class="task-title">{{item.title}}</text>
+          <view class="task-stats">
+            <view class="stat-item">
+              <text class="stat-item-label">综合均分</text>
+              <text class="stat-item-value {{item.avgFinalScore < 60 ? 'score-fail' : 'score-pass'}}">{{item.avgFinalScore}}</text>
+            </view>
+            <view class="stat-item">
+              <text class="stat-item-label">发音均分</text>
+              <text class="stat-item-value {{item.avgPronScore < 60 ? 'score-fail' : 'score-pass'}}">{{item.avgPronScore}}</text>
+            </view>
+            <view class="stat-item">
+              <text class="stat-item-label">提交数</text>
+              <text class="stat-item-value">{{item.submissionCount}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- Top Error Words -->
+    <view class="section" wx:if="{{topErrorWords.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">高频易错词</text>
+        <text class="section-subtitle">发音错误最多的单词</text>
+      </view>
+      <view class="words-grid">
+        <view class="word-card" wx:for="{{topErrorWords}}" wx:key="word">
+          <text class="word-text">{{item.word}}</text>
+          <text class="word-count">{{item.errorCount}}次错误</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

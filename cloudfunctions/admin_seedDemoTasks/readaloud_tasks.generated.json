@@ -1,0 +1,3127 @@
+[
+  {
+    "title": "1前台入住 - 句1",
+    "content": "Good evening. Welcome to our hotel.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Good evening. Welcome to our hotel.",
+    "acceptedAnswers": [
+      "Good evening. Welcome to our hotel."
+    ],
+    "keywords": [
+      "good",
+      "evening",
+      "welcome",
+      "hotel"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "1前台入住",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "1前台入住 - 句2",
+    "content": "Do you have a reservation?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Do you have a reservation?",
+    "acceptedAnswers": [
+      "Do you have a reservation?"
+    ],
+    "keywords": [
+      "have",
+      "reservation"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "1前台入住",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "1前台入住 - 句3",
+    "content": "May I have your passport, please?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "May I have your passport, please?",
+    "acceptedAnswers": [
+      "May I have your passport, please?"
+    ],
+    "keywords": [
+      "have",
+      "your",
+      "passport",
+      "please"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "1前台入住",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "1前台入住 - 句4",
+    "content": "Thank you. Please wait a moment.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Thank you. Please wait a moment.",
+    "acceptedAnswers": [
+      "Thank you. Please wait a moment."
+    ],
+    "keywords": [
+      "thank",
+      "please",
+      "wait",
+      "moment"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "1前台入住",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "1前台入住 - 句5",
+    "content": "Here is your room key.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Here is your room key.",
+    "acceptedAnswers": [
+      "Here is your room key."
+    ],
+    "keywords": [
+      "here",
+      "your",
+      "room"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "1前台入住",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "1前台入住 - 句6",
+    "content": "Your room is on the eighth floor.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Your room is on the eighth floor.",
+    "acceptedAnswers": [
+      "Your room is on the eighth floor."
+    ],
+    "keywords": [
+      "your",
+      "room",
+      "eighth",
+      "floor"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "1前台入住",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "1前台入住 - 句7",
+    "content": "Breakfast is served from 7 to 10 a.m.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Breakfast is served from 7 to 10 a.m.",
+    "acceptedAnswers": [
+      "Breakfast is served from 7 to 10 a.m."
+    ],
+    "keywords": [
+      "breakfast",
+      "served",
+      "from"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "1前台入住",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "1前台入住 - 句8",
+    "content": "Have a pleasant stay.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Have a pleasant stay.",
+    "acceptedAnswers": [
+      "Have a pleasant stay."
+    ],
+    "keywords": [
+      "have",
+      "pleasant",
+      "stay"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "1前台入住",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "2前台退房 - 句1",
+    "content": "Good morning. Are you checking out today?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Good morning. Are you checking out today?",
+    "acceptedAnswers": [
+      "Good morning. Are you checking out today?"
+    ],
+    "keywords": [
+      "good",
+      "morning",
+      "checking",
+      "today"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "2前台退房",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "2前台退房 - 句2",
+    "content": "How may I help you with your check-out?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "How may I help you with your check-out?",
+    "acceptedAnswers": [
+      "How may I help you with your check-out?"
+    ],
+    "keywords": [
+      "help",
+      "with",
+      "your",
+      "check"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "2前台退房",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "2前台退房 - 句3",
+    "content": "May I have your room number, please?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "May I have your room number, please?",
+    "acceptedAnswers": [
+      "May I have your room number, please?"
+    ],
+    "keywords": [
+      "have",
+      "your",
+      "room",
+      "number",
+      "please"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "2前台退房",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "2前台退房 - 句4",
+    "content": "May I have your room key, please?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "May I have your room key, please?",
+    "acceptedAnswers": [
+      "May I have your room key, please?"
+    ],
+    "keywords": [
+      "have",
+      "your",
+      "room",
+      "please"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "2前台退房",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "2前台退房 - 句5",
+    "content": "Please wait a moment while I check your account.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Please wait a moment while I check your account.",
+    "acceptedAnswers": [
+      "Please wait a moment while I check your account."
+    ],
+    "keywords": [
+      "please",
+      "wait",
+      "moment",
+      "while",
+      "check"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "2前台退房",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "2前台退房 - 句6",
+    "content": "Here is your bill. Please have a look.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Here is your bill. Please have a look.",
+    "acceptedAnswers": [
+      "Here is your bill. Please have a look."
+    ],
+    "keywords": [
+      "here",
+      "your",
+      "bill",
+      "please",
+      "have"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "2前台退房",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "2前台退房 - 句7",
+    "content": "There is no extra charge.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "There is no extra charge.",
+    "acceptedAnswers": [
+      "There is no extra charge."
+    ],
+    "keywords": [
+      "there",
+      "extra",
+      "charge"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "2前台退房",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "2前台退房 - 句8",
+    "content": "Would you like an invoice?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Would you like an invoice?",
+    "acceptedAnswers": [
+      "Would you like an invoice?"
+    ],
+    "keywords": [
+      "would",
+      "like",
+      "invoice"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "2前台退房",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "2前台退房 - 句9",
+    "content": "Could you please confirm your email address?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Could you please confirm your email address?",
+    "acceptedAnswers": [
+      "Could you please confirm your email address?"
+    ],
+    "keywords": [
+      "could",
+      "please",
+      "confirm",
+      "your",
+      "email"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "2前台退房",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "2前台退房 - 句10",
+    "content": "Your check-out is complete.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Your check-out is complete.",
+    "acceptedAnswers": [
+      "Your check-out is complete."
+    ],
+    "keywords": [
+      "your",
+      "check",
+      "complete"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "2前台退房",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "2前台退房 - 句11",
+    "content": "Thank you for staying with us.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Thank you for staying with us.",
+    "acceptedAnswers": [
+      "Thank you for staying with us."
+    ],
+    "keywords": [
+      "thank",
+      "staying",
+      "with"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "2前台退房",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "2前台退房 - 句12",
+    "content": "We hope to see you again.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "We hope to see you again.",
+    "acceptedAnswers": [
+      "We hope to see you again."
+    ],
+    "keywords": [
+      "hope",
+      "again"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "2前台退房",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "3预订与房型确认 - 句1",
+    "content": "Let me check your reservation.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Let me check your reservation.",
+    "acceptedAnswers": [
+      "Let me check your reservation."
+    ],
+    "keywords": [
+      "check",
+      "your",
+      "reservation"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "3预订与房型确认",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "3预订与房型确认 - 句2",
+    "content": "May I have the name on the booking, please?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "May I have the name on the booking, please?",
+    "acceptedAnswers": [
+      "May I have the name on the booking, please?"
+    ],
+    "keywords": [
+      "have",
+      "name",
+      "booking",
+      "please"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "3预订与房型确认",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "3预订与房型确认 - 句3",
+    "content": "Could you confirm your check-in date?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Could you confirm your check-in date?",
+    "acceptedAnswers": [
+      "Could you confirm your check-in date?"
+    ],
+    "keywords": [
+      "could",
+      "confirm",
+      "your",
+      "check",
+      "date"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "3预订与房型确认",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "3预订与房型确认 - 句4",
+    "content": "How many nights will you be staying?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "How many nights will you be staying?",
+    "acceptedAnswers": [
+      "How many nights will you be staying?"
+    ],
+    "keywords": [
+      "many",
+      "nights",
+      "will",
+      "staying"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "3预订与房型确认",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "3预订与房型确认 - 句5",
+    "content": "I see a deluxe king room in your booking.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I see a deluxe king room in your booking.",
+    "acceptedAnswers": [
+      "I see a deluxe king room in your booking."
+    ],
+    "keywords": [
+      "deluxe",
+      "king",
+      "room",
+      "your",
+      "booking"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "3预订与房型确认",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "3预订与房型确认 - 句6",
+    "content": "Is the reservation for one guest or two?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Is the reservation for one guest or two?",
+    "acceptedAnswers": [
+      "Is the reservation for one guest or two?"
+    ],
+    "keywords": [
+      "reservation",
+      "guest"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "3预订与房型确认",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "3预订与房型确认 - 句7",
+    "content": "Would you like to add an extra bed?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Would you like to add an extra bed?",
+    "acceptedAnswers": [
+      "Would you like to add an extra bed?"
+    ],
+    "keywords": [
+      "would",
+      "like",
+      "extra"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "3预订与房型确认",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "3预订与房型确认 - 句8",
+    "content": "Let me confirm your room type again.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Let me confirm your room type again.",
+    "acceptedAnswers": [
+      "Let me confirm your room type again."
+    ],
+    "keywords": [
+      "confirm",
+      "your",
+      "room",
+      "type",
+      "again"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "3预订与房型确认",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "3预订与房型确认 - 句9",
+    "content": "We have you arriving on March twenty-eighth.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "We have you arriving on March twenty-eighth.",
+    "acceptedAnswers": [
+      "We have you arriving on March twenty-eighth."
+    ],
+    "keywords": [
+      "have",
+      "arriving",
+      "march",
+      "twenty",
+      "eighth"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "3预订与房型确认",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "3预订与房型确认 - 句10",
+    "content": "Your reservation is for three nights.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Your reservation is for three nights.",
+    "acceptedAnswers": [
+      "Your reservation is for three nights."
+    ],
+    "keywords": [
+      "your",
+      "reservation",
+      "three",
+      "nights"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "3预订与房型确认",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "3预订与房型确认 - 句11",
+    "content": "I'm sorry, the room type here is different from what you mentioned.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I'm sorry, the room type here is different from what you mentioned.",
+    "acceptedAnswers": [
+      "I'm sorry, the room type here is different from what you mentioned."
+    ],
+    "keywords": [
+      "sorry",
+      "room",
+      "type",
+      "here",
+      "different"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "3预订与房型确认",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "3预订与房型确认 - 句12",
+    "content": "I'll update the booking details for you right away.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I'll update the booking details for you right away.",
+    "acceptedAnswers": [
+      "I'll update the booking details for you right away."
+    ],
+    "keywords": [
+      "update",
+      "booking",
+      "details",
+      "right",
+      "away"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "3预订与房型确认",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "4酒店设施与方位指引 - 句1",
+    "content": "The elevator is on your left.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "The elevator is on your left.",
+    "acceptedAnswers": [
+      "The elevator is on your left."
+    ],
+    "keywords": [
+      "elevator",
+      "your",
+      "left"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "4酒店设施与方位指引",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "4酒店设施与方位指引 - 句2",
+    "content": "The restaurant is on the second floor.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "The restaurant is on the second floor.",
+    "acceptedAnswers": [
+      "The restaurant is on the second floor."
+    ],
+    "keywords": [
+      "restaurant",
+      "second",
+      "floor"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "4酒店设施与方位指引",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "4酒店设施与方位指引 - 句3",
+    "content": "The gym is open from 6 a.m. to 10 p.m.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "The gym is open from 6 a.m. to 10 p.m.",
+    "acceptedAnswers": [
+      "The gym is open from 6 a.m. to 10 p.m."
+    ],
+    "keywords": [
+      "open",
+      "from"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "4酒店设施与方位指引",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "4酒店设施与方位指引 - 句4",
+    "content": "Go straight and turn right.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Go straight and turn right.",
+    "acceptedAnswers": [
+      "Go straight and turn right."
+    ],
+    "keywords": [
+      "straight",
+      "turn",
+      "right"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "4酒店设施与方位指引",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "4酒店设施与方位指引 - 句5",
+    "content": "The swimming pool is next to the gym.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "The swimming pool is next to the gym.",
+    "acceptedAnswers": [
+      "The swimming pool is next to the gym."
+    ],
+    "keywords": [
+      "swimming",
+      "pool",
+      "next"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "4酒店设施与方位指引",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "4酒店设施与方位指引 - 句6",
+    "content": "The laundry room is on the third floor.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "The laundry room is on the third floor.",
+    "acceptedAnswers": [
+      "The laundry room is on the third floor."
+    ],
+    "keywords": [
+      "laundry",
+      "room",
+      "third",
+      "floor"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "4酒店设施与方位指引",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "4酒店设施与方位指引 - 句7",
+    "content": "It is open until 10 p.m.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "It is open until 10 p.m.",
+    "acceptedAnswers": [
+      "It is open until 10 p.m."
+    ],
+    "keywords": [
+      "open",
+      "until"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "4酒店设施与方位指引",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "4酒店设施与方位指引 - 句8",
+    "content": "Please let us know if you need any help.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Please let us know if you need any help.",
+    "acceptedAnswers": [
+      "Please let us know if you need any help."
+    ],
+    "keywords": [
+      "please",
+      "know",
+      "need",
+      "help"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "4酒店设施与方位指引",
+    "sceneDesc": "A前台接待类"
+  },
+  {
+    "title": "5电话接听与转接 - 句1",
+    "content": "Good morning. Front desk. How may I help you?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Good morning. Front desk. How may I help you?",
+    "acceptedAnswers": [
+      "Good morning. Front desk. How may I help you?"
+    ],
+    "keywords": [
+      "good",
+      "morning",
+      "front",
+      "desk",
+      "help"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "5电话接听与转接",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "5电话接听与转接 - 句2",
+    "content": "May I know your room number, please?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "May I know your room number, please?",
+    "acceptedAnswers": [
+      "May I know your room number, please?"
+    ],
+    "keywords": [
+      "know",
+      "your",
+      "room",
+      "number",
+      "please"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "5电话接听与转接",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "5电话接听与转接 - 句3",
+    "content": "One moment, please.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "One moment, please.",
+    "acceptedAnswers": [
+      "One moment, please."
+    ],
+    "keywords": [
+      "moment",
+      "please"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "5电话接听与转接",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "5电话接听与转接 - 句4",
+    "content": "Could you please repeat that?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Could you please repeat that?",
+    "acceptedAnswers": [
+      "Could you please repeat that?"
+    ],
+    "keywords": [
+      "could",
+      "please",
+      "repeat",
+      "that"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "5电话接听与转接",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "5电话接听与转接 - 句5",
+    "content": "I'll transfer your call now.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I'll transfer your call now.",
+    "acceptedAnswers": [
+      "I'll transfer your call now."
+    ],
+    "keywords": [
+      "transfer",
+      "your",
+      "call"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "5电话接听与转接",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "5电话接听与转接 - 句6",
+    "content": "Please hold the line.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Please hold the line.",
+    "acceptedAnswers": [
+      "Please hold the line."
+    ],
+    "keywords": [
+      "please",
+      "hold",
+      "line"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "5电话接听与转接",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "5电话接听与转接 - 句7",
+    "content": "I'm sorry, the line is busy at the moment.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I'm sorry, the line is busy at the moment.",
+    "acceptedAnswers": [
+      "I'm sorry, the line is busy at the moment."
+    ],
+    "keywords": [
+      "sorry",
+      "line",
+      "busy",
+      "moment"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "5电话接听与转接",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "5电话接听与转接 - 句8",
+    "content": "Would you like to leave a message?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Would you like to leave a message?",
+    "acceptedAnswers": [
+      "Would you like to leave a message?"
+    ],
+    "keywords": [
+      "would",
+      "like",
+      "leave",
+      "message"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "5电话接听与转接",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "6电话信息确认 - 句1",
+    "content": "Could you please repeat that?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Could you please repeat that?",
+    "acceptedAnswers": [
+      "Could you please repeat that?"
+    ],
+    "keywords": [
+      "could",
+      "please",
+      "repeat",
+      "that"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "6电话信息确认",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "6电话信息确认 - 句2",
+    "content": "May I confirm your room number?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "May I confirm your room number?",
+    "acceptedAnswers": [
+      "May I confirm your room number?"
+    ],
+    "keywords": [
+      "confirm",
+      "your",
+      "room",
+      "number"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "6电话信息确认",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "6电话信息确认 - 句3",
+    "content": "Is that room 1208?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Is that room 1208?",
+    "acceptedAnswers": [
+      "Is that room 1208?"
+    ],
+    "keywords": [
+      "that",
+      "room",
+      "1208"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "6电话信息确认",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "6电话信息确认 - 句4",
+    "content": "May I have your name, please?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "May I have your name, please?",
+    "acceptedAnswers": [
+      "May I have your name, please?"
+    ],
+    "keywords": [
+      "have",
+      "your",
+      "name",
+      "please"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "6电话信息确认",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "6电话信息确认 - 句5",
+    "content": "Could you spell your last name for me?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Could you spell your last name for me?",
+    "acceptedAnswers": [
+      "Could you spell your last name for me?"
+    ],
+    "keywords": [
+      "could",
+      "spell",
+      "your",
+      "last",
+      "name"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "6电话信息确认",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "6电话信息确认 - 句6",
+    "content": "Could you please speak a little more slowly?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Could you please speak a little more slowly?",
+    "acceptedAnswers": [
+      "Could you please speak a little more slowly?"
+    ],
+    "keywords": [
+      "could",
+      "please",
+      "speak",
+      "little",
+      "more"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "6电话信息确认",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "6电话信息确认 - 句7",
+    "content": "What time would you like the service?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "What time would you like the service?",
+    "acceptedAnswers": [
+      "What time would you like the service?"
+    ],
+    "keywords": [
+      "what",
+      "time",
+      "would",
+      "like",
+      "service"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "6电话信息确认",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "6电话信息确认 - 句8",
+    "content": "Just to confirm, you need two extra towels.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Just to confirm, you need two extra towels.",
+    "acceptedAnswers": [
+      "Just to confirm, you need two extra towels."
+    ],
+    "keywords": [
+      "just",
+      "confirm",
+      "need",
+      "extra",
+      "towels"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "6电话信息确认",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "6电话信息确认 - 句9",
+    "content": "Did you say 7:30 p.m.?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Did you say 7:30 p.m.?",
+    "acceptedAnswers": [
+      "Did you say 7:30 p.m.?"
+    ],
+    "keywords": [],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "6电话信息确认",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "6电话信息确认 - 句10",
+    "content": "Let me repeat that back to you.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Let me repeat that back to you.",
+    "acceptedAnswers": [
+      "Let me repeat that back to you."
+    ],
+    "keywords": [
+      "repeat",
+      "that",
+      "back"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "6电话信息确认",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "6电话信息确认 - 句11",
+    "content": "May I confirm your check-out time?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "May I confirm your check-out time?",
+    "acceptedAnswers": [
+      "May I confirm your check-out time?"
+    ],
+    "keywords": [
+      "confirm",
+      "your",
+      "check",
+      "time"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "6电话信息确认",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "6电话信息确认 - 句12",
+    "content": "Thank you. We will send it to your room right away.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Thank you. We will send it to your room right away.",
+    "acceptedAnswers": [
+      "Thank you. We will send it to your room right away."
+    ],
+    "keywords": [
+      "thank",
+      "will",
+      "send",
+      "your",
+      "room"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "6电话信息确认",
+    "sceneDesc": "B电话沟通类"
+  },
+  {
+    "title": "10点餐与基础用餐服务 - 句1",
+    "content": "May I take your order?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "May I take your order?",
+    "acceptedAnswers": [
+      "May I take your order?"
+    ],
+    "keywords": [
+      "take",
+      "your",
+      "order"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "10点餐与基础用餐服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "10点餐与基础用餐服务 - 句2",
+    "content": "Are you ready to order?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Are you ready to order?",
+    "acceptedAnswers": [
+      "Are you ready to order?"
+    ],
+    "keywords": [
+      "ready",
+      "order"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "10点餐与基础用餐服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "10点餐与基础用餐服务 - 句3",
+    "content": "What would you like to drink?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "What would you like to drink?",
+    "acceptedAnswers": [
+      "What would you like to drink?"
+    ],
+    "keywords": [
+      "what",
+      "would",
+      "like",
+      "drink"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "10点餐与基础用餐服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "10点餐与基础用餐服务 - 句4",
+    "content": "Would you like anything else?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Would you like anything else?",
+    "acceptedAnswers": [
+      "Would you like anything else?"
+    ],
+    "keywords": [
+      "would",
+      "like",
+      "anything",
+      "else"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "10点餐与基础用餐服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "10点餐与基础用餐服务 - 句5",
+    "content": "I recommend the chicken pasta.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I recommend the chicken pasta.",
+    "acceptedAnswers": [
+      "I recommend the chicken pasta."
+    ],
+    "keywords": [
+      "recommend",
+      "chicken",
+      "pasta"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "10点餐与基础用餐服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "10点餐与基础用餐服务 - 句6",
+    "content": "This dish is mildly spicy.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "This dish is mildly spicy.",
+    "acceptedAnswers": [
+      "This dish is mildly spicy."
+    ],
+    "keywords": [
+      "this",
+      "dish",
+      "mildly",
+      "spicy"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "10点餐与基础用餐服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "10点餐与基础用餐服务 - 句7",
+    "content": "How would you like your steak cooked?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "How would you like your steak cooked?",
+    "acceptedAnswers": [
+      "How would you like your steak cooked?"
+    ],
+    "keywords": [
+      "would",
+      "like",
+      "your",
+      "steak",
+      "cooked"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "10点餐与基础用餐服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "10点餐与基础用餐服务 - 句8",
+    "content": "Would you like it with rice or noodles?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Would you like it with rice or noodles?",
+    "acceptedAnswers": [
+      "Would you like it with rice or noodles?"
+    ],
+    "keywords": [
+      "would",
+      "like",
+      "with",
+      "rice",
+      "noodles"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "10点餐与基础用餐服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "10点餐与基础用餐服务 - 句9",
+    "content": "Your order will be ready in about fifteen minutes.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Your order will be ready in about fifteen minutes.",
+    "acceptedAnswers": [
+      "Your order will be ready in about fifteen minutes."
+    ],
+    "keywords": [
+      "your",
+      "order",
+      "will",
+      "ready",
+      "about"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "10点餐与基础用餐服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "10点餐与基础用餐服务 - 句10",
+    "content": "Would you like some more water?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Would you like some more water?",
+    "acceptedAnswers": [
+      "Would you like some more water?"
+    ],
+    "keywords": [
+      "would",
+      "like",
+      "some",
+      "more",
+      "water"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "10点餐与基础用餐服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "10点餐与基础用餐服务 - 句11",
+    "content": "I will bring the bill right away.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I will bring the bill right away.",
+    "acceptedAnswers": [
+      "I will bring the bill right away."
+    ],
+    "keywords": [
+      "will",
+      "bring",
+      "bill",
+      "right",
+      "away"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "10点餐与基础用餐服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "10点餐与基础用餐服务 - 句12",
+    "content": "Please enjoy your meal.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Please enjoy your meal.",
+    "acceptedAnswers": [
+      "Please enjoy your meal."
+    ],
+    "keywords": [
+      "please",
+      "enjoy",
+      "your",
+      "meal"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "10点餐与基础用餐服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "7客房清洁与敲门服务 - 句1",
+    "content": "May I come in?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "May I come in?",
+    "acceptedAnswers": [
+      "May I come in?"
+    ],
+    "keywords": [
+      "come"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "7客房清洁与敲门服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "7客房清洁与敲门服务 - 句2",
+    "content": "Would you like your room cleaned now?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Would you like your room cleaned now?",
+    "acceptedAnswers": [
+      "Would you like your room cleaned now?"
+    ],
+    "keywords": [
+      "would",
+      "like",
+      "your",
+      "room",
+      "cleaned"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "7客房清洁与敲门服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "7客房清洁与敲门服务 - 句3",
+    "content": "Is now a good time for room cleaning?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Is now a good time for room cleaning?",
+    "acceptedAnswers": [
+      "Is now a good time for room cleaning?"
+    ],
+    "keywords": [
+      "good",
+      "time",
+      "room",
+      "cleaning"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "7客房清洁与敲门服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "7客房清洁与敲门服务 - 句4",
+    "content": "We can come back later.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "We can come back later.",
+    "acceptedAnswers": [
+      "We can come back later."
+    ],
+    "keywords": [
+      "come",
+      "back",
+      "later"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "7客房清洁与敲门服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "7客房清洁与敲门服务 - 句5",
+    "content": "What time would be convenient for you?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "What time would be convenient for you?",
+    "acceptedAnswers": [
+      "What time would be convenient for you?"
+    ],
+    "keywords": [
+      "what",
+      "time",
+      "would",
+      "convenient"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "7客房清洁与敲门服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "7客房清洁与敲门服务 - 句6",
+    "content": "I will clean the bathroom first.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I will clean the bathroom first.",
+    "acceptedAnswers": [
+      "I will clean the bathroom first."
+    ],
+    "keywords": [
+      "will",
+      "clean",
+      "bathroom",
+      "first"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "7客房清洁与敲门服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "7客房清洁与敲门服务 - 句7",
+    "content": "Would you like fresh towels?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Would you like fresh towels?",
+    "acceptedAnswers": [
+      "Would you like fresh towels?"
+    ],
+    "keywords": [
+      "would",
+      "like",
+      "fresh",
+      "towels"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "7客房清洁与敲门服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "7客房清洁与敲门服务 - 句8",
+    "content": "Sorry to disturb you.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Sorry to disturb you.",
+    "acceptedAnswers": [
+      "Sorry to disturb you."
+    ],
+    "keywords": [
+      "sorry",
+      "disturb"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "7客房清洁与敲门服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "7客房清洁与敲门服务 - 句9",
+    "content": "I will be quick.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I will be quick.",
+    "acceptedAnswers": [
+      "I will be quick."
+    ],
+    "keywords": [
+      "will",
+      "quick"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "7客房清洁与敲门服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "7客房清洁与敲门服务 - 句10",
+    "content": "Please let us know if you need anything else.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Please let us know if you need anything else.",
+    "acceptedAnswers": [
+      "Please let us know if you need anything else."
+    ],
+    "keywords": [
+      "please",
+      "know",
+      "need",
+      "anything",
+      "else"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "7客房清洁与敲门服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "7客房清洁与敲门服务 - 句11",
+    "content": "Please remember to lock the door after I leave.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Please remember to lock the door after I leave.",
+    "acceptedAnswers": [
+      "Please remember to lock the door after I leave."
+    ],
+    "keywords": [
+      "please",
+      "remember",
+      "lock",
+      "door",
+      "after"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "7客房清洁与敲门服务",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "8送物与用品补充 - 句1",
+    "content": "Hello, this is housekeeping.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Hello, this is housekeeping.",
+    "acceptedAnswers": [
+      "Hello, this is housekeeping."
+    ],
+    "keywords": [
+      "hello",
+      "this",
+      "housekeeping"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "8送物与用品补充",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "8送物与用品补充 - 句2",
+    "content": "What items would you like us to send?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "What items would you like us to send?",
+    "acceptedAnswers": [
+      "What items would you like us to send?"
+    ],
+    "keywords": [
+      "what",
+      "items",
+      "would",
+      "like",
+      "send"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "8送物与用品补充",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "8送物与用品补充 - 句3",
+    "content": "Could you please confirm your room number?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Could you please confirm your room number?",
+    "acceptedAnswers": [
+      "Could you please confirm your room number?"
+    ],
+    "keywords": [
+      "could",
+      "please",
+      "confirm",
+      "your",
+      "room"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "8送物与用品补充",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "8送物与用品补充 - 句4",
+    "content": "How many extra towels do you need?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "How many extra towels do you need?",
+    "acceptedAnswers": [
+      "How many extra towels do you need?"
+    ],
+    "keywords": [
+      "many",
+      "extra",
+      "towels",
+      "need"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "8送物与用品补充",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "8送物与用品补充 - 句5",
+    "content": "We will bring you two extra towels.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "We will bring you two extra towels.",
+    "acceptedAnswers": [
+      "We will bring you two extra towels."
+    ],
+    "keywords": [
+      "will",
+      "bring",
+      "extra",
+      "towels"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "8送物与用品补充",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "8送物与用品补充 - 句6",
+    "content": "I will send a toothbrush and toothpaste to your room.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I will send a toothbrush and toothpaste to your room.",
+    "acceptedAnswers": [
+      "I will send a toothbrush and toothpaste to your room."
+    ],
+    "keywords": [
+      "will",
+      "send",
+      "toothbrush",
+      "toothpaste",
+      "your"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "8送物与用品补充",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "8送物与用品补充 - 句7",
+    "content": "We can also provide slippers and bottled water.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "We can also provide slippers and bottled water.",
+    "acceptedAnswers": [
+      "We can also provide slippers and bottled water."
+    ],
+    "keywords": [
+      "also",
+      "provide",
+      "slippers",
+      "bottled",
+      "water"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "8送物与用品补充",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "8送物与用品补充 - 句8",
+    "content": "Please allow us about ten minutes.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Please allow us about ten minutes.",
+    "acceptedAnswers": [
+      "Please allow us about ten minutes."
+    ],
+    "keywords": [
+      "please",
+      "allow",
+      "about",
+      "minutes"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "8送物与用品补充",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "8送物与用品补充 - 句9",
+    "content": "Here are the items you requested.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Here are the items you requested.",
+    "acceptedAnswers": [
+      "Here are the items you requested."
+    ],
+    "keywords": [
+      "here",
+      "items",
+      "requested"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "8送物与用品补充",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "8送物与用品补充 - 句10",
+    "content": "Could you please check if everything is correct?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Could you please check if everything is correct?",
+    "acceptedAnswers": [
+      "Could you please check if everything is correct?"
+    ],
+    "keywords": [
+      "could",
+      "please",
+      "check",
+      "everything",
+      "correct"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "8送物与用品补充",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "8送物与用品补充 - 句11",
+    "content": "We have replenished the amenities in your room.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "We have replenished the amenities in your room.",
+    "acceptedAnswers": [
+      "We have replenished the amenities in your room."
+    ],
+    "keywords": [
+      "have",
+      "replenished",
+      "amenities",
+      "your",
+      "room"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "8送物与用品补充",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "8送物与用品补充 - 句12",
+    "content": "If you need anything else, please let us know.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "If you need anything else, please let us know.",
+    "acceptedAnswers": [
+      "If you need anything else, please let us know."
+    ],
+    "keywords": [
+      "need",
+      "anything",
+      "else",
+      "please",
+      "know"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "8送物与用品补充",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "9餐厅接待与带位 - 句1",
+    "content": "Welcome to the restaurant.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Welcome to the restaurant.",
+    "acceptedAnswers": [
+      "Welcome to the restaurant."
+    ],
+    "keywords": [
+      "welcome",
+      "restaurant"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "9餐厅接待与带位",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "9餐厅接待与带位 - 句2",
+    "content": "How many guests are in your party?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "How many guests are in your party?",
+    "acceptedAnswers": [
+      "How many guests are in your party?"
+    ],
+    "keywords": [
+      "many",
+      "guests",
+      "your",
+      "party"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "9餐厅接待与带位",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "9餐厅接待与带位 - 句3",
+    "content": "May I have your room number, please?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "May I have your room number, please?",
+    "acceptedAnswers": [
+      "May I have your room number, please?"
+    ],
+    "keywords": [
+      "have",
+      "your",
+      "room",
+      "number",
+      "please"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "9餐厅接待与带位",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "9餐厅接待与带位 - 句4",
+    "content": "Breakfast is served until ten a.m.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Breakfast is served until ten a.m.",
+    "acceptedAnswers": [
+      "Breakfast is served until ten a.m."
+    ],
+    "keywords": [
+      "breakfast",
+      "served",
+      "until"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "9餐厅接待与带位",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "9餐厅接待与带位 - 句5",
+    "content": "Please wait a moment while I prepare your table.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Please wait a moment while I prepare your table.",
+    "acceptedAnswers": [
+      "Please wait a moment while I prepare your table."
+    ],
+    "keywords": [
+      "please",
+      "wait",
+      "moment",
+      "while",
+      "prepare"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "9餐厅接待与带位",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "9餐厅接待与带位 - 句6",
+    "content": "We have a table for two available.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "We have a table for two available.",
+    "acceptedAnswers": [
+      "We have a table for two available."
+    ],
+    "keywords": [
+      "have",
+      "table",
+      "available"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "9餐厅接待与带位",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "9餐厅接待与带位 - 句7",
+    "content": "Would you prefer a table by the window?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Would you prefer a table by the window?",
+    "acceptedAnswers": [
+      "Would you prefer a table by the window?"
+    ],
+    "keywords": [
+      "would",
+      "prefer",
+      "table",
+      "window"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "9餐厅接待与带位",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "9餐厅接待与带位 - 句8",
+    "content": "This way, please.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "This way, please.",
+    "acceptedAnswers": [
+      "This way, please."
+    ],
+    "keywords": [
+      "this",
+      "please"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "9餐厅接待与带位",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "9餐厅接待与带位 - 句9",
+    "content": "Please follow me to your table.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Please follow me to your table.",
+    "acceptedAnswers": [
+      "Please follow me to your table."
+    ],
+    "keywords": [
+      "please",
+      "follow",
+      "your",
+      "table"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "9餐厅接待与带位",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "9餐厅接待与带位 - 句10",
+    "content": "Your table is over here.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Your table is over here.",
+    "acceptedAnswers": [
+      "Your table is over here."
+    ],
+    "keywords": [
+      "your",
+      "table",
+      "over",
+      "here"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "9餐厅接待与带位",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "9餐厅接待与带位 - 句11",
+    "content": "Please take your seat.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Please take your seat.",
+    "acceptedAnswers": [
+      "Please take your seat."
+    ],
+    "keywords": [
+      "please",
+      "take",
+      "your",
+      "seat"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "9餐厅接待与带位",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "9餐厅接待与带位 - 句12",
+    "content": "Enjoy your meal.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Enjoy your meal.",
+    "acceptedAnswers": [
+      "Enjoy your meal."
+    ],
+    "keywords": [
+      "enjoy",
+      "your",
+      "meal"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "9餐厅接待与带位",
+    "sceneDesc": "C客房、餐饮服务类"
+  },
+  {
+    "title": "11叫车与周边问询 - 句1",
+    "content": "Would you like me to call a taxi for you?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Would you like me to call a taxi for you?",
+    "acceptedAnswers": [
+      "Would you like me to call a taxi for you?"
+    ],
+    "keywords": [
+      "would",
+      "like",
+      "call",
+      "taxi"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "11叫车与周边问询",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "11叫车与周边问询 - 句2",
+    "content": "Where would you like to go?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Where would you like to go?",
+    "acceptedAnswers": [
+      "Where would you like to go?"
+    ],
+    "keywords": [
+      "where",
+      "would",
+      "like"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "11叫车与周边问询",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "11叫车与周边问询 - 句3",
+    "content": "What time would you like the car?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "What time would you like the car?",
+    "acceptedAnswers": [
+      "What time would you like the car?"
+    ],
+    "keywords": [
+      "what",
+      "time",
+      "would",
+      "like"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "11叫车与周边问询",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "11叫车与周边问询 - 句4",
+    "content": "It will arrive in about ten minutes.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "It will arrive in about ten minutes.",
+    "acceptedAnswers": [
+      "It will arrive in about ten minutes."
+    ],
+    "keywords": [
+      "will",
+      "arrive",
+      "about",
+      "minutes"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "11叫车与周边问询",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "11叫车与周边问询 - 句5",
+    "content": "Please wait at the main entrance.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Please wait at the main entrance.",
+    "acceptedAnswers": [
+      "Please wait at the main entrance."
+    ],
+    "keywords": [
+      "please",
+      "wait",
+      "main",
+      "entrance"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "11叫车与周边问询",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "11叫车与周边问询 - 句6",
+    "content": "The driver will meet you outside the lobby.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "The driver will meet you outside the lobby.",
+    "acceptedAnswers": [
+      "The driver will meet you outside the lobby."
+    ],
+    "keywords": [
+      "driver",
+      "will",
+      "meet",
+      "outside",
+      "lobby"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "11叫车与周边问询",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "11叫车与周边问询 - 句7",
+    "content": "We can also book a ride for you through the app.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "We can also book a ride for you through the app.",
+    "acceptedAnswers": [
+      "We can also book a ride for you through the app."
+    ],
+    "keywords": [
+      "also",
+      "book",
+      "ride",
+      "through"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "11叫车与周边问询",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "11叫车与周边问询 - 句8",
+    "content": "The train station is about fifteen minutes from here.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "The train station is about fifteen minutes from here.",
+    "acceptedAnswers": [
+      "The train station is about fifteen minutes from here."
+    ],
+    "keywords": [
+      "train",
+      "station",
+      "about",
+      "fifteen",
+      "minutes"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "11叫车与周边问询",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "11叫车与周边问询 - 句9",
+    "content": "There is a convenience store across the street.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "There is a convenience store across the street.",
+    "acceptedAnswers": [
+      "There is a convenience store across the street."
+    ],
+    "keywords": [
+      "there",
+      "convenience",
+      "store",
+      "across",
+      "street"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "11叫车与周边问询",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "11叫车与周边问询 - 句10",
+    "content": "The nearest subway station is two blocks away.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "The nearest subway station is two blocks away.",
+    "acceptedAnswers": [
+      "The nearest subway station is two blocks away."
+    ],
+    "keywords": [
+      "nearest",
+      "subway",
+      "station",
+      "blocks",
+      "away"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "11叫车与周边问询",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "11叫车与周边问询 - 句11",
+    "content": "Turn left at the corner and walk straight ahead.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Turn left at the corner and walk straight ahead.",
+    "acceptedAnswers": [
+      "Turn left at the corner and walk straight ahead."
+    ],
+    "keywords": [
+      "turn",
+      "left",
+      "corner",
+      "walk",
+      "straight"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "11叫车与周边问询",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "11叫车与周边问询 - 句12",
+    "content": "If you need any help, please let us know.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "If you need any help, please let us know.",
+    "acceptedAnswers": [
+      "If you need any help, please let us know."
+    ],
+    "keywords": [
+      "need",
+      "help",
+      "please",
+      "know"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "11叫车与周边问询",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "12投诉处理与道歉回应 - 句1",
+    "content": "I am very sorry for the inconvenience.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I am very sorry for the inconvenience.",
+    "acceptedAnswers": [
+      "I am very sorry for the inconvenience."
+    ],
+    "keywords": [
+      "very",
+      "sorry",
+      "inconvenience"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "12投诉处理与道歉回应",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "12投诉处理与道歉回应 - 句2",
+    "content": "Could you please tell me what happened?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Could you please tell me what happened?",
+    "acceptedAnswers": [
+      "Could you please tell me what happened?"
+    ],
+    "keywords": [
+      "could",
+      "please",
+      "tell",
+      "what",
+      "happened"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "12投诉处理与道歉回应",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "12投诉处理与道歉回应 - 句3",
+    "content": "Let me check it right away.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Let me check it right away.",
+    "acceptedAnswers": [
+      "Let me check it right away."
+    ],
+    "keywords": [
+      "check",
+      "right",
+      "away"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "12投诉处理与道歉回应",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "12投诉处理与道歉回应 - 句4",
+    "content": "I apologize for the noise.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I apologize for the noise.",
+    "acceptedAnswers": [
+      "I apologize for the noise."
+    ],
+    "keywords": [
+      "apologize",
+      "noise"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "12投诉处理与道歉回应",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "12投诉处理与道歉回应 - 句5",
+    "content": "May I have your room number, please?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "May I have your room number, please?",
+    "acceptedAnswers": [
+      "May I have your room number, please?"
+    ],
+    "keywords": [
+      "have",
+      "your",
+      "room",
+      "number",
+      "please"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "12投诉处理与道歉回应",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "12投诉处理与道歉回应 - 句6",
+    "content": "When did the problem start?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "When did the problem start?",
+    "acceptedAnswers": [
+      "When did the problem start?"
+    ],
+    "keywords": [
+      "when",
+      "problem",
+      "start"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "12投诉处理与道歉回应",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "12投诉处理与道歉回应 - 句7",
+    "content": "We will send someone to your room immediately.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "We will send someone to your room immediately.",
+    "acceptedAnswers": [
+      "We will send someone to your room immediately."
+    ],
+    "keywords": [
+      "will",
+      "send",
+      "someone",
+      "your",
+      "room"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "12投诉处理与道歉回应",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "12投诉处理与道歉回应 - 句8",
+    "content": "Our engineer will be there in about ten minutes.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Our engineer will be there in about ten minutes.",
+    "acceptedAnswers": [
+      "Our engineer will be there in about ten minutes."
+    ],
+    "keywords": [
+      "engineer",
+      "will",
+      "there",
+      "about",
+      "minutes"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "12投诉处理与道歉回应",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "12投诉处理与道歉回应 - 句9",
+    "content": "I will report this to my supervisor.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "I will report this to my supervisor.",
+    "acceptedAnswers": [
+      "I will report this to my supervisor."
+    ],
+    "keywords": [
+      "will",
+      "report",
+      "this",
+      "supervisor"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "12投诉处理与道歉回应",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "12投诉处理与道歉回应 - 句10",
+    "content": "We will follow up with you shortly.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "We will follow up with you shortly.",
+    "acceptedAnswers": [
+      "We will follow up with you shortly."
+    ],
+    "keywords": [
+      "will",
+      "follow",
+      "with",
+      "shortly"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "12投诉处理与道歉回应",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "12投诉处理与道歉回应 - 句11",
+    "content": "Has everything been resolved now?",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Has everything been resolved now?",
+    "acceptedAnswers": [
+      "Has everything been resolved now?"
+    ],
+    "keywords": [
+      "everything",
+      "been",
+      "resolved"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "12投诉处理与道歉回应",
+    "sceneDesc": "D出行与问题处理"
+  },
+  {
+    "title": "12投诉处理与道歉回应 - 句12",
+    "content": "Thank you for your patience and understanding.",
+    "taskType": "read_aloud",
+    "expectedAnswer": "Thank you for your patience and understanding.",
+    "acceptedAnswers": [
+      "Thank you for your patience and understanding."
+    ],
+    "keywords": [
+      "thank",
+      "your",
+      "patience",
+      "understanding"
+    ],
+    "scoringConfig": {
+      "semanticWeight": 0.5,
+      "pronWeight": 0.5,
+      "semanticPassLine": 60,
+      "pronPassLine": 60,
+      "lang": "en"
+    },
+    "sceneName": "12投诉处理与道歉回应",
+    "sceneDesc": "D出行与问题处理"
+  }
+]

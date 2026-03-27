@@ -19,7 +19,11 @@ Page({
     comment: '',
     saving: false,
     returning: false,
-    error: ''
+    error: '',
+    // Dialogue sessions
+    dialogueSessions: [],
+    loadingDialogue: false,
+    expandedSessionId: '',
   },
   onLoad(options = {}) {
     const studentName = options.name ? decodeURIComponent(options.name) : '';
@@ -37,6 +41,7 @@ Page({
     }
     this.setData({ classId }, () => {
       this.loadStudentSubmissions();
+      this.loadDialogueSessions();
     });
   },
   async loadStudentSubmissions() {
@@ -200,6 +205,29 @@ Page({
       this.setData({ returning: false });
     }
   },
+  async loadDialogueSessions() {
+    const { classId, studentId } = this.data;
+    if (!classId || !studentId) return;
+    this.setData({ loadingDialogue: true });
+    try {
+      const res = await teacherService.getDialogueSessions({ classId, studentId });
+      if (res && res.errCode === 0) {
+        this.setData({ dialogueSessions: res.sessions || [] });
+      }
+    } catch (e) {
+      console.warn('loadDialogueSessions:', e.message);
+    } finally {
+      this.setData({ loadingDialogue: false });
+    }
+  },
+
+  toggleSessionExpand(e) {
+    const id = e.currentTarget.dataset.id;
+    this.setData({
+      expandedSessionId: this.data.expandedSessionId === id ? '' : id,
+    });
+  },
+
   handleLogout() {
     storage.clearAuth();
     wx.reLaunch({ url: '/pages/auth/login/login' });

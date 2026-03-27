@@ -16,6 +16,9 @@ const fakeData = {
     { _id: 'cm-t', classId: 'class-1', userId: 'u-teacher', roleInClass: 'teacher', status: 'active' },
     { _id: 'cm-s', classId: 'class-1', userId: 'stu-1', roleInClass: 'student', status: 'active' }
   ],
+  submissions: [
+    { _id: 'sb-1', classId: 'class-1', userId: 'stu-1', dayNumber: 1, taskItemId: 'task-1', needsRedo: false }
+  ],
   reviews: []
 };
 
@@ -115,6 +118,12 @@ async function run() {
   const updated = await handler.main({ classId: 'class-1', studentId: 'stu-1', dayNumber: 1, comment: 'Updated comment' }, {});
   if (updated.errCode !== 0 || updated.reviewId !== first.reviewId || fakeData.reviews[0].comment !== 'Updated comment') {
     console.error('CF7 smoke test update failed:', updated, fakeData.reviews);
+    process.exit(1);
+  }
+
+  const redo = await handler.main({ classId: 'class-1', studentId: 'stu-1', dayNumber: 1, reviewAction: 'redo' }, {});
+  if (redo.errCode !== 0 || redo.reviewAction !== 'redo' || !fakeData.submissions[0].needsRedo || !fakeData.submissions[0].redoComment) {
+    console.error('CF7 smoke test redo failed:', redo, fakeData.submissions);
     process.exit(1);
   }
 
